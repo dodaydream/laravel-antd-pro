@@ -1,6 +1,11 @@
 <template>
     <AdminLayout>
-        <h1>Hello! Admin</h1>
+        <a-page-header
+            class="!bg-white"
+            title="Hello Admin!"
+            sub-title="Welcome to laravel-antd-pro"
+        >
+        </a-page-header>
     </AdminLayout>
 </template>
 

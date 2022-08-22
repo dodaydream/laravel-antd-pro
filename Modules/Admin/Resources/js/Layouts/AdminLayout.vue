@@ -20,21 +20,22 @@
             </a-layout-sider>
             <a-layout>
                 <a-layout-header style="background: #fff; padding: 0">
-                    <div>
-
-                    </div>
                     <menu-unfold-outlined
                         v-if="collapsed"
                         class="trigger"
                         @click="() => (collapsed = !collapsed)"
                     />
                     <menu-fold-outlined v-else class="trigger" @click="() => (collapsed = !collapsed)" />
+
+                    <div class="float-right mr-4 h-full items-center flex">
+                        <header-avatar />
+                    </div>
                 </a-layout-header>
-                <a-layout-content
-                    :style="{ margin: '24px 16px', padding: '24px', background: '#fff', minHeight: '280px' }"
-                >
-                    Content
+
+                <a-layout-content>
+                    <slot></slot>
                 </a-layout-content>
+
             </a-layout>
         </a-layout>
     </a-config-provider>
@@ -49,6 +50,7 @@ import {
     MenuFoldOutlined,
 } from '@ant-design/icons-vue';
 import { defineComponent, ref } from 'vue';
+import HeaderAvatar from './Headers/HeaderAvatar.vue'
 export default defineComponent({
     components: {
         UserOutlined,
@@ -56,6 +58,7 @@ export default defineComponent({
         UploadOutlined,
         MenuUnfoldOutlined,
         MenuFoldOutlined,
+        HeaderAvatar,
     },
     setup() {
         return {
