@@ -1,25 +1,31 @@
 <template>
     <a-config-provider>
-        <a-layout class="h-full">
-            <a-layout-sider v-model:collapsed="collapsed" :trigger="null" collapsible>
-                <div class="logo" />
-                <a-menu v-model:selectedKeys="selectedKeys" theme="dark" mode="inline">
-                    <a-menu-item key="1">
-                        <user-outlined />
-                        <span>nav 1</span>
-                    </a-menu-item>
-                    <a-menu-item key="2">
-                        <video-camera-outlined />
-                        <span>nav 2</span>
-                    </a-menu-item>
-                    <a-menu-item key="3">
-                        <upload-outlined />
-                        <span>nav 3</span>
-                    </a-menu-item>
-                </a-menu>
+        <a-layout>
+            <a-layout-sider
+                v-model:collapsed="collapsed"
+                style="position: fixed; overflow: auto; height: 100%; left: 0;"
+                width="256"
+                :trigger="null"
+                collapsible
+            >
+                <div class="whitespace-nowrap text-white w-full font-medium text-lg flex items-center justify-center"
+                     style="height: 64px"
+                >
+                    <span v-if="!collapsed">
+                        Laravel Antd Pro
+                    </span>
+                    <span v-else>
+                        LAP
+                    </span>
+                </div>
+
+                <side-menu :collapsed="collapsed" />
             </a-layout-sider>
-            <a-layout>
-                <a-layout-header style="background: #fff; padding: 0">
+            <a-layout :style="
+                !collapsed ? 'margin-left: 256px' : 'margin-left: 80px'"
+                      class="transition-all duration-300 ease-in-out"
+            >
+                <a-layout-header style="background: #fff; padding: 0; position: sticky; top: 0; z-index: 99">
                     <menu-unfold-outlined
                         v-if="collapsed"
                         class="trigger"
@@ -33,15 +39,20 @@
                 </a-layout-header>
 
                 <a-layout-content>
-                    <slot></slot>
+                    <perfect-scrollbar>
+                    <transition name="fade" mode="out-in" appear>
+                        <div :key="route().current()">
+                            <slot></slot>
+                        </div>
+                    </transition>
+                    </perfect-scrollbar>
                 </a-layout-content>
-
             </a-layout>
         </a-layout>
     </a-config-provider>
 </template>
 
-<script lang="ts">
+<script>
 import {
     UserOutlined,
     VideoCameraOutlined,
@@ -49,9 +60,12 @@ import {
     MenuUnfoldOutlined,
     MenuFoldOutlined,
 } from '@ant-design/icons-vue';
-import { defineComponent, ref } from 'vue';
+
+import { ref } from 'vue';
 import HeaderAvatar from './Headers/HeaderAvatar.vue'
-export default defineComponent({
+import SideMenu from './Menu/Menu.vue'
+
+export default {
     components: {
         UserOutlined,
         VideoCameraOutlined,
@@ -59,14 +73,14 @@ export default defineComponent({
         MenuUnfoldOutlined,
         MenuFoldOutlined,
         HeaderAvatar,
+        SideMenu
     },
     setup() {
         return {
-            selectedKeys: ref<string[]>(['1']),
-            collapsed: ref<boolean>(false),
+            collapsed: ref(false)
         };
-    },
-});
+    }
+}
 </script>
 
 <style>
@@ -87,9 +101,20 @@ export default defineComponent({
     color: #1890ff;
 }
 
-#app .logo {
-    height: 32px;
-    background: rgba(255, 255, 255, 0.3);
-    margin: 16px;
+.fade-enter-active,
+.fade-leave-active {
+    transition: opacity 0.5s ease;
+}
+.fade-enter-from,
+.fade-leave-to {
+    opacity: 0;
+}
+
+.ps {
+    height: calc(100vh - 64px);
+}
+
+.ps__rail-x, .ps__rail-y {
+    z-index: 999;
 }
 </style>

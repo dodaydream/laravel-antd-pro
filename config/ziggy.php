@@ -3,6 +3,7 @@
 return [
     'groups' => [
         'app' => ['app.*'],
-        'admin' => ['admin.*']
+        'admin' => ['admin.*'],
+        'fortify' => ['login','logout', 'password.request']
     ]
 ];

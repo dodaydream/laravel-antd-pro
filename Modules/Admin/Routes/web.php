@@ -14,8 +14,23 @@ use Inertia\Inertia;
 |
 */
 
-Route::prefix('admin')->group(function() {
-    Route::get('/', function () {
-        return Inertia::render('Welcome');
+Route::name('admin.')->prefix('admin')->group(function () {
+    Route::get('/login', function () {
+        return Inertia::render('Login');
+    })->name('login');
+
+    Route::middleware([\Modules\Admin\Http\Middleware\Authenticate::class])->group(function () {
+        Route::get('/', function () {
+            return Inertia::render('Welcome');
+        })->name('welcome');
+
+        Route::name('system.')->prefix('/system')->group(function () {
+            Route::resource('users', 'System\UserController')->names('users');
+            Route::delete('users', 'System\UserController@bulkDestroy')->name('users.bulk-destroy');
+
+            Route::resource('roles', 'System\RoleController')->names('roles');
+            Route::delete('roles', 'System\RoleController@bulkDestroy')->name('roles.bulk-destroy');
+            Route::resource('logs', 'System\LogController')->names('logs');
+        });
     });
 });

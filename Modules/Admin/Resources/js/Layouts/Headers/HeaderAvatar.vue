@@ -1,8 +1,8 @@
 <template>
     <a-dropdown>
         <span class="action ant-dropdown-link user-dropdown-menu">
-          <a-avatar class="avatar" :src="user.avatar" />
-          <span class="ml-2">{{ user.name }}</span>
+          <a-avatar class="avatar" :src="$page.props.user.avatar" />
+          <span class="ml-2">{{ $page.props.user.name }}</span>
         </span>
         <template #overlay>
             <a-menu class="user-dropdown-menu-wrapper">
@@ -24,7 +24,6 @@
 </template>
 
 <script>
-// import {logout} from '@/services/user'
 import {
     SettingOutlined,
     LogoutOutlined,
@@ -36,18 +35,13 @@ export default {
         SettingOutlined,
         LogoutOutlined,
     },
-    props: {
-        user: {
-            default: () => {
-                return {
-                    avatar: '',
-                    name: 'User Name',
-                }
-            }
-        }
-    },
     methods: {
-        logout() {
+        logout () {
+            this.$inertia.post(route('logout'), {
+                onSuccess () {
+                    this.$message.success('Logout success')
+                }
+            })
         }
     }
 }

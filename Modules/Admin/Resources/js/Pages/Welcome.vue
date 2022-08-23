@@ -10,7 +10,7 @@
 </template>
 
 <script>
-import AdminLayout from "module::admin/Layouts/AdminLayout.vue";
+import AdminLayout from "::admin/Layouts/AdminLayout.vue";
 
 export default {
     name: "Welcome",
