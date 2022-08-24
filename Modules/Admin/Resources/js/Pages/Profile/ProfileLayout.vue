@@ -22,10 +22,6 @@ export default {
     name: "ProfileLayout",
     components: {AdminLayout, AvatarCropper},
     props: {
-        user: {
-            type: Object,
-            required: true,
-        },
         activeKey: {
             type: String,
             default: 'index',
