@@ -17,7 +17,9 @@
                 </a-form-item>
 
                 <a-form-item name="password" v-bind="form.validation.password">
-                    <a-input-password placeholder="Password" size="large" v-model:value="form.password">
+                    <a-input-password placeholder="Password" size="large" v-model:value="form.password"
+                                      @keydown.enter="login">
+                    >
                         <template #prefix>
                             <LockOutlined />
                         </template>
@@ -67,7 +69,14 @@ export default {
     },
     methods: {
         login () {
-            this.form.submit('post', route('login'))
+            this.form.submit('post', route('login'), {
+                onSuccess: (result) => {
+                    this.$notification.success({
+                        title: 'Login Success',
+                        message: 'You have been logged in.'
+                    })
+                }
+            })
         }
     }
 }

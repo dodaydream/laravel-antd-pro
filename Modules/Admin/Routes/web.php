@@ -27,6 +27,7 @@ Route::name('admin.')->prefix('admin')->group(function () {
         Route::name('system.')->prefix('/system')->group(function () {
             Route::resource('users', 'System\UserController')->names('users');
             Route::delete('users', 'System\UserController@bulkDestroy')->name('users.bulk-destroy');
+            Route::put('users/{user}/avatar', 'System\UserController@updateAvatar')->name('users.avatar');
 
             Route::resource('roles', 'System\RoleController')->names('roles');
             Route::delete('roles', 'System\RoleController@bulkDestroy')->name('roles.bulk-destroy');

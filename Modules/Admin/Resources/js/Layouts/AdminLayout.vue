@@ -33,7 +33,15 @@
                     />
                     <menu-fold-outlined v-else class="trigger" @click="() => (collapsed = !collapsed)" />
 
-                    <div class="float-right mr-4 h-full items-center flex">
+                    <div class="float-right mr-4 h-full items-center flex gap-3">
+                        <div>
+                            <a-button type="text" size="large" @click="toggleFullscreen">
+                                <template #icon>
+                                    <FullscreenExitOutlined v-if="isFullscreen"/>
+                                    <FullscreenOutlined v-else/>
+                                </template>
+                            </a-button>
+                        </div>
                         <header-avatar />
                     </div>
                 </a-layout-header>
@@ -59,6 +67,8 @@ import {
     UploadOutlined,
     MenuUnfoldOutlined,
     MenuFoldOutlined,
+    FullscreenOutlined,
+    FullscreenExitOutlined,
 } from '@ant-design/icons-vue';
 
 import { ref } from 'vue';
@@ -73,12 +83,27 @@ export default {
         MenuUnfoldOutlined,
         MenuFoldOutlined,
         HeaderAvatar,
-        SideMenu
+        SideMenu,
+        FullscreenOutlined,
+        FullscreenExitOutlined,
     },
     setup() {
+        const isFullscreen = ref(document.fullscreenElement !== null);
         return {
-            collapsed: ref(false)
+            collapsed: ref(false),
+            isFullscreen,
         };
+    },
+    methods: {
+        toggleFullscreen() {
+            if (this.isFullscreen) {
+                document.exitFullscreen();
+                this.isFullscreen = false;
+            } else {
+                document.documentElement.requestFullscreen();
+                this.isFullscreen = true;
+            }
+        }
     }
 }
 </script>

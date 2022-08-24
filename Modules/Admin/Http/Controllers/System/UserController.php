@@ -5,8 +5,12 @@ namespace Modules\Admin\Http\Controllers\System;
 use App\Http\Controllers\Controller;
 use App\Models\Role;
 use App\Models\User;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Inertia\Inertia;
+use Spatie\MediaLibrary\MediaCollections\Exceptions\FileDoesNotExist;
+use Spatie\MediaLibrary\MediaCollections\Exceptions\FileIsTooBig;
 use Spatie\QueryBuilder\QueryBuilder;
 
 class UserController extends Controller
@@ -68,7 +72,7 @@ class UserController extends Controller
     }
 
     /**
-     * @return \Illuminate\Http\RedirectResponse
+     * @return RedirectResponse
      */
     public function bulkDestroy()
     {
@@ -77,6 +81,30 @@ class UserController extends Controller
         }
 
         User::destroy(request('ids'));
+
+        return redirect()->back();
+    }
+
+    /**
+     * @param Request $request
+     * @param User $user
+     * @return RedirectResponse
+     */
+    public function updateAvatar(Request $request, User $user)
+    {
+        request()->validate([
+            'avatar' => ['required', 'image', 'mimes:png'],
+        ]);
+
+        try {
+            $user->addMedia($request->file('avatar'))
+                ->usingFileName(uniqid('avatar-').'.png')
+                ->toMediaCollection('avatar');
+        } catch (FileDoesNotExist $e) {
+            return redirect()->back()->with('message', 'File does not exist.');
+        } catch (FileIsTooBig $e) {
+            return redirect()->back()->with('message', 'File is too big.');
+        }
 
         return redirect()->back();
     }

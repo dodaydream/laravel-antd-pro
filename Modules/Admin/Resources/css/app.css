@@ -11,6 +11,7 @@
     justify-content: center !important;
 }
 
-.ant-popover-buttons, .ant-modal-confirm-btns {
+.ant-popover-buttons, .ant-modal-confirm-btns, .ant-modal-footer {
     display: flex;
+    justify-content: flex-end;
 }

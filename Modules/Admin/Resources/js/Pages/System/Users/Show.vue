@@ -10,6 +10,10 @@
         <div class="p-4">
             <a-card title="Edit User">
                 <a-form layout="vertical" class="max-w-xl">
+                    <a-form-item label="Avatar" name="avatar">
+                        <avatar-cropper :user="user" />
+                    </a-form-item>
+
                     <a-form-item label="Name" name="name" v-bind="form.validation.name">
                         <a-input v-model:value="form.name" />
                     </a-form-item>
@@ -49,16 +53,20 @@
 import AdminLayout from "../../../Layouts/AdminLayout.vue";
 import dayjs from "dayjs";
 
-import {PlusOutlined, DeleteOutlined} from "@ant-design/icons-vue";
+import {PlusOutlined, DeleteOutlined, LoadingOutlined } from "@ant-design/icons-vue";
 
 import useForm from '::admin/Utils/useForm';
+
+import AvatarCropper from '::admin/Components/AvatarCropper.vue';
 
 export default {
     name: "Show",
     components: {
         AdminLayout,
         PlusOutlined,
-        DeleteOutlined
+        LoadingOutlined,
+        DeleteOutlined,
+        AvatarCropper
     },
     props: {
         user: {
