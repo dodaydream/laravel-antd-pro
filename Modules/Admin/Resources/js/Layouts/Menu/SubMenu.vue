@@ -3,7 +3,7 @@
         <template #icon v-if="menuInfo.icon">
             <component :is="menuInfo.icon" />
         </template>
-        <template #title>{{ menuInfo.title }}</template>
+        <template #title>{{ i18n.trans(menuInfo.title) }}</template>
         <template v-for="item in menuInfo.children" :key="item.key">
             <template v-if="!item.children">
                 <a-menu-item :key="item.key">
@@ -11,7 +11,7 @@
                         <component :is="item.icon" />
                     </template>
                     <inertia-link :href="route(item.route)">
-                        {{ item.title }}
+                        {{ i18n.trans(item.title) }}
                     </inertia-link>
                 </a-menu-item>
             </template>

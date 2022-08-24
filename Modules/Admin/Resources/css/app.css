@@ -15,3 +15,9 @@
     display: flex;
     justify-content: flex-end;
 }
+
+.ant-dropdown-menu-title-content > a {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}

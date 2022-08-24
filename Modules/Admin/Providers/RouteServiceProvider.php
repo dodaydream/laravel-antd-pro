@@ -4,7 +4,6 @@ namespace Modules\Admin\Providers;
 
 use Illuminate\Support\Facades\Route;
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
-use Modules\Admin\Http\Middleware\HandleInertiaRequests;
 
 class RouteServiceProvider extends ServiceProvider
 {
@@ -50,7 +49,8 @@ class RouteServiceProvider extends ServiceProvider
     {
         Route::middleware([
             'web',
-            HandleInertiaRequests::class,
+            \Modules\Admin\Http\Middleware\HandleInertiaRequests::class,
+            \Modules\Admin\Http\Middleware\Localization::class,
             ])
             ->namespace($this->moduleNamespace)
             ->group(module_path('Admin', '/Routes/web.php'));

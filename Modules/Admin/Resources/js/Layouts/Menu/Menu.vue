@@ -13,7 +13,7 @@
                         <component :is="item.icon" />
                     </template>
                     <inertia-link :href="route(item.route)">
-                        {{ item.title }}
+                        {{ i18n.trans(item.title) }}
                     </inertia-link>
                 </a-menu-item>
             </template>

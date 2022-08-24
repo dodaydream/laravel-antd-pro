@@ -35,13 +35,19 @@
 
                     <div class="float-right mr-4 h-full items-center flex gap-3">
                         <div>
-                            <a-button type="text" size="large" @click="toggleFullscreen">
+                            <a-button
+                                type="text"
+                                size="large"
+                                @click="toggleFullscreen"
+                            >
                                 <template #icon>
                                     <FullscreenExitOutlined v-if="isFullscreen"/>
                                     <FullscreenOutlined v-else/>
                                 </template>
                             </a-button>
                         </div>
+
+                        <locale-switcher />
                         <header-avatar />
                     </div>
                 </a-layout-header>
@@ -73,6 +79,7 @@ import {
 
 import { ref } from 'vue';
 import HeaderAvatar from './Headers/HeaderAvatar.vue'
+import LocaleSwitcher from './Headers/LocaleSwitcher.vue'
 import SideMenu from './Menu/Menu.vue'
 
 export default {
@@ -86,6 +93,7 @@ export default {
         SideMenu,
         FullscreenOutlined,
         FullscreenExitOutlined,
+        LocaleSwitcher,
     },
     setup() {
         const isFullscreen = ref(document.fullscreenElement !== null);

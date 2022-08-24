@@ -13,7 +13,8 @@ export default defineConfig({
     resolve: {
         alias: {
             ziggy: './vendor/tightenco/ziggy/dist/vue.es.js',
-            'module::admin': path.resolve(__dirname, './Modules/Admin/Resources/js/')
+            '@': path.resolve(__dirname, './resources/js/'),
+            '::admin': path.resolve(__dirname, './Modules/Admin/Resources/js/')
         },
     },
     css: {

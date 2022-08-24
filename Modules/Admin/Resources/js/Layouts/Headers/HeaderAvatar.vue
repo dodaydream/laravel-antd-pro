@@ -20,13 +20,13 @@
                 <a-menu-item key="4">
                     <a>
                         <UserOutlined />
-                        Profile
+                        {{ i18n.trans('admin::layout.profile') }}
                     </a>
                 </a-menu-item>
                 <a-menu-item key="3">
                     <a @click="logout">
                         <LogoutOutlined />
-                        Logout
+                        {{ i18n.trans('admin::layout.logout') }}
                     </a>
                 </a-menu-item>
             </a-menu>
