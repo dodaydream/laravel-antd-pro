@@ -6,6 +6,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Laravel\Fortify\TwoFactorAuthenticatable;
 use Laravel\Sanctum\HasApiTokens;
 use Laravel\Scout\Searchable;
 use Spatie\Activitylog\LogOptions;
@@ -22,6 +23,7 @@ class User extends Authenticatable implements HasMedia
     use LogsActivity;
     use HasRoles;
     use InteractsWithMedia;
+    use TwoFactorAuthenticatable;
 
     /**
      * The attributes that are mass assignable.
@@ -36,7 +38,8 @@ class User extends Authenticatable implements HasMedia
 
     protected $appends = [
         'avatar_url',
-        'avatar_thumb_url'
+        'avatar_thumb_url',
+        'two_factor_enabled',
     ];
 
     public function getAvatarUrlAttribute(): string
@@ -97,6 +100,8 @@ class User extends Authenticatable implements HasMedia
         'password',
         'remember_token',
         'media',
+        'two_factor_recovery_code',
+        'two_factor_secret'
     ];
 
     /**
@@ -107,4 +112,13 @@ class User extends Authenticatable implements HasMedia
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+
+    /**
+     * @return bool
+     */
+    public function getTwoFactorEnabledAttribute(): bool
+    {
+        return $this->hasEnabledTwoFactorAuthentication();
+    }
 }

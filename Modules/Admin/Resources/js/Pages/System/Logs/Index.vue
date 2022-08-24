@@ -2,29 +2,28 @@
     <admin-layout>
         <a-page-header
             title="Logs"
-            class="!bg-white"
         >
         </a-page-header>
 
         <div class="p-4">
             <a-card title="Logs">
-                <a-alert v-if="table.rowSelection.selected" class="!mb-4">
-                    <template #message>
-                        <div class="flex justify-between items-center">
-                            <div>
-                                <span>{{ table.rowSelection.count }} items selected</span>&nbsp;
-                                <a @click="table.rowSelection.clear">
-                                    Clear Selection
-                                </a>
-                            </div>
-                            <span class="gap-3 flex">
-                                <a-button type="link" danger @click="table.rowSelection.destroy(bulkDestroyHandler)">
-                                    Remove
-                                </a-button>
-                            </span>
-                        </div>
-                    </template>
-                </a-alert>
+<!--                <a-alert v-if="table.rowSelection.selected" class="!mb-4">-->
+<!--                    <template #message>-->
+<!--                        <div class="flex justify-between items-center">-->
+<!--                            <div>-->
+<!--                                <span>{{ table.rowSelection.count }} items selected</span>&nbsp;-->
+<!--                                <a @click="table.rowSelection.clear">-->
+<!--                                    Clear Selection-->
+<!--                                </a>-->
+<!--                            </div>-->
+<!--                            <span class="gap-3 flex">-->
+<!--                                <a-button type="link" danger @click="table.rowSelection.destroy(bulkDestroyHandler)">-->
+<!--                                    Remove-->
+<!--                                </a-button>-->
+<!--                            </span>-->
+<!--                        </div>-->
+<!--                    </template>-->
+<!--                </a-alert>-->
 
                 <a-table
                     :columns="columns"
@@ -60,18 +59,12 @@
                             <a-tag>{{ record.causer_type }}:{{ record.causer_id }}</a-tag>
                         </template>
 
+                        <template v-if="column.dataIndex === 'description'">
+                            <a-tag :color="colorMap[record.description]">{{ record.description }}</a-tag>
+                        </template>
+
                         <template v-if="column.dataIndex === 'action'">
                             <div class="flex justify-center w-full">
-                                <inertia-link
-                                    :href="route('admin.system.roles.show', {
-                                        role: record.id
-                                    })"
-                                >
-                                    <a-button type="link">
-                                        Edit
-                                    </a-button>
-                                </inertia-link>
-
                                 <a-popconfirm
                                     title="Are you sure to delete this record?"
                                     ok-text="Yes"
@@ -119,22 +112,31 @@ export default {
             {title: 'description', dataIndex: 'description'},
             {title: 'subject', dataIndex: 'subject'},
             {title: 'causer', dataIndex: 'causer'},
-            {title: 'triggered_at', dataIndex: 'created_at'}
+            {title: 'triggered_at', dataIndex: 'created_at'},
+            // {title: 'action', dataIndex: 'action', fixed: 'right', align: 'center'}
         ];
+
+        const colorMap = {
+            updated: 'blue',
+            created: 'green',
+            deleted: 'red',
+            restored: 'green',
+            'update.permission': 'blue',
+        };
 
         const table = useTable(props.logs, {
             fieldName: 'logs',
             rowKey: 'id',
-            selectable: true,
+            selectable: false,
         })
 
-        return {columns, table, dayjs}
+        return {columns, table, dayjs, colorMap}
     },
     methods: {
         bulkDestroyHandler () {
-            this.$inertia.delete(this.route('admin.system.roles.bulk-destroy'), {
+            this.$inertia.delete(this.route('admin.system.logs.bulk-destroy'), {
                 data: {
-                    ids: this.table.rowSelection.selectedRowKeys
+                    logs: this.table.rowSelection.selectedRowKeys
                 },
                 preserveState: false,
                 onSuccess: (page) => {
@@ -143,17 +145,17 @@ export default {
                         this.$message.warning(page.props.message);
                         return
                     }
-                    this.$message.success('Role deleted successfully.');
+                    this.$message.success('Logs deleted successfully.');
                 }
             })
         },
         destory(id) {
-            this.$inertia.delete(this.route('admin.system.roles.destroy', {
-                role: id
+            this.$inertia.delete(this.route('admin.system.logs.destroy', {
+                log: id
             }), {
                 preserveState: false,
                 onSuccess: () => {
-                    this.$message.success('Role deleted successfully.');
+                    this.$message.success('Logs deleted successfully.');
                 }
             })
         },

@@ -3,7 +3,6 @@
 
         <a-page-header
             title="Users"
-            class="!bg-white"
         >
             <template #extra>
                 <a-button

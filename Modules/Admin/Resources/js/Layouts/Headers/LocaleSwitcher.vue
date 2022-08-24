@@ -52,12 +52,10 @@ export default {
     methods: {
         setLocale (locale) {
             this.isLoading = true;
-            this.$inertia.visit(route('admin.locale.update', {
+            window.axios.get(route('admin.locale.update', {
                 locale: locale
-            }), {
-                onSuccess: () => {
-                    window.location.reload()
-                }
+            })).then(() => {
+                window.location.reload();
             })
         }
     }

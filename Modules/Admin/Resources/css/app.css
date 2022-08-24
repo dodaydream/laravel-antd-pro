@@ -5,11 +5,6 @@
 /**
  * Fix button icon alignment
  */
-.ant-btn, .ant-message-custom-content {
-    display: flex !important;
-    align-items: center !important;
-    justify-content: center !important;
-}
 
 .ant-popover-buttons, .ant-modal-confirm-btns, .ant-modal-footer {
     display: flex;
@@ -20,4 +15,8 @@
     display: flex;
     align-items: center;
     gap: 4px;
+}
+
+.ant-btn svg, .ant-message-custom-content svg {
+    display: block !important;
 }

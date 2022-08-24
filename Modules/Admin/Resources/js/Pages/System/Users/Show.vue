@@ -2,7 +2,6 @@
     <admin-layout>
         <a-page-header
             :title="`Edit User: ${user.name}`"
-            class="!bg-white"
             @back="() => this.$inertia.visit(route('admin.system.users.index'))"
         >
         </a-page-header>

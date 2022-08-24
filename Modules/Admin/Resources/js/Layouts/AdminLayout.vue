@@ -54,7 +54,10 @@
 
                 <a-layout-content>
                     <perfect-scrollbar>
-                    <transition name="fade" mode="out-in" appear>
+                        <template v-if="noTransition">
+                            <slot></slot>
+                        </template>
+                    <transition name="fade" mode="out-in" appear v-else>
                         <div :key="route().current()">
                             <slot></slot>
                         </div>
@@ -101,6 +104,12 @@ export default {
             collapsed: ref(false),
             isFullscreen,
         };
+    },
+    props: {
+        noTransition: {
+            type: Boolean,
+            default: false,
+        },
     },
     methods: {
         toggleFullscreen() {

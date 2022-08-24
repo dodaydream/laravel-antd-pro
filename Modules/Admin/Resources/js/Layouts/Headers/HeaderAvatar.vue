@@ -18,10 +18,10 @@
         <template #overlay>
             <a-menu class="user-dropdown-menu-wrapper">
                 <a-menu-item key="4">
-                    <a>
+                    <inertia-link :href="route('admin.profile.index')">
                         <UserOutlined />
                         {{ i18n.trans('admin::layout.profile') }}
-                    </a>
+                    </inertia-link>
                 </a-menu-item>
                 <a-menu-item key="3">
                     <a @click="logout">

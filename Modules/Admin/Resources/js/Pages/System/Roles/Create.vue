@@ -2,7 +2,6 @@
     <admin-layout>
         <a-page-header
             title="Create Role"
-            class="!bg-white"
             @back="() => this.$inertia.visit(route('admin.system.roles.index'))"
         >
         </a-page-header>

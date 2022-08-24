@@ -2,11 +2,10 @@
     <admin-layout>
         <a-page-header
             title="Roles"
-            class="!bg-white"
         >
         </a-page-header>
 
-        <div class="p-4 max-w-5xl mx-auto">
+        <div class="p-4">
             <a-card title="Roles">
                 <template #extra>
                     <inertia-link :href="route('admin.system.roles.create')">

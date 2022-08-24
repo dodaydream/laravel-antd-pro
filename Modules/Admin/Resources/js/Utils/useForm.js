@@ -18,6 +18,7 @@ export default function (props, rules={}, useInertia=true) {
     } = AntUseForm(inertiaForm, reactive(rules))
 
     const displayError = (errors) => {
+        console.debug('displayError', errors)
         Object.keys(errors).forEach(field => {
             if (!validateInfos[field]) {
                 validateInfos[field] = {}
@@ -42,7 +43,6 @@ export default function (props, rules={}, useInertia=true) {
 
     const onError = (onErrorHandler, errorTransformer) => {
         return (errors) => {
-            console.log(errors)
             if (onErrorHandler) {
                 onErrorHandler(errors)
             }
@@ -76,7 +76,7 @@ export default function (props, rules={}, useInertia=true) {
             }
 
             inertiaForm.errors = errors
-            errorHandler(error, errors)
+            errorHandler(errors)
         })
     }
 

@@ -1,7 +1,7 @@
 {
     "name": "Admin",
     "alias": "admin",
-    "description": "",
+    "description": "Laravel Antd Pro Admin Module",
     "keywords": [],
     "priority": 0,
     "providers": [
@@ -9,5 +9,14 @@
     ],
     "aliases": {},
     "files": [],
-    "requires": []
+    "requires": [],
+    "migration": {
+        "seeds": [
+            "Modules\\Admin\\Database\\Seeders\\AdminDatabaseSeeder"
+        ]
+    },
+    "minimumCoreVersion": "",
+    "title": "",
+    "version": "0.1",
+    "author": ""
 }

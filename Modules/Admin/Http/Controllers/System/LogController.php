@@ -3,6 +3,7 @@
 namespace Modules\Admin\Http\Controllers\System;
 
 use App\Http\Controllers\Controller;
+use Illuminate\Http\RedirectResponse;
 use Inertia\Inertia;
 use Spatie\Activitylog\Models\Activity;
 use Spatie\QueryBuilder\QueryBuilder;
@@ -19,4 +20,25 @@ class LogController extends Controller
                 )->appends(request()->query()),
         ]);
     }
+
+//    /**
+//     * @param Activity $activity
+//     * @return RedirectResponse
+//     */
+//    public function destroy(Activity $activity)
+//    {
+//        $activity->delete();
+//
+//        return redirect()->back();
+//    }
+//
+//    /**
+//     * @return RedirectResponse
+//     */
+//    public function bulkDestroy()
+//    {
+//        Activity::destroy(request('ids'));
+//
+//        return redirect()->back();
+//    }
 }
