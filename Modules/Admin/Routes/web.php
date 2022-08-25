@@ -49,5 +49,9 @@ Route::name('admin.')->prefix('admin')->group(function () {
             Route::resource('logs', 'System\LogController')->names('logs');
             Route::delete('logs', 'System\LogController@bulkDestroy')->name('logs.bulk-destroy');
         });
+
+        Route::name('developer.')->prefix('/developer')->group(function () {
+            Route::get('/routes', 'Developer\RouteController@index')->name('routes');
+        });
     });
 });

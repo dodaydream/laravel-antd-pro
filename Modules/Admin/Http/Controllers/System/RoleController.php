@@ -56,7 +56,7 @@ class RoleController extends Controller
     public function update(Role $role)
     {
         $role->update(request()->validate([
-            'name' => 'required',
+            'name' => 'required|unique:roles,name,' . $role->id,
             'description' => 'nullable',
         ]));
 
@@ -81,7 +81,7 @@ class RoleController extends Controller
         $role = Role::create(
             array_merge(
             request()->validate([
-            'name' => 'required',
+            'name' => 'required|unique:roles,name',
             'description' => 'nullable',
         ]), [
             'guard_name' => 'web',

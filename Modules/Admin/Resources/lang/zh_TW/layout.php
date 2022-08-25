@@ -12,6 +12,8 @@ return [
         'users' => '用戶管理',
         'roles' => '角色管理',
         'logs' => '操作日誌',
+        'developer' => '開發人員工具',
+        'route' => '路由',
     ],
     'switch_lang_tip' => '正在設定語言...'
 ];

@@ -21,7 +21,7 @@
                         >
                             <template #title="{ title, module }">
                                 <a-tag type="primary" v-if="module">{{ module }}</a-tag>
-                                <span>{{ i18n.trans(`admin::permissions.${title.replace('.', ':')}`) }}</span>
+                                <span>{{ i18n.trans(`admin::permissions.${title.replaceAll('.', ':')}`) }}</span>
                             </template>
                         </a-tree>
                     </a-form-item>
@@ -96,8 +96,8 @@ export default {
                     if (nextRef === undefined) {
                         console.debug('permission not found')
                         const perm = {
-                            title: permission.name,
-                            key: permission.id,
+                            title: strKey,
+                            key: permission.name === strKey ? permission.key : null,
                             module: permission.module,
                             children: []
                         }

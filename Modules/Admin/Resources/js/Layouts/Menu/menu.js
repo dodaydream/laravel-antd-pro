@@ -24,4 +24,17 @@ export default [
             }
         ]
     },
+    {
+        key: 'admin.developer',
+        icon: 'CodeOutlined',
+        title: 'admin::layout.menu.developer',
+        children: [
+            {
+                icon: 'NodeIndexOutlined',
+                key: 'admin.developer.routes',
+                route: 'admin.developer.routes',
+                title: 'admin::layout.menu.route',
+            }
+        ]
+    }
 ]

@@ -13,21 +13,20 @@ class AdminPermissionSeeder extends Seeder
         app()[\Spatie\Permission\PermissionRegistrar::class]->forgetCachedPermissions();
 
         $permissions = collect([
-            'users',
-            'users.create',
-            'users.edit',
-            'users.delete',
-            'users.view',
-            'users.bulk-delete',
+            'admin.system.users.create',
+            'admin.system.users.edit',
+            'admin.system.users.delete',
+            'admin.system.users.view',
+            'admin.system.users.bulk-delete',
 
-            'roles',
-            'roles.create',
-            'roles.edit',
-            'roles.delete',
-            'roles.view',
-            'roles.bulk-delete',
+            'admin.system.roles.create',
+            'admin.system.roles.edit',
+            'admin.system.roles.delete',
+            'admin.system.roles.view',
+            'admin.system.roles.bulk-delete',
 
-            'logs'
+            'admin.system.logs',
+            'admin.developer.route',
         ]);
 
         $permissions->each(function ($permission) {

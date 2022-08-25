@@ -21,7 +21,7 @@
                         >
                             <template #title="{ title, module }">
                                 <a-tag type="primary" v-if="module">{{ module }}</a-tag>
-                                <span>{{ title }}</span>
+                                <span>{{ i18n.trans(`admin::permissions.${title.replaceAll('.', ':')}`) }}</span>
                             </template>
                         </a-tree>
                     </a-form-item>
@@ -60,13 +60,51 @@ export default {
         }
     },
     setup(props) {
-        const permissionTree = props.permissions.map(permission => {
-            return {
-                title: permission.name,
-                key: permission.id,
-                module: permission.module
-            }
-        })
+        const permissionTree = []
+
+        props.permissions.sort(
+            (a, b) => a.name.localeCompare(b.name)
+        )
+            .forEach(permission => {
+                const permissionLevel = permission.name.split('.').length;
+
+                let ref = permissionTree;
+
+                console.log('handling permission', permission.name);
+
+                let key = [];
+                for (let i = 0; i < permissionLevel; ++i) {
+                    key.push(permission.name.split('.')[i])
+
+                    const strKey = key.join('.');
+                    console.debug('permission', strKey)
+                    const nextRef = ref.find(
+                        item => item.title === strKey
+                    );
+
+                    console.debug('currRef', ref)
+                    console.debug('nextref', nextRef);
+
+                    if (nextRef === undefined) {
+                        console.debug('permission not found')
+                        const perm = {
+                            title: strKey,
+                            key: permission.name === strKey ? permission.key : null,
+                            module: permission.module,
+                            children: []
+                        }
+                        ref.push(perm);
+
+                        // update reference
+                        ref = perm.children
+                    } else {
+                        console.debug('permission found')
+                        ref = nextRef.children;
+                    }
+
+                    console.debug('endRef', ref)
+                }
+            })
 
         const form = useForm({
             name: '',

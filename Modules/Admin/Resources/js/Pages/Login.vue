@@ -72,8 +72,8 @@ export default {
             this.form.submit('post', route('login'), {
                 onSuccess: (result) => {
                     this.$notification.success({
-                        title: 'Login Success',
-                        message: 'You have been logged in.'
+                        message: 'Login Success',
+                        description: 'Welcome back!'
                     })
                 }
             })

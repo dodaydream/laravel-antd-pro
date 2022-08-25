@@ -12,6 +12,8 @@ return [
         'users' => 'Users',
         'roles' => 'Roles',
         'logs' => 'Logs',
+        'developer' => 'Developer Tools',
+        'route' => 'Routes',
     ],
     'switch_lang_tip' => 'Setting language...'
 ];
