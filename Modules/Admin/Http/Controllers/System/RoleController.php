@@ -8,10 +8,16 @@ use Inertia\Inertia;
 use Inertia\Response;
 use Spatie\Permission\Models\Permission;
 use App\Models\Role;
+use Spatie\Permission\PermissionRegistrar;
 use Spatie\QueryBuilder\QueryBuilder;
 
 class RoleController extends Controller
 {
+    public function __construct()
+    {
+        $this->authorizeResource(Role::class);
+    }
+
     /**
      * @return Response
      */
@@ -70,6 +76,8 @@ class RoleController extends Controller
             ])
             ->log('update.permission');
 
+        app(PermissionRegistrar::class)->forgetCachedPermissions();
+
         return redirect()->back();
     }
 
@@ -89,6 +97,8 @@ class RoleController extends Controller
 
         $role->syncPermissions(request('permissions'));
 
+        app(PermissionRegistrar::class)->forgetCachedPermissions();
+
         return redirect()->route('admin.system.roles.show', $role);
     }
 
@@ -101,6 +111,7 @@ class RoleController extends Controller
         $role->delete();
 
         // FIXME: disassociate users
+        app(PermissionRegistrar::class)->forgetCachedPermissions();
 
         return redirect()->route('admin.system.roles.index');
     }

@@ -11,6 +11,7 @@
                     <inertia-link :href="route('admin.system.roles.create')">
                     <a-button
                         type="primary"
+                        v-can="'admin.system.roles.create'"
                     >
                         <template #icon>
                             <PlusOutlined/>
@@ -30,7 +31,11 @@
                                 </a>
                             </div>
                             <span class="gap-3 flex">
-                                <a-button type="link" danger @click="table.rowSelection.destroy(bulkDestroyHandler)">
+                                <a-button type="link"
+                                          v-can="'admin.system.roles.bulk-delete'"
+                                          danger
+                                          @click="table.rowSelection.destroy(bulkDestroyHandler)"
+                                >
                                         {{ $t('action.remove')}}
                                 </a-button>
                             </span>
@@ -57,6 +62,7 @@
                                     :href="route('admin.system.roles.show', {
                                         role: record.id
                                     })"
+                                    v-can="'admin.system.roles.edit'"
                                 >
                                     <a-button type="link">
                                         {{ $t('action.edit')}}
@@ -69,7 +75,9 @@
                                     cancel-text="No"
                                     @confirm="destory(record.id)"
                                 >
-                                    <a-button type="link" danger>
+                                    <a-button type="link" danger
+                                              v-can="'admin.system.roles.delete'"
+                                    >
                                         {{ $t('action.remove')}}
                                     </a-button>
                                 </a-popconfirm>

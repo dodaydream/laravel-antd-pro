@@ -39,7 +39,7 @@ class HandleInertiaRequests extends Middleware
         return array_merge(parent::share($request), [
             'currentUser' => $request->user(),
             'message' => $request->session()->get('message'),
-            'permissions' => $request->user()?->getAllPermissions()->pluck('name'),
+            'currentUserPermissions' => $request->user()?->getAllPermissions()->pluck('name'),
         ]);
     }
 }

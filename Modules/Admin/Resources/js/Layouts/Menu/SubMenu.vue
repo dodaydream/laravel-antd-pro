@@ -41,7 +41,7 @@ export default {
             return this.filteredMenuInfo.children.length > 0;
         },
         filteredMenuInfo () {
-            const permissions = this.$page.props.permissions
+            const permissions = this.$page.props.currentUserPermissions
 
             return {
                 ...this.menuInfo,

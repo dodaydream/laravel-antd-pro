@@ -21,7 +21,7 @@
                         >
                             <template #title="{ title, module }">
                                 <a-tag type="primary" v-if="module">{{ module }}</a-tag>
-                                <span>{{ i18n.trans(`admin::permissions.${title.replaceAll('.', ':')}`) }}</span>
+                                <span>{{ $t(`permissions.${title}`) }}</span>
                             </template>
                         </a-tree>
                     </a-form-item>
@@ -115,7 +115,10 @@ export default {
     },
     methods: {
         submit () {
-            this.form.submit(
+            this.form.transform((data) => ({
+                ...data,
+                permissions: data.permissions.filter(permission => typeof permission === 'number')
+            })).submit(
                 'post',
                 route('admin.system.roles.store'), {
                     onSuccess: () => this.$message.success('Role created successfully.')

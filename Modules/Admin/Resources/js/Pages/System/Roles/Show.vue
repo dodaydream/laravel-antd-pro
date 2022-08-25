@@ -16,12 +16,15 @@
                     <a-form-item label="Permissions" name="permissions" v-bind="form.validation.permissions">
                         <a-tree
                             checkable
+                            defaultExpandAll
+                            autoExpandParent
+                            :selectable=false
                             :tree-data="permissionTree"
                             v-model:checked-keys="form.permissions"
                         >
                             <template #title="{ title, module }">
                                 <a-tag type="primary" v-if="module">{{ module }}</a-tag>
-                                <span>{{ i18n.trans(`admin::permissions.${title.replaceAll('.', ':')}`) }}</span>
+                                <span>{{ $t(`permissions.${title}`) }}</span>
                             </template>
                         </a-tree>
                     </a-form-item>
@@ -123,7 +126,11 @@ export default {
     },
     methods: {
         submit () {
-            this.form.submit(
+            this.form.transform((data) => ({
+                ...data,
+                permissions: data.permissions.filter(permission => typeof permission === 'number')
+            })).
+            submit(
                 'put',
                 route('admin.system.roles.update', {
                     role: this.role.id

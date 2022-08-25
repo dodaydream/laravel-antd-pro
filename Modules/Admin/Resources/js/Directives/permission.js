@@ -2,7 +2,7 @@ import { usePage } from '@inertiajs/inertia-vue3';
 
 function checkPermission(el, binding) {
     const { value } = binding
-    const permissions = usePage().props.value.permissions
+    const permissions = usePage().props.value.currentUserPermissions
 
     if (!permissions.includes(value)) {
         el.parentNode && el.parentNode.removeChild(el)

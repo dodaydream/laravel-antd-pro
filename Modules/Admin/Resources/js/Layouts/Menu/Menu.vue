@@ -56,7 +56,7 @@ export default {
     computed: {
         hasPermission () {
             return (permission) => {
-                const permissions = this.$page.props.permissions
+                const permissions = this.$page.props.currentUserPermissions
                 return permissions.includes(permission)
             }
         },

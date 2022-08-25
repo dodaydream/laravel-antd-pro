@@ -12,6 +12,8 @@ class LogController extends Controller
 {
     public function index()
     {
+        $this->authorize('admin.system.logs.view');
+
         return Inertia::render('System/Logs/Index', [
             'logs' => QueryBuilder::for(Activity::class)
                 ->latest()

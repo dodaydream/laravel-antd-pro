@@ -11,6 +11,8 @@ class RouteController extends Controller
 {
     public function index()
     {
+        $this->authorize('admin.developer.route');
+
         return Inertia::render('Developer/Route', [
             'routes' => collect(RouteFacade::getRoutes())->map(function (Route $route) {
                 return [
