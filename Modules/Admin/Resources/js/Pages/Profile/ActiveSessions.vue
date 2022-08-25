@@ -43,7 +43,7 @@ export default {
     name: "Index",
     components: {ProfileLayout, DesktopOutlined, MobileOutlined},
     props: {
-        user: {
+        currentUser: {
             type: Object,
             required: true,
         },
@@ -55,7 +55,7 @@ export default {
     },
     mounted() {
         window.axios.get(route('admin.system.users.sessions', {
-            user: this.user.id
+            user: this.currentUser.id
         })).then(({data}) => {
             this.sessions = data
         })

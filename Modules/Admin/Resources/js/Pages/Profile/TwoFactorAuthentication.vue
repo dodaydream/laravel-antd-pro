@@ -88,21 +88,21 @@ export default {
     name: "Index",
     components: {ProfileLayout, AvatarCropper},
     props: {
-        user: {
+        currentUser: {
             type: Object,
             required: true,
         },
     },
     computed: {
         twoFactorEnabled() {
-            return !this.enabling && this.$page.props.user.two_factor_enabled;
+            return !this.enabling && this.$page.props.currentUser.two_factor_enabled;
         },
     },
     setup(props) {
         const form = useForm({
-            name: props.user.name,
-            email: props.user.email,
-            roles: props.user.roles,
+            name: props.currentUser.name,
+            email: props.currentUser.email,
+            roles: props.currentUser.roles,
             password: '',
             password_confirmation: ''
         })

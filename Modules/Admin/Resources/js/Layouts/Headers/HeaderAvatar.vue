@@ -3,15 +3,15 @@
         <div class="action ant-dropdown-link user-dropdown-menu flex items-center">
           <a-avatar
               class="avatar ring-1 ring-slate-200"
-              :src="$page.props.current_user.avatar_thumb_url"
+              :src="$page.props.currentUser.avatar_thumb_url"
               size="large"
           />
             <div class="ml-2 leading-normal">
                 <div class="font-medium">
-                    {{ $page.props.current_user.name }}
+                    {{ $page.props.currentUser.name }}
                 </div>
                 <div class="text-slate-500">
-                    {{ $page.props.current_user.email }}
+                    {{ $page.props.currentUser.email }}
                 </div>
             </div>
         </div>

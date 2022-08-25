@@ -2,7 +2,7 @@
     <ProfileLayout>
         <a-form layout="vertical" class="max-w-xl">
             <a-form-item label="Avatar" name="avatar">
-                <avatar-cropper :user="user"/>
+                <avatar-cropper :user="currentUser"/>
             </a-form-item>
 
             <a-form-item label="Name" name="name" v-bind="form.validation.name">
@@ -40,16 +40,16 @@ export default {
     name: "Index",
     components: {ProfileLayout, AvatarCropper},
     props: {
-        user: {
+        currentUser: {
             type: Object,
             required: true,
         },
     },
     setup(props) {
         const form = useForm({
-            name: props.user.name,
-            email: props.user.email,
-            roles: props.user.roles,
+            name: props.currentUser.name,
+            email: props.currentUser.email,
+            roles: props.currentUser.roles,
             password: '',
             password_confirmation: ''
         })
@@ -61,7 +61,7 @@ export default {
             this.form.submit(
                 'put',
                 route('admin.system.users.update', {
-                    user: this.user.id
+                    user: this.currentUser.id
                 }), {
                     onSuccess: () => this.$message.success('Profile updated successfully.')
                 }
