@@ -12,7 +12,7 @@ class LogController extends Controller
 {
     public function index()
     {
-        $this->authorize('admin.system.logs.view');
+        $this->authorize('admin.system.logs');
 
         return Inertia::render('System/Logs/Index', [
             'logs' => QueryBuilder::for(Activity::class)
