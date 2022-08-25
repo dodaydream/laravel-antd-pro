@@ -28,7 +28,9 @@
                                 </a>
                             </div>
                             <span class="gap-3 flex">
-                                <a-button type="link" danger @click="bulkDestroy">
+                                <a-button type="link" danger @click="bulkDestroy"
+                                          v-can="'admin.system.users.bulk-delete'"
+                                >
                                     Remove
                                 </a-button>
                             </span>
@@ -61,22 +63,25 @@
                             <div class="flex gap-2 justify-center">
                                 <inertia-link
                                     :href="route('admin.system.users.show', { id: record.id })"
+                                    v-can="'admin.system.users.edit'"
                                 >
                                     <a-button type="link">
                                         {{ $t('action.edit')}}
                                     </a-button>
                                 </inertia-link>
 
-                                <a-popconfirm
-                                    title="Are you sure to delete this record?"
-                                    ok-text="Yes"
-                                    cancel-text="No"
-                                    @confirm="destroy(record.id)"
-                                >
-                                    <a-button type="link" danger>
-                                        {{ $t('action.remove')}}
-                                    </a-button>
-                                </a-popconfirm>
+                                    <a-popconfirm
+                                        title="Are you sure to delete this record?"
+                                        ok-text="Yes"
+                                        cancel-text="No"
+                                        @confirm="destroy(record.id)"
+                                    >
+                                        <a-button type="link" danger
+                                                  v-can="'admin.system.users.delete'"
+                                        >
+                                            {{ $t('action.remove')}}
+                                        </a-button>
+                                    </a-popconfirm>
                             </div>
                         </template>
                     </template>

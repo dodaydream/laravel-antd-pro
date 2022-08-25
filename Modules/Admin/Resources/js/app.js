@@ -11,6 +11,7 @@ import PerfectScrollbar from 'vue3-perfect-scrollbar'
 import 'vue3-perfect-scrollbar/dist/vue3-perfect-scrollbar.css'
 import 'ant-design-vue/dist/antd.css';
 import { i18nVue } from 'laravel-vue-i18n'
+import permission from './Directives/permission.js';
 
 const appName = window.document.getElementsByTagName('title')[0]?.innerText || 'Laravel';
 
@@ -27,6 +28,7 @@ createInertiaApp({
                     return await langs[`../lang/${lang}.json`]();
                 }
             })
+            .directive('can', permission)
             .component('InertiaLink', InertiaLink)
             .component('InertiaHead', InertiaHead)
             .use(PerfectScrollbar)

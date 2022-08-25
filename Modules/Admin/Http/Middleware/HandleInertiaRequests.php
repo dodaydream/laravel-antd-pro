@@ -36,13 +36,10 @@ class HandleInertiaRequests extends Middleware
      */
     public function share(Request $request): array
     {
-        $firstLoadOnlyProps = $request->hasHeader('X-Inertia') ? [] : [
-            'permissions' => $request->user()?->getAllPermissions()->pluck('name'),
-        ];
-
         return array_merge(parent::share($request), [
             'current_user' => $request->user(),
             'message' => $request->session()->get('message'),
-        ], $firstLoadOnlyProps);
+            'permissions' => $request->user()?->getAllPermissions()->pluck('name'),
+        ]);
     }
 }
