@@ -17,14 +17,14 @@
                         <a-tree
                             checkable
                             defaultExpandAll
+                            checkStrictly
                             autoExpandParent
                             :selectable=false
                             :tree-data="permissionTree"
                             v-model:checked-keys="form.permissions"
                         >
-                            <template #title="{ title, module }">
-                                <a-tag type="primary" v-if="module">{{ module }}</a-tag>
-                                <span>{{ $t(`permissions.${title}`) }}</span>
+                            <template #title="{ title, module, checkable }">
+                                <span class="mr-1">{{ $t(`permissions.${title}`) }}</span>
                             </template>
                         </a-tree>
                     </a-form-item>
@@ -101,6 +101,7 @@ export default {
                         const perm = {
                             title: strKey,
                             key: permission.name === strKey ? permission.id : null,
+                            checkable: permission.name === strKey,
                             module: permission.module,
                             children: []
                         }
@@ -122,14 +123,16 @@ export default {
             permissions: props.rolePermissions
         })
 
-        return {dayjs, permissionTree, form}
+        return {dayjs, permissionTree, form }
     },
     methods: {
         submit () {
-            this.form.transform((data) => ({
-                ...data,
-                permissions: data.permissions.filter(permission => typeof permission === 'number')
-            })).
+            this.form.transform((data) => {
+                return {
+                    ...data,
+                    permissions: data.permissions.checked
+                }
+            }).
             submit(
                 'put',
                 route('admin.system.roles.update', {

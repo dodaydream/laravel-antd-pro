@@ -50,9 +50,14 @@ export default {
     },
     methods: {
         logout () {
-            this.$inertia.post(route('logout'), {
-                onSuccess () {
-                    this.$message.success('Logout success')
+            this.$inertia.post(route('logout', {
+                next: 'admin.login',
+            }), {}, {
+                onSuccess: () => {
+                    this.$notification.success({
+                        message: 'Logout success',
+                        description: 'You have been logged out successfully.',
+                    })
                 }
             })
         }

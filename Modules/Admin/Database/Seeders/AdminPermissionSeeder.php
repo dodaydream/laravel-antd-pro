@@ -14,6 +14,7 @@ class AdminPermissionSeeder extends Seeder
         app()[\Spatie\Permission\PermissionRegistrar::class]->forgetCachedPermissions();
 
         $permissions = collect([
+            'admin',
             'admin.system.users.create',
             'admin.system.users.edit',
             'admin.system.users.delete',
@@ -32,7 +33,7 @@ class AdminPermissionSeeder extends Seeder
 
         $permissions->each(function ($permission) {
             try {
-            Permission::create(['name' => $permission, 'module' => 'admin']);
+                Permission::create(['name' => $permission, 'module' => 'admin']);
             } catch (PermissionAlreadyExists $e) {
                 $this->command->info("Permission $permission already exists.");
             }

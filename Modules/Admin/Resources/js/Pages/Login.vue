@@ -27,7 +27,7 @@
                 </a-form-item>
 
                 <a-form-item>
-                    <a-checkbox name="remember" v-model:value="form.remember">Remember Me</a-checkbox>
+                    <a-checkbox name="remember" v-model:checked="form.remember">Remember Me</a-checkbox>
 
                     <inertia-link :href="route('password.request')" class="float-right">Forget Password?</inertia-link>
                 </a-form-item>
@@ -69,7 +69,9 @@ export default {
     },
     methods: {
         login () {
-            this.form.submit('post', route('login'), {
+            this.form.submit('post', route('login', {
+                ref: 'admin.welcome'
+            }), {
                 onSuccess: (result) => {
                     this.$notification.success({
                         message: 'Login Success',

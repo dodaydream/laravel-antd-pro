@@ -16,6 +16,10 @@
                     <a-form-item label="Permissions" name="permissions" v-bind="form.validation.permissions">
                         <a-tree
                             checkable
+                            defaultExpandAll
+                            checkStrictly
+                            autoExpandParent
+                            :selectable=false
                             :tree-data="permissionTree"
                             v-model:checked-keys="form.permissions"
                         >
@@ -90,6 +94,7 @@ export default {
                         const perm = {
                             title: strKey,
                             key: permission.name === strKey ? permission.id : null,
+                            checkable: permission.name === strKey,
                             module: permission.module,
                             children: []
                         }
@@ -115,10 +120,12 @@ export default {
     },
     methods: {
         submit () {
-            this.form.transform((data) => ({
-                ...data,
-                permissions: data.permissions.filter(permission => typeof permission === 'number')
-            })).submit(
+            this.form.transform((data) => {
+                return {
+                    ...data,
+                    permissions: data.permissions.checked
+                }
+            }).submit(
                 'post',
                 route('admin.system.roles.store'), {
                     onSuccess: () => this.$message.success('Role created successfully.')

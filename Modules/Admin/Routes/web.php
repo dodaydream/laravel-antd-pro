@@ -16,12 +16,16 @@ use Inertia\Inertia;
 
 Route::name('admin.')->prefix('admin')->group(function () {
     Route::get('/login', function () {
+        if (auth()->check()) {
+            return redirect()->route('admin.welcome');
+        }
+
         return Inertia::render('Login');
     })->name('login');
 
     Route::get('language/{locale}', 'Api\LocaleController@index')->name('locale.update');
 
-    Route::middleware([\Modules\Admin\Http\Middleware\Authenticate::class])->group(function () {
+    Route::middleware(['can:admin', \Modules\Admin\Http\Middleware\Authenticate::class])->group(function () {
         Route::get('/', function () {
             return Inertia::render('Welcome');
         })->name('welcome');
