@@ -1717,6 +1717,14 @@ laravel-vite-plugin@^0.5.0:
   dependencies:
     vite-plugin-full-reload "^1.0.1"
 
+laravel-vue-i18n@^2.1.3:
+  version "2.1.3"
+  resolved "https://registry.yarnpkg.com/laravel-vue-i18n/-/laravel-vue-i18n-2.1.3.tgz#1169edaf96a045c0797fc1ba9a88320800e29099"
+  integrity sha512-zavwpKdVD1ZwQXnp6rEiaXSrRDUXgBvYThpJEvxextgowfur528b+cIEl5yLn29cm6vf+ARXZ6wMWvk3WP5spg==
+  dependencies:
+    php-parser "3.1.0-beta.4"
+    vue "^3.2.37"
+
 less@^4.1.3:
   version "4.1.3"
   resolved "https://registry.yarnpkg.com/less/-/less-4.1.3.tgz#175be9ddcbf9b250173e0a00b4d6920a5b770246"
@@ -1970,6 +1978,11 @@ perfect-scrollbar@^1.5.5:
   version "1.5.5"
   resolved "https://registry.yarnpkg.com/perfect-scrollbar/-/perfect-scrollbar-1.5.5.tgz#41a211a2fb52a7191eff301432134ea47052b27f"
   integrity sha512-dzalfutyP3e/FOpdlhVryN4AJ5XDVauVWxybSkLZmakFE2sS3y3pc4JnSprw8tGmHvkaG5Edr5T7LBTZ+WWU2g==
+
+php-parser@3.1.0-beta.4:
+  version "3.1.0-beta.4"
+  resolved "https://registry.yarnpkg.com/php-parser/-/php-parser-3.1.0-beta.4.tgz#a56e3c90e0371e41fb9c1a09f4459b5adad2b03b"
+  integrity sha512-fLW5tSV8PK0Kizn+Wx1LrhJIFW5eYME4RXoHwIIXfArTBRs7RQJhoU016rXJTPQZIKAXo93ddVyojVvCOETxiA==
 
 picocolors@^0.2.1:
   version "0.2.1"

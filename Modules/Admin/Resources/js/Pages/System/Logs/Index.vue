@@ -72,7 +72,7 @@
                                     @confirm="destory(record.id)"
                                 >
                                     <a-button type="link" danger>
-                                        Remove
+                                        {{ $t('action.remove')}}
                                     </a-button>
                                 </a-popconfirm>
                             </div>

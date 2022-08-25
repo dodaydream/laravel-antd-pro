@@ -31,7 +31,7 @@
                             </div>
                             <span class="gap-3 flex">
                                 <a-button type="link" danger @click="table.rowSelection.destroy(bulkDestroyHandler)">
-                                    Remove
+                                        {{ $t('action.remove')}}
                                 </a-button>
                             </span>
                         </div>
@@ -59,7 +59,7 @@
                                     })"
                                 >
                                     <a-button type="link">
-                                        Edit
+                                        {{ $t('action.edit')}}
                                     </a-button>
                                 </inertia-link>
 
@@ -70,7 +70,7 @@
                                     @confirm="destory(record.id)"
                                 >
                                     <a-button type="link" danger>
-                                        Remove
+                                        {{ $t('action.remove')}}
                                     </a-button>
                                 </a-popconfirm>
                             </div>

@@ -10,11 +10,9 @@ import Antd from 'ant-design-vue';
 import PerfectScrollbar from 'vue3-perfect-scrollbar'
 import 'vue3-perfect-scrollbar/dist/vue3-perfect-scrollbar.css'
 import 'ant-design-vue/dist/antd.css';
-import I18n from '@/vendor/I18n'
+import { i18nVue } from 'laravel-vue-i18n'
 
 const appName = window.document.getElementsByTagName('title')[0]?.innerText || 'Laravel';
-
-window.i18n = I18n
 
 createInertiaApp({
     title: (title) => `${title} - ${appName}`,
@@ -23,15 +21,20 @@ createInertiaApp({
         const vueApp = createApp({ render: () => h(app, props) })
             .use(plugin)
             .use(ZiggyVue, Ziggy)
+            .use(i18nVue, {
+                resolve: async (lang) => {
+                    const langs = import.meta.glob('../lang/*.json');
+                    return await langs[`../lang/${lang}.json`]();
+                }
+            })
             .component('InertiaLink', InertiaLink)
             .component('InertiaHead', InertiaHead)
             .use(PerfectScrollbar)
             .use(Antd)
 
-        vueApp.config.globalProperties.i18n = new I18n
         vueApp.mount(el)
         return vueApp
     },
 });
 
-InertiaProgress.init({ color: '#4B5563' });
+InertiaProgress.init({ color: '#1890ff' });

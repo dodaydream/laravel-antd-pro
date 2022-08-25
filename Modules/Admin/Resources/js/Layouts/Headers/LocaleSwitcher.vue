@@ -17,14 +17,14 @@
                     :key="locale"
                     @click="setLocale(locale)"
                 >
-                    <a>{{ i18n.trans(`admin::layout.lang.${locale}`) }}</a>
+                    <a>{{ $t(`layout.lang.${locale}`) }}</a>
                 </a-menu-item>
             </a-menu>
         </template>
     </a-dropdown>
 
     <div v-show="isLoading" class="bg-white fixed top-0 left-0 w-full h-full z-50 flex justify-center items-center">
-        <a-spin :tip="i18n.trans('admin::layout.switch_lang_tip')" />
+        <a-spin :tip="$t('layout.switch_lang_tip')" />
     </div>
 </template>
 
@@ -33,7 +33,7 @@ import {
     GlobalOutlined,
 } from '@ant-design/icons-vue'
 
-import {computed} from "vue";
+import { loadLanguageAsync } from 'laravel-vue-i18n';
 
 export default {
     name: 'LocaleSwitcher',
@@ -50,13 +50,11 @@ export default {
         }
     },
     methods: {
-        setLocale (locale) {
+        async setLocale (locale) {
             this.isLoading = true;
-            window.axios.get(route('admin.locale.update', {
-                locale: locale
-            })).then(() => {
-                window.location.reload();
-            })
+            await window.axios.get(route('admin.locale.update', { locale: locale }))
+            await loadLanguageAsync(locale)
+            this.isLoading = false;
         }
     }
 }

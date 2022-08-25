@@ -1,17 +1,17 @@
 <template>
-    <a-sub-menu :key="menuInfo.key">
-        <template #icon v-if="menuInfo.icon">
-            <component :is="menuInfo.icon" />
+    <a-sub-menu :key="filteredMenuInfo.key" v-if="hasChildrenWithPermission">
+        <template #icon v-if="filteredMenuInfo.icon">
+            <component :is="filteredMenuInfo.icon" />
         </template>
-        <template #title>{{ i18n.trans(menuInfo.title) }}</template>
-        <template v-for="item in menuInfo.children" :key="item.key">
+        <template #title>{{ $t(filteredMenuInfo.title) }}</template>
+        <template v-for="item in filteredMenuInfo.children" :key="item.key">
             <template v-if="!item.children">
                 <a-menu-item :key="item.key">
                     <template #icon v-if="item.icon">
                         <component :is="item.icon" />
                     </template>
                     <inertia-link :href="route(item.route)">
-                        {{ i18n.trans(item.title) }}
+                        {{ $t(item.title) }}
                     </inertia-link>
                 </a-menu-item>
             </template>
@@ -24,6 +24,7 @@
 
 <script>
 import * as AntdIcons from '@ant-design/icons-vue';
+
 export default {
     name: "SubMenu",
     components: {
@@ -34,7 +35,22 @@ export default {
             type: Object,
             default: () => ({}),
         },
-    }
+    },
+    computed: {
+        hasChildrenWithPermission () {
+            return this.filteredMenuInfo.children.length > 0;
+        },
+        filteredMenuInfo () {
+            const permissions = this.$page.props.permissions
+
+            return {
+                ...this.menuInfo,
+                children: this.menuInfo.children.filter(item => {
+                    return permissions.includes(item.permission)
+                }),
+            }
+        },
+    },
 }
 </script>
 

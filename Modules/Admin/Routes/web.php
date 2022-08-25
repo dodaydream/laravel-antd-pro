@@ -19,12 +19,7 @@ Route::name('admin.')->prefix('admin')->group(function () {
         return Inertia::render('Login');
     })->name('login');
 
-    Route::get('language/{locale}', function ($locale) {
-        app()->setLocale($locale);
-        session()->put('locale', $locale);
-
-        return response()->noContent();
-    })->name('locale.update');
+    Route::get('language/{locale}', 'Api\LocaleController@index')->name('locale.update');
 
     Route::middleware([\Modules\Admin\Http\Middleware\Authenticate::class])->group(function () {
         Route::get('/', function () {

@@ -5,6 +5,7 @@ namespace Modules\Admin\Database\Seeders;
 use Illuminate\Database\Seeder;
 use Spatie\Permission\Exceptions\PermissionAlreadyExists;
 use Spatie\Permission\Models\Permission;
+use Spatie\Permission\Models\Role;
 
 class AdminPermissionSeeder extends Seeder
 {
@@ -36,5 +37,7 @@ class AdminPermissionSeeder extends Seeder
                 $this->command->info("Permission $permission already exists.");
             }
         });
+
+        Role::findOrCreate('role.super-admin')->givePermissionTo($permissions);
     }
 }

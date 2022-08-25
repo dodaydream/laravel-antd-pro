@@ -8,12 +8,12 @@
     >
         <template v-for="item in list" :key="item.key">
             <template v-if="!item.children">
-                <a-menu-item :key="item.key">
+                <a-menu-item :key="item.key" v-if="item.permission ? hasPermission(item.permission): true">
                     <template #icon v-if="item.icon">
                         <component :is="item.icon" />
                     </template>
                     <inertia-link :href="route(item.route)">
-                        {{ i18n.trans(item.title) }}
+                        {{ $t(item.title) }}
                     </inertia-link>
                 </a-menu-item>
             </template>
@@ -52,7 +52,15 @@ export default {
     },
     setup () {
         return { list: menu }
-    }
+    },
+    computed: {
+        hasPermission () {
+            return (permission) => {
+                const permissions = this.$page.props.permissions
+                return permissions.includes(permission)
+            }
+        },
+    },
 }
 </script>
 

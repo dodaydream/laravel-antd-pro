@@ -97,7 +97,7 @@ export default {
                         console.debug('permission not found')
                         const perm = {
                             title: strKey,
-                            key: permission.name === strKey ? permission.key : null,
+                            key: permission.name === strKey ? permission.id : null,
                             module: permission.module,
                             children: []
                         }

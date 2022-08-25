@@ -3,15 +3,15 @@
         <div class="action ant-dropdown-link user-dropdown-menu flex items-center">
           <a-avatar
               class="avatar ring-1 ring-slate-200"
-              :src="$page.props.user.avatar_thumb_url"
+              :src="$page.props.current_user.avatar_thumb_url"
               size="large"
           />
             <div class="ml-2 leading-normal">
                 <div class="font-medium">
-                    {{ $page.props.user.name }}
+                    {{ $page.props.current_user.name }}
                 </div>
                 <div class="text-slate-500">
-                    {{ $page.props.user.email }}
+                    {{ $page.props.current_user.email }}
                 </div>
             </div>
         </div>
@@ -20,13 +20,13 @@
                 <a-menu-item key="4">
                     <inertia-link :href="route('admin.profile.index')">
                         <UserOutlined />
-                        {{ i18n.trans('admin::layout.profile') }}
+                        {{ $t('Profile') }}
                     </inertia-link>
                 </a-menu-item>
                 <a-menu-item key="3">
                     <a @click="logout">
                         <LogoutOutlined />
-                        {{ i18n.trans('admin::layout.logout') }}
+                        {{ $t('Logout') }}
                     </a>
                 </a-menu-item>
             </a-menu>

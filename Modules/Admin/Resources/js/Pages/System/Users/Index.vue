@@ -58,12 +58,12 @@
                         </template>
 
                         <template v-if="column.dataIndex === 'action'">
-                            <div class="flex gap-2">
+                            <div class="flex gap-2 justify-center">
                                 <inertia-link
                                     :href="route('admin.system.users.show', { id: record.id })"
                                 >
                                     <a-button type="link">
-                                        Edit
+                                        {{ $t('action.edit')}}
                                     </a-button>
                                 </inertia-link>
 
@@ -74,7 +74,7 @@
                                     @confirm="destroy(record.id)"
                                 >
                                     <a-button type="link" danger>
-                                        Remove
+                                        {{ $t('action.remove')}}
                                     </a-button>
                                 </a-popconfirm>
                             </div>
@@ -95,6 +95,7 @@ import {PlusOutlined, DeleteOutlined, ExclamationCircleOutlined} from "@ant-desi
 import {createVNode} from "vue";
 import useTable from '::admin/Utils/useTable';
 import {Modal} from "ant-design-vue";
+import { trans } from 'laravel-vue-i18n';
 
 export default {
     name: "Index",
@@ -112,14 +113,14 @@ export default {
     },
     setup(props) {
         const columns = [
-            {title: 'id', dataIndex: 'id'},
-            {title: 'name', dataIndex: 'name'},
+            {title: trans('id'), dataIndex: 'id'},
+            {title: trans('name'), dataIndex: 'name'},
             {title: 'email', dataIndex: 'email'},
-            {title: 'email_verified', dataIndex: 'email_verified_at', align: 'right'},
-            {title: 'roles', dataIndex: 'roles', align: 'right'},
-            {title: 'created_at', dataIndex: 'created_at'},
-            {title: 'updated_at', dataIndex: 'updated_at'},
-            {title: 'action', dataIndex: 'action', fixed: 'right', align: 'center'}
+            {title: trans('email_verified'), dataIndex: 'email_verified_at', align: 'right'},
+            {title: trans('roles'), dataIndex: 'roles', align: 'right'},
+            {title: trans('created_at'), dataIndex: 'created_at'},
+            {title: trans('updated_at'), dataIndex: 'updated_at'},
+            {title: trans('action'), dataIndex: 'action', fixed: 'right', align: 'center'}
         ];
 
         const table = useTable(props.users, {
