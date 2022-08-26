@@ -2,18 +2,17 @@
     <ProfileLayout>
         <h3 class="text-lg font-medium text-gray-900">
             <template v-if="twoFactorEnabled">
-                Two Factor Authentication is enabled
+                {{ $t('two_factor_authentication_is_enabled') }}
             </template>
 
             <template v-else>
-                Two Factor Authentication is disabled
+                {{ $t('two_factor_authentication_is_disabled') }}
             </template>
         </h3>
 
         <div class="mt-3 max-w-xl text-sm text-gray-600">
             <p>
-                Two Factor Authentication is a security feature that requires you to enter a code from your phone
-                every time you log in. This is to prevent someone from logging into your account without your knowledge.
+                {{ $t('two_factor_authentication_description') }}
             </p>
         </div>
 
@@ -21,7 +20,7 @@
             <div v-if="qrCode">
                 <div class="mt-4 max-w-xl text-sm text-gray-600">
                     <p class="font-semibold">
-                        Scan this QR code with your authenticator app to enable Two Factor Authentication.
+                        {{ $t('two_factor_scan_qr_code') }}
                     </p>
                 </div>
 
@@ -31,7 +30,7 @@
             <div v-if="recoveryCodes.length > 0">
                 <div class="mt-4 max-w-xl text-sm text-gray-600">
                     <p class="font-semibold">
-                        Recovery codes are used to access your account in the event you lose your phone.
+                        {{ $t('two_factor_recovery_code') }}
                     </p>
                 </div>
 
@@ -58,20 +57,20 @@
 
         <div class="mt-5">
             <div v-if="!twoFactorEnabled">
-                <a-button :loading="enabling" @click="confirmPassword('enable', true)">Enable</a-button>
+                <a-button :loading="enabling" @click="confirmPassword('enable', true)">{{ $t('enable') }}</a-button>
             </div>
 
             <div v-else>
                 <a-space>
                     <a-button v-if="recoveryCodes.length > 0" @click="confirmPassword('regenerate')" :loading="enabling">
-                        Regenerate Recovery Codes
+                        {{ $t('regenerate_recovery_codes') }}
                     </a-button>
 
-                    <a-button v-if="recoveryCodes.length === 0" @click="confirmPassword('show')" :loading="enabling">
-                        Show Recovery Codes
+                    <a-button v-if="recoveryCodes.length === 0" @click="confirmPassword('show', true)" :loading="enabling">
+                        {{ $t('show_recovery_codes') }}
                     </a-button>
 
-                    <a-button type="danger" :loading="disabling" @click="confirmPassword('disable', true)"> Disable </a-button>
+                    <a-button type="danger" :loading="disabling" @click="confirmPassword('disable', true)"> {{ $t('disable') }} </a-button>
                 </a-space>
             </div>
         </div>

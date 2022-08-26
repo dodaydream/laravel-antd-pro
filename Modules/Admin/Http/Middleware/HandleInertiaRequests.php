@@ -40,6 +40,7 @@ class HandleInertiaRequests extends Middleware
             'currentUser' => $request->user(),
             'message' => $request->session()->get('message'),
             'currentUserPermissions' => $request->user()?->getAllPermissions()->pluck('name'),
+            'challenge' => $request->session()->get('challenge')
         ]);
     }
 }

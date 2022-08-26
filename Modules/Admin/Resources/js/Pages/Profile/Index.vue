@@ -1,11 +1,11 @@
 <template>
     <ProfileLayout>
         <a-form layout="vertical" class="max-w-xl">
-            <a-form-item label="Avatar" name="avatar">
+            <a-form-item :label="$t('avatar')" name="avatar">
                 <avatar-cropper :user="currentUser"/>
             </a-form-item>
 
-            <a-form-item label="Name" name="name" v-bind="form.validation.name">
+            <a-form-item :label="$t('name')" name="name" v-bind="form.validation.name">
                 <a-input v-model:value="form.name"/>
             </a-form-item>
 
@@ -13,18 +13,18 @@
                 <a-input v-model:value="form.email" type="email"/>
             </a-form-item>
 
-            <a-form-item label="Password" name="password" v-bind="form.validation.password">
+            <a-form-item :label="$t('password')" name="password" v-bind="form.validation.password">
                 <a-input-password v-model:value="form.password"/>
             </a-form-item>
 
-            <a-form-item label="Password Confirmation" name="password_confirmation"
+            <a-form-item :label="$t('password_confirmation')" name="password_confirmation"
                          v-bind="form.validation.password_confirmation">
                 <a-input-password v-model:value="form.password_confirmation"/>
             </a-form-item>
 
             <a-form-item>
                 <div class="flex gap-3">
-                    <a-button @click="submit">Save</a-button>
+                    <a-button @click="submit">{{ $t('save') }}</a-button>
                 </div>
             </a-form-item>
         </a-form>

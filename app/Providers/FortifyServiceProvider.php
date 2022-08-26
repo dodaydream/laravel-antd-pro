@@ -42,6 +42,17 @@ class FortifyServiceProvider extends ServiceProvider
             \App\Http\Responses\LoginResponse::class
         );
 
+        $this->app->singleton(
+            \Laravel\Fortify\Contracts\TwoFactorLoginResponse::class,
+            \App\Http\Responses\LoginResponse::class
+        );
+
+        $this->app->singleton(
+            \Laravel\Fortify\Contracts\FailedTwoFactorLoginResponse::class,
+            \App\Http\Responses\FailedTwoFactorLoginResponse::class
+        );
+
+
         Fortify::createUsersUsing(CreateNewUser::class);
         Fortify::updateUserProfileInformationUsing(UpdateUserProfileInformation::class);
         Fortify::updateUserPasswordsUsing(UpdateUserPassword::class);
@@ -65,6 +76,10 @@ class FortifyServiceProvider extends ServiceProvider
         // 使用前臺註冊頁面
         Fortify::registerView(function () {
             return Inertia::render('Auth/Register');
+        });
+
+        Fortify::twoFactorChallengeView(function () {
+            return redirect()->back()->with('challenge', '2fa:');
         });
     }
 }

@@ -2,6 +2,8 @@
 
 namespace App\Http\Responses;
 
+use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\URL;
 use Laravel\Fortify\Contracts\LoginResponse as LoginResponseContract;
 
 class LoginResponse implements LoginResponseContract
@@ -14,8 +16,10 @@ class LoginResponse implements LoginResponseContract
      */
     public function toResponse($request)
     {
+        $next = route($request->query('ref', 'admin.welcome'));
+
         return $request->wantsJson()
             ? response()->json(['two_factor' => false])
-            : redirect()->intended(route($request->query('ref', 'welcome')));
+            : redirect()->intended($next);
     }
 }

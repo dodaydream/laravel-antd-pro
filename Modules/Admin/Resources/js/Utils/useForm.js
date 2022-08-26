@@ -93,7 +93,6 @@ export default function (props, rules={}, useInertia=true) {
                 onError: onError(options.onError, options.errorTransformer)
             })
         }).catch((e) => {
-            console.error('validationError', e)
             if (e.errorFields.length === 0) {
                 submitHandler(method, url, {
                     ...options,

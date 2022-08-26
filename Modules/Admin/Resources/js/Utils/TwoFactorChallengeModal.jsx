@@ -11,8 +11,8 @@ import {
 } from 'ant-design-vue';
 
 const form = useForm({
-    password: '',
-}, {}, false);
+    code: '',
+}, {});
 
 const modal = ref(null);
 
@@ -25,18 +25,20 @@ const confirmPassword = defineComponent({
     },
     template: `
         <div>
-            <p>{{ trans('please_confirm_your_password_before_continuing') }}</p>
+            <p>{{ trans('two_factor_auth_request') }}</p>
             <a-form>
-                <a-form-item name="password" v-bind="form.validation.password">
-                    <a-input-password
-                        :placeholder="trans('password')"
-                        autocomplete="new-password"
-                        v-model:value="form.password"
+                <a-form-item name="code" v-bind="form.validation.code">
+                    <a-input
+                        :placeholder="trans('two_factor_auth_code')"
+                        autocomplete="one-time-code"
+                        v-model:value="form.code"
+                        inputmode="numeric"
+                        autofocus
                     >
                         <template #prefix>
                             <lock-outlined />
                         </template>
-                    </a-input-password>
+                    </a-input>
                 </a-form-item>
             </a-form>
         </div>
@@ -45,7 +47,7 @@ const confirmPassword = defineComponent({
         return { form, trans }
     },
     watch: {
-        'form.password': (val) => {
+        'form.code': (val) => {
             if (val !== '') {
                 nextTick(() => {
                     modal.value.update({
@@ -59,7 +61,7 @@ const confirmPassword = defineComponent({
     }
 })
 
-export default async (forceReconfirm=false) =>  {
+export default async () =>  {
     let dialogPromiseResolve, dialogPromiseReject;
 
     const dialogPromise = new Promise(function (resolve, reject) {
@@ -67,23 +69,10 @@ export default async (forceReconfirm=false) =>  {
         dialogPromiseReject = reject;
     })
 
-    if (!forceReconfirm) {
-        console.debug('check if recently confirmed')
-
-        const confirmed = await axios.get(route("password.confirmation")).then((response) => {
-            return response.data.confirmed;
-        })
-
-        if (confirmed) {
-            dialogPromiseResolve();
-            return await dialogPromise;
-        }
-    }
-
     const vnode = createVNode(confirmPassword)
 
     modal.value = Modal.confirm({
-        title: trans('confirm_password'),
+        title: trans('two_factor_auth'),
         centered: true,
         content:  vnode,
         okButtonProps: {
@@ -105,12 +94,11 @@ export default async (forceReconfirm=false) =>  {
                 promiseReject = reject;
             })
 
-            form.submit('post', route("password.confirm"), {
-                preserveState: true,
+            form.submit('post', route("two-factor.login"), {
                 onSuccess: () => {
                     promiseResolve();
                     dialogPromiseResolve();
-                    form.password = ''
+                    form.code = ''
                 },
                 onError: (error) => {
                     promiseReject(error);

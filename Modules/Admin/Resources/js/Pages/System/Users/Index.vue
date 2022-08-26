@@ -99,10 +99,9 @@ import dayjs from "dayjs";
 
 import {PlusOutlined, DeleteOutlined, ExclamationCircleOutlined} from "@ant-design/icons-vue";
 
-import {createVNode} from "vue";
+import { createVNode, reactive } from "vue";
 import useTable from '::admin/Utils/useTable';
 import {Modal} from "ant-design-vue";
-import { trans } from 'laravel-vue-i18n';
 
 export default {
     name: "Index",
@@ -119,7 +118,7 @@ export default {
         }
     },
     setup(props) {
-        const columns = [
+        const columns = reactive([
             {title: trans('id'), dataIndex: 'id'},
             {title: trans('name'), dataIndex: 'name'},
             {title: 'Email', dataIndex: 'email'},
@@ -128,7 +127,7 @@ export default {
             {title: trans('created_at'), dataIndex: 'created_at'},
             {title: trans('updated_at'), dataIndex: 'updated_at'},
             {title: trans('action'), dataIndex: 'action', fixed: 'right', align: 'center'}
-        ];
+        ]);
 
         const table = useTable(props.users, {
             fieldName: 'users',
