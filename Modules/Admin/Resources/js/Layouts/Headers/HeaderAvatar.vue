@@ -20,13 +20,13 @@
                 <a-menu-item key="4">
                     <inertia-link :href="route('admin.profile.index')">
                         <UserOutlined />
-                        {{ $t('Profile') }}
+                        {{ $t('layout.profile') }}
                     </inertia-link>
                 </a-menu-item>
                 <a-menu-item key="3">
                     <a @click="logout">
                         <LogoutOutlined />
-                        {{ $t('Logout') }}
+                        {{ $t('layout.logout') }}
                     </a>
                 </a-menu-item>
             </a-menu>

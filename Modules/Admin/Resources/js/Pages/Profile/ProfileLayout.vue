@@ -1,6 +1,6 @@
 <template>
     <admin-layout no-transition>
-        <a-page-header title="My Profile"></a-page-header>
+        <a-page-header :title="$t('my_profile')"></a-page-header>
 
         <div class="p-4">
             <a-card
@@ -31,15 +31,15 @@ export default {
         const tabList = [
             {
                 key: 'admin.profile.index',
-                tab: 'Profile',
+                tab: trans('profile'),
             },
             {
                 key: 'admin.profile.two-factor-authentication',
-                tab: 'Two Factor Authentication',
+                tab: trans('profile.two_factor_auth'),
             },
             {
                 key: 'admin.profile.active-sessions',
-                tab: 'Active Sessions',
+                tab: trans('profile.active_sessions'),
             }
         ];
 

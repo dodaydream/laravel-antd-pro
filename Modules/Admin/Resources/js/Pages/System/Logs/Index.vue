@@ -1,12 +1,12 @@
 <template>
     <admin-layout>
         <a-page-header
-            title="Logs"
+            :title="$t('logs')"
         >
         </a-page-header>
 
         <div class="p-4">
-            <a-card title="Logs">
+            <a-card :title="$t('logs')">
 <!--                <a-alert v-if="table.rowSelection.selected" class="!mb-4">-->
 <!--                    <template #message>-->
 <!--                        <div class="flex justify-between items-center">-->
@@ -32,16 +32,16 @@
                     <template #expandedRowRender="{ record }">
                         <div class="grid grid-cols-2" v-if="record.properties.attributes || record.properties.old">
                             <div>
-                                <a-tag class="!mb-3">Old</a-tag>
+                                <a-tag class="!mb-3">{{ $t('log.old') }}</a-tag>
                                 <pre>{{ record.properties.old }}</pre>
                             </div>
                             <div>
-                                <a-tag class="!mb-3">Attributes</a-tag>
+                                <a-tag class="!mb-3">{{ $t('log.attributes') }}</a-tag>
                                 <pre>{{ record.properties.attributes }}</pre>
                             </div>
                         </div>
                         <div v-else>
-                            <a-tag class="!mb-3">Properties</a-tag>
+                            <a-tag class="!mb-3">{{ $t('log.properties') }}</a-tag>
                             <pre>{{ record.properties }}</pre>
                         </div>
                     </template>
@@ -107,12 +107,12 @@ export default {
     },
     setup(props) {
         const columns = [
-            {title: 'id', dataIndex: 'id'},
-            {title: 'log_name', dataIndex: 'log_name'},
-            {title: 'description', dataIndex: 'description'},
-            {title: 'subject', dataIndex: 'subject'},
-            {title: 'causer', dataIndex: 'causer'},
-            {title: 'triggered_at', dataIndex: 'created_at'},
+            {title: trans('id'), dataIndex: 'id'},
+            {title: trans('log_name'), dataIndex: 'log_name'},
+            {title: trans('description'), dataIndex: 'description'},
+            {title: trans('subject'), dataIndex: 'subject'},
+            {title: trans('causer'), dataIndex: 'causer'},
+            {title: trans('triggered_at'), dataIndex: 'created_at'},
             // {title: 'action', dataIndex: 'action', fixed: 'right', align: 'center'}
         ];
 

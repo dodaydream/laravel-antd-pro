@@ -1,18 +1,14 @@
 <template>
     <admin-layout>
         <a-page-header
-            :title="$t('users.edit', {name: user.name})"
+            :title="$t('users.create')"
             @back="() => this.$inertia.visit(route('admin.system.users.index'))"
         >
         </a-page-header>
 
         <div class="p-4">
-            <a-card :title="$t('users.edit', {name: user.name})">
+            <a-card :title="$t('users.create')">
                 <a-form layout="vertical" class="max-w-xl">
-                    <a-form-item :label="$t('avatar')" name="avatar">
-                        <avatar-cropper :user="user" />
-                    </a-form-item>
-
                     <a-form-item :label="$t('name')" name="name" v-bind="form.validation.name">
                         <a-input v-model:value="form.name" />
                     </a-form-item>
@@ -39,7 +35,7 @@
 
                     <a-form-item>
                         <div class="flex gap-3">
-                            <a-button @click="submit">{{ $t('save') }}</a-button>
+                            <a-button @click="submit">{{ $t('create') }}</a-button>
                         </div>
                     </a-form-item>
                 </a-form>
@@ -55,7 +51,6 @@ import dayjs from "dayjs";
 import {PlusOutlined, DeleteOutlined, LoadingOutlined } from "@ant-design/icons-vue";
 
 import useForm from '::admin/Utils/useForm';
-
 import AvatarCropper from '::admin/Components/AvatarCropper.vue';
 
 export default {
@@ -68,10 +63,6 @@ export default {
         AvatarCropper
     },
     props: {
-        user: {
-            type: Object,
-            required: true
-        },
         roles: {
             type: Array,
             required: true
@@ -79,9 +70,9 @@ export default {
     },
     setup(props) {
         const form = useForm({
-            name: props.user.name,
-            email: props.user.email,
-            roles: props.user.roles,
+            name: '',
+            email: '',
+            roles: [],
             password: '',
             password_confirmation: ''
         })
@@ -100,11 +91,9 @@ export default {
     methods: {
         submit () {
             this.form.submit(
-                'put',
-                route('admin.system.users.update', {
-                    user: this.user.id
-                }), {
-                    onSuccess: () => this.$message.success('User updated successfully.')
+                'post',
+                route('admin.system.users.store'), {
+                    onSuccess: () => this.$message.success('User created successfully.')
                 }
             )
         }

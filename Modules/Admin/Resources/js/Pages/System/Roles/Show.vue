@@ -1,19 +1,19 @@
 <template>
     <admin-layout>
         <a-page-header
-            :title="`Edit Role: ${role.name}`"
+            :title="$t('roles.edit', {name: role.name})"
             @back="() => this.$inertia.visit(route('admin.system.roles.index'))"
         >
         </a-page-header>
 
         <div class="p-4">
-            <a-card title="Edit Role">
+            <a-card :title="$t('roles.edit_role')">
                 <a-form layout="vertical" class="max-w-xl">
-                    <a-form-item label="Name" name="name" v-bind="form.validation.name">
+                    <a-form-item :label="$t('name')" name="name" v-bind="form.validation.name">
                         <a-input v-model:value="form.name" />
                     </a-form-item>
 
-                    <a-form-item label="Permissions" name="permissions" v-bind="form.validation.permissions">
+                    <a-form-item :label="$t('roles.permissions')" name="permissions" v-bind="form.validation.permissions">
                         <a-tree
                             checkable
                             defaultExpandAll
@@ -31,7 +31,7 @@
 
                     <a-form-item>
                         <div class="flex gap-3">
-                            <a-button @click="submit">Save</a-button>
+                            <a-button @click="submit">{{ $t('save') }}</a-button>
                         </div>
                     </a-form-item>
                 </a-form>

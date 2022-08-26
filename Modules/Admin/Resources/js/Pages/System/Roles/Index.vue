@@ -1,12 +1,12 @@
 <template>
     <admin-layout>
         <a-page-header
-            title="Roles"
+            :title="$t('roles')"
         >
         </a-page-header>
 
         <div class="p-4">
-            <a-card title="Roles">
+            <a-card :title="$t('roles')">
                 <template #extra>
                     <inertia-link :href="route('admin.system.roles.create')">
                     <a-button
@@ -16,7 +16,7 @@
                         <template #icon>
                             <PlusOutlined/>
                         </template>
-                        Add
+                        {{ $t('add') }}
                     </a-button>
                     </inertia-link>
                 </template>
@@ -25,9 +25,9 @@
                     <template #message>
                         <div class="flex justify-between items-center">
                             <div>
-                                <span>{{ table.rowSelection.count }} items selected</span>&nbsp;
+                                <span>{{ $t('items_selected', {count: table.rowSelection.count}) }}</span>&nbsp;
                                 <a @click="table.rowSelection.clear">
-                                    Clear Selection
+                                    {{ $t('clear_selection') }}
                                 </a>
                             </div>
                             <span class="gap-3 flex">
@@ -98,6 +98,8 @@ import {PlusOutlined, DeleteOutlined, ExclamationCircleOutlined} from "@ant-desi
 
 import useTable from '::admin/Utils/useTable';
 
+import { trans } from 'laravel-vue-i18n'
+
 export default {
     name: "Index",
     components: {
@@ -113,11 +115,11 @@ export default {
     },
     setup(props) {
         const columns = [
-            {title: 'id', dataIndex: 'id'},
-            {title: 'name', dataIndex: 'name'},
-            {title: 'created_at', dataIndex: 'created_at'},
-            {title: 'permissions', dataIndex: 'permissions_count', align: 'right' },
-            {title: 'action', dataIndex: 'action', fixed: 'right', align: 'center'}
+            {title: trans('id'), dataIndex: 'id'},
+            {title: trans('name'), dataIndex: 'name'},
+            {title: trans('created_at'), dataIndex: 'created_at'},
+            {title: trans('permissions'), dataIndex: 'permissions_count', align: 'right' },
+            {title: trans('action'), dataIndex: 'action', fixed: 'right', align: 'center'}
         ];
 
         const table = useTable(props.roles, {

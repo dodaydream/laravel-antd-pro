@@ -154,6 +154,35 @@ class UserController extends Controller
         });
     }
 
+    public function create()
+    {
+        return Inertia::render('System/Users/Create', [
+            'roles' => Role::all(),
+        ]);
+    }
+
+    public function store()
+    {
+        $validated = request()->validate([
+            'name' => ['required', 'string', 'max:255'],
+            'email' => ['required', 'string', 'email', 'max:255', 'unique:users,email'],
+            'password' => ['required', 'string', 'min:8', 'confirmed'],
+            'roles' => ['nullable', 'array', 'exists:roles,id'],
+        ]);
+
+        $user = User::create([
+            'name' => $validated['name'],
+            'email' => $validated['email'],
+            'password' => Hash::make($validated['password']),
+        ]);
+
+        if (isset($validated['roles'])) {
+            $user->roles()->sync($validated['roles']);
+        }
+
+        return redirect()->route('admin.system.users.show', $user);
+    }
+
     /**
      * Create a new agent instance from the given session.
      *

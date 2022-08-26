@@ -10,7 +10,7 @@ import Antd from 'ant-design-vue';
 import PerfectScrollbar from 'vue3-perfect-scrollbar'
 import 'vue3-perfect-scrollbar/dist/vue3-perfect-scrollbar.css'
 import 'ant-design-vue/dist/antd.css';
-import { i18nVue } from 'laravel-vue-i18n'
+import { i18nVue, trans } from 'laravel-vue-i18n'
 import permission from './Directives/permission.js';
 
 const appName = window.document.getElementsByTagName('title')[0]?.innerText || 'Laravel';
@@ -38,5 +38,7 @@ createInertiaApp({
         return vueApp
     },
 });
+
+window.trans = trans
 
 InertiaProgress.init({ color: '#1890ff' });

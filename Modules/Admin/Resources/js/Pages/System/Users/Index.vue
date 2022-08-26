@@ -1,18 +1,20 @@
 <template>
     <admin-layout>
-
         <a-page-header
-            title="Users"
+            :title="$t('users')"
         >
             <template #extra>
-                <a-button
-                    type="primary"
-                >
-                    <template #icon>
-                        <PlusOutlined/>
-                    </template>
-                    Add
-                </a-button>
+                <inertia-link :href="route('admin.system.users.create')">
+                    <a-button
+                        type="primary"
+                        v-can="'admin.system.users.create'"
+                    >
+                        <template #icon>
+                            <PlusOutlined/>
+                        </template>
+                        {{ $t('add') }}
+                    </a-button>
+                </inertia-link>
             </template>
         </a-page-header>
 
@@ -22,16 +24,16 @@
                     <template #message>
                         <div class="flex justify-between items-center">
                             <div>
-                                <span>{{ table.rowSelection.count }} items selected</span>&nbsp;
+                                <span>{{ $t('items_selected', {count: table.rowSelection.count}) }}</span>&nbsp;
                                 <a @click="table.rowSelection.clear">
-                                    Clear Selection
+                                    {{ $t('clear_selection') }}
                                 </a>
                             </div>
                             <span class="gap-3 flex">
                                 <a-button type="link" danger @click="bulkDestroy"
                                           v-can="'admin.system.users.bulk-delete'"
                                 >
-                                    Remove
+                                    {{ $t('remove') }}
                                 </a-button>
                             </span>
                         </div>
@@ -120,7 +122,7 @@ export default {
         const columns = [
             {title: trans('id'), dataIndex: 'id'},
             {title: trans('name'), dataIndex: 'name'},
-            {title: 'email', dataIndex: 'email'},
+            {title: 'Email', dataIndex: 'email'},
             {title: trans('email_verified'), dataIndex: 'email_verified_at', align: 'right'},
             {title: trans('roles'), dataIndex: 'roles', align: 'right'},
             {title: trans('created_at'), dataIndex: 'created_at'},

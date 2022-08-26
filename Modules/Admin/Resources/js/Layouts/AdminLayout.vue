@@ -1,5 +1,5 @@
 <template>
-    <a-config-provider>
+    <a-config-provider :locale="locale.antdLocale.value">
         <a-layout>
             <a-layout-sider
                 v-model:collapsed="collapsed"
@@ -48,6 +48,7 @@
                         </div>
 
                         <locale-switcher />
+
                         <header-avatar />
                     </div>
                 </a-layout-header>
@@ -84,6 +85,7 @@ import { ref } from 'vue';
 import HeaderAvatar from './Headers/HeaderAvatar.vue'
 import LocaleSwitcher from './Headers/LocaleSwitcher.vue'
 import SideMenu from './Menu/Menu.vue'
+import { useLocale } from '::admin/Store/locale';
 
 export default {
     components: {
@@ -100,9 +102,12 @@ export default {
     },
     setup() {
         const isFullscreen = ref(document.fullscreenElement !== null);
+        const locale = useLocale();
+
         return {
             collapsed: ref(false),
             isFullscreen,
+            locale,
         };
     },
     props: {

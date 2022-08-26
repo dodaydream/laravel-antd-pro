@@ -13,17 +13,21 @@
         <template #overlay>
             <a-menu class="user-dropdown-menu-wrapper">
                 <a-menu-item
-                    v-for="locale in availableLocales"
-                    :key="locale"
-                    @click="setLocale(locale)"
+                    v-for="lang in locale.availableLanguages"
+                    :key="lang"
+                    @click="locale.switchLocale(lang)"
                 >
-                    <a>{{ $t(`layout.lang.${locale}`) }}</a>
+                    <template #icon>
+                        <CheckOutlined v-if="lang=== locale.activeLanguage.value" />
+                        <div v-else></div>
+                    </template>
+                    <a>{{ $t(`layout.lang.${lang}`) }}</a>
                 </a-menu-item>
             </a-menu>
         </template>
     </a-dropdown>
 
-    <div v-show="isLoading" class="bg-white fixed top-0 left-0 w-full h-full z-50 flex justify-center items-center">
+    <div v-show="locale.isLoading.value" class="bg-white fixed top-0 left-0 w-full h-full z-50 flex justify-center items-center">
         <a-spin :tip="$t('layout.switch_lang_tip')" />
     </div>
 </template>
@@ -31,32 +35,22 @@
 <script>
 import {
     GlobalOutlined,
+    CheckOutlined,
 } from '@ant-design/icons-vue'
 
-import { loadLanguageAsync } from 'laravel-vue-i18n';
+import { useLocale } from '::admin/Store/locale';
 
 export default {
     name: 'LocaleSwitcher',
     components: {
         GlobalOutlined,
+        CheckOutlined,
     },
-    setup () {
-        const availableLocales = ['zh_TW', 'en']
-        return { availableLocales }
+    setup (props) {
+        const locale = useLocale()
+
+        return { locale }
     },
-    data () {
-        return {
-            isLoading: false,
-        }
-    },
-    methods: {
-        async setLocale (locale) {
-            this.isLoading = true;
-            await window.axios.get(route('admin.locale.update', { locale: locale }))
-            await loadLanguageAsync(locale)
-            this.isLoading = false;
-        }
-    }
 }
 </script>
 

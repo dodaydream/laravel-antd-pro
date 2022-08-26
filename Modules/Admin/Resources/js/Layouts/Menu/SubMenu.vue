@@ -38,7 +38,7 @@ export default {
     },
     computed: {
         hasChildrenWithPermission () {
-            return this.filteredMenuInfo.children.length > 0;
+            return !this.menuInfo.permission || this.filteredMenuInfo.children.length > 0;
         },
         filteredMenuInfo () {
             const permissions = this.$page.props.currentUserPermissions
@@ -46,7 +46,7 @@ export default {
             return {
                 ...this.menuInfo,
                 children: this.menuInfo.children.filter(item => {
-                    return permissions.includes(item.permission)
+                    return !item.permission || permissions.includes(item.permission)
                 }),
             }
         },
