@@ -48,7 +48,7 @@
                             </a-button>
                         </template>
 
-                        <perfect-scrollbar class="!h-full" :options="{ suppressScrollX: true }">
+                        <perfect-scrollbar class="!h-full" :options="{ suppressScrollX: true }" ref="scroll">
                             <a-list :data-source="$page.props.jobs" row-key="id">
                                 <transition-group name="list" v-if="$page.props.jobs.length">
                                     <a-list-item class="!px-6"
@@ -172,6 +172,10 @@ export default {
             } else {
                 clearInterval(this.ref)
             }
+        },
+        '$page.props.jobs.length': function (val) {
+            this.$refs['scroll']?.ps.update()
+            console.log(this.$refs['scroll'])
         }
     },
     methods: {
