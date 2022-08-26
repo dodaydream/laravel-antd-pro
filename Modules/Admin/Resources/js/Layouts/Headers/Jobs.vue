@@ -7,7 +7,7 @@
         <div class="action ant-dropdown-link user-dropdown-menu flex items-center">
             <a-button type="text" size="large">
                 <template #icon>
-                    <a-badge :count="$page.props.jobs.length">
+                    <a-badge :count="$page.props.jobs.length - finishedJobsCount">
                         <inbox-outlined/>
                     </a-badge>
                 </template>
