@@ -1,12 +1,12 @@
 <template>
     <a-dropdown>
-        <div class="action ant-dropdown-link user-dropdown-menu flex items-center">
+        <div class="action ant-dropdown-link user-dropdown-menu flex items-center h-full">
           <a-avatar
               class="avatar ring-1 ring-slate-200"
               :src="$page.props.currentUser.avatar_thumb_url"
               size="large"
           />
-            <div class="ml-2 leading-normal">
+            <div class="ml-2 leading-normal hidden md:block">
                 <div class="font-medium">
                     {{ $page.props.currentUser.name }}
                 </div>

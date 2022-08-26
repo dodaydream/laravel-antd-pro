@@ -7,7 +7,7 @@ import {
     Modal,
     Form as AForm,
     FormItem as AFormItem,
-    InputPassword as AInputPassword,
+    Input as AInput,
 } from 'ant-design-vue';
 
 const form = useForm({
@@ -21,7 +21,7 @@ const confirmPassword = defineComponent({
         LockOutlined,
         AForm,
         AFormItem,
-        AInputPassword,
+        AInput,
     },
     template: `
         <div>

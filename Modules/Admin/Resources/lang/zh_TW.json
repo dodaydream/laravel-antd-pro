@@ -4,8 +4,7 @@
     "layout.menu.roles": "用戶組",
     "layout.menu.logs": "日誌",
     "layout.menu.developer": "開發人員工具",
-    "layout.menu.demo": "範例",
-    "layout.menu.workflow": "工作流",
+    "layout.menu.misc": "其他",
     "layout.menu.route": "路由",
     "layout.logout": "註銷",
     "layout.lang.zh_TW": "繁體中文",
@@ -88,5 +87,10 @@
     "login": "登入",
     "login_success": "登入成功",
     "welcome_back": "歡迎回來",
-    "auth.failed": "登入失敗"
+    "auth.failed": "登入失敗",
+    "finished": "已完成",
+    "queued": "已在排隊等待",
+    "executing": "正在處理",
+    "background_jobs": "背景工作",
+    "clear_all_finished": "清除已完成"
 }

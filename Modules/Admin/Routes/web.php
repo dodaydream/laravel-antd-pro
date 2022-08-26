@@ -1,7 +1,9 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Imtigger\LaravelJobStatus\JobStatus;
 use Inertia\Inertia;
+use Modules\Admin\Jobs\TrackableJob;
 
 /*
 |--------------------------------------------------------------------------
@@ -15,6 +17,8 @@ use Inertia\Inertia;
 */
 
 Route::name('admin.')->prefix('admin')->group(function () {
+
+
     Route::get('/login', function () {
         if (auth()->check()) {
             return redirect()->route('admin.welcome');
@@ -29,6 +33,12 @@ Route::name('admin.')->prefix('admin')->group(function () {
         Route::get('/', function () {
             return Inertia::render('Welcome');
         })->name('welcome');
+
+        Route::prefix('/jobs')->name('jobs.')->group(function () {
+            Route::delete('/dismiss-all-finished', 'Api\JobController@dismissAllFinished')->name('dismiss-all-finished');
+            Route::get('/statuses', 'Api\JobController@jobStatuses')->name('statuses');
+            Route::delete('/{jobStatus}', 'Api\JobController@remove')->name('remove');
+        });
 
         Route::name('profile.')->prefix('profile')->group(function () {
             Route::get('/', 'ProfileController@index')->name('index');
@@ -51,6 +61,8 @@ Route::name('admin.')->prefix('admin')->group(function () {
 
         Route::name('developer.')->prefix('/developer')->group(function () {
             Route::get('/routes', 'Developer\RouteController@index')->name('routes');
+            Route::get('/misc', 'Developer\MiscController@index')->name('misc');
+            Route::get('/misc/dispatch-job', 'Developer\MiscController@dispatchJob')->name('misc.dispatch-job');
         });
     });
 });

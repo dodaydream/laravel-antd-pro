@@ -2,6 +2,7 @@
 
 namespace Modules\Admin\Http\Middleware;
 
+use App\Models\JobStatus;
 use Illuminate\Http\Request;
 use Inertia\Middleware;
 
@@ -40,7 +41,8 @@ class HandleInertiaRequests extends Middleware
             'currentUser' => $request->user(),
             'message' => $request->session()->get('message'),
             'currentUserPermissions' => $request->user()?->getAllPermissions()->pluck('name'),
-            'challenge' => $request->session()->get('challenge')
+            'challenge' => $request->session()->get('challenge'),
+            'jobs' => $request->user() ? JobStatus::where('user_id', auth()->user()->id)->get() : null
         ]);
     }
 }

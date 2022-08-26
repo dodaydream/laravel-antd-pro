@@ -121,4 +121,9 @@ class User extends Authenticatable implements HasMedia
     {
         return $this->hasEnabledTwoFactorAuthentication();
     }
+
+    public function jobs(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(JobStatus::class);
+    }
 }

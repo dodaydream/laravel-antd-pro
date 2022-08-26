@@ -29,6 +29,7 @@ class AdminPermissionSeeder extends Seeder
 
             'admin.system.logs',
             'admin.developer.route',
+            'admin.developer.misc'
         ]);
 
         $permissions->each(function ($permission) {
