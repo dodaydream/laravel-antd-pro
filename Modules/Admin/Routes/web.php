@@ -30,9 +30,7 @@ Route::name('admin.')->prefix('admin')->group(function () {
     Route::get('language/{locale}', 'Api\LocaleController@index')->name('locale.update');
 
     Route::middleware(['can:admin', \Modules\Admin\Http\Middleware\Authenticate::class])->group(function () {
-        Route::get('/', function () {
-            return Inertia::render('Welcome');
-        })->name('welcome');
+        Route::get('/', 'DashboardController@index')->name('welcome');
 
         Route::prefix('/jobs')->name('jobs.')->group(function () {
             Route::delete('/dismiss-all-finished', 'Api\JobController@dismissAllFinished')->name('dismiss-all-finished');

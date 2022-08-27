@@ -8,6 +8,7 @@
                 :trigger="null"
                 collapsible
             >
+                <inertia-link :href="route('admin.welcome')">
                 <div class="whitespace-nowrap text-white w-full font-medium text-lg flex items-center justify-center"
                      style="height: 64px"
                 >
@@ -18,6 +19,7 @@
                         LAP
                     </span>
                 </div>
+                </inertia-link>
 
                 <side-menu :collapsed="collapsed" />
             </a-layout-sider>

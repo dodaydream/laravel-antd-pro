@@ -68,6 +68,11 @@
                                                 <a-progress
                                                     :status="jobStatusProgress(item.status)"
                                                     :percent="item.progress_percentage"/>
+
+<!--                                                <div class="flex gap-3 mt-3" v-if="item.status === 'finished'">-->
+<!--                                                    <a-button block ghost type="primary">Download</a-button>-->
+<!--                                                    <a-button block>Result</a-button>-->
+<!--                                                </div>-->
                                             </template>
                                         </a-list-item-meta>
 

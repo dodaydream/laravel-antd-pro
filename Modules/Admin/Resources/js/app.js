@@ -12,6 +12,7 @@ import 'vue3-perfect-scrollbar/dist/vue3-perfect-scrollbar.css'
 import 'ant-design-vue/dist/antd.css';
 import { i18nVue, trans } from 'laravel-vue-i18n'
 import permission from './Directives/permission.js';
+import VueApexCharts from "vue3-apexcharts";
 
 const appName = window.document.getElementsByTagName('title')[0]?.innerText || 'Laravel';
 
@@ -22,6 +23,7 @@ createInertiaApp({
         const vueApp = createApp({ render: () => h(app, props) })
             .use(plugin)
             .use(ZiggyVue, Ziggy)
+            .use(VueApexCharts)
             .use(i18nVue, {
                 resolve: async (lang) => {
                     const langs = import.meta.glob('../lang/*.json');
