@@ -41,6 +41,10 @@
                         <locale-switcher />
 
                         <div>
+                            <a-tooltip placement="bottom">
+                                <template #title>
+                                    <span>{{ $t(isFullscreen ? 'layout.exit_fullscreen' : 'layout.enter_fullscreen')}}</span>
+                                </template>
                             <a-button
                                 type="text"
                                 size="large"
@@ -51,6 +55,7 @@
                                     <FullscreenOutlined v-else/>
                                 </template>
                             </a-button>
+                            </a-tooltip>
                         </div>
 
                         <header-avatar />

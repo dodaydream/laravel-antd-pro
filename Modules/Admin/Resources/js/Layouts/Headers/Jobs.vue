@@ -5,6 +5,10 @@
         v-model:visible="visible"
     >
         <div class="action ant-dropdown-link user-dropdown-menu flex items-center">
+            <a-tooltip placement="bottom">
+                <template #title>
+                    <span>{{ $t('layout.background_jobs') }}</span>
+                </template>
             <a-button type="text" size="large">
                 <template #icon>
                     <a-badge :count="$page.props.jobs.length - finishedJobsCount">
@@ -12,13 +16,14 @@
                     </a-badge>
                 </template>
             </a-button>
+            </a-tooltip>
         </div>
         <template #overlay>
             <a-menu class="!p-0">
                 <keep-alive>
                     <a-card class="!w-96 !border-0">
                         <template #title>
-                            <h3 class="mb-1">{{ $t('background_jobs') }}</h3>
+                            <h3 class="mb-1">{{ $t('layout.background_jobs') }}</h3>
                             <p class="text-sm text-slate-500 m-0 flex gap-3">
                                 <div v-if="finishedJobsCount > 0">
                                     <CheckCircleOutlined class="!text-green-500 mr-1" />
