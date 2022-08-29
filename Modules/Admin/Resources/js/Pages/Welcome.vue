@@ -2,7 +2,7 @@
     <AdminLayout>
         <a-page-header
             class="!bg-white"
-            title="Hello Admin!"
+            :title="$t('layout.welcome')"
             sub-title="Welcome to laravel-antd-pro"
         >
         </a-page-header>

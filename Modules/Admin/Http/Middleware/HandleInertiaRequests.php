@@ -38,11 +38,12 @@ class HandleInertiaRequests extends Middleware
     public function share(Request $request): array
     {
         return array_merge(parent::share($request), [
-            'currentUser' => $request->user(),
+            'currentUser' => $request->user()->makeHidden(['roles', 'permissions']),
             'message' => $request->session()->get('message'),
             'currentUserPermissions' => $request->user()?->getAllPermissions()->pluck('name'),
             'challenge' => $request->session()->get('challenge'),
-            'jobs' => $request->user() ? JobStatus::where('user_id', auth()->user()->id)->get() : null
+            'jobsCount' => $request->user() ? JobStatus::where('user_id', auth()->user()->id)->where('status', '!=', 'finished')->count() : 0,
+            'notificationsCount' => $request->user() ? $request->user()->unreadNotifications->count() : 0,
         ]);
     }
 }

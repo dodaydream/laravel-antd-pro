@@ -24,9 +24,5 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        Relation::enforceMorphMap([
-            'user' => \App\Models\User::class,
-            'role' => \App\Models\Role::class
-        ]);
     }
 }

@@ -11,7 +11,7 @@
                 </template>
             <a-button type="text" size="large">
                 <template #icon>
-                    <a-badge :count="$page.props.jobs.length - finishedJobsCount">
+                    <a-badge :count="jobsCount">
                         <inbox-outlined/>
                     </a-badge>
                 </template>
@@ -54,10 +54,10 @@
                         </template>
 
                         <perfect-scrollbar class="!h-full" :options="{ suppressScrollX: true }" ref="scroll">
-                            <a-list :data-source="$page.props.jobs" row-key="id">
-                                <transition-group name="list" v-if="$page.props.jobs.length">
+                            <a-list :data-source="jobs" row-key="id" :loading="loading">
+                                <transition-group name="list" v-if="jobs.length">
                                     <a-list-item class="!px-6"
-                                                 v-for="item in $page.props.jobs"
+                                                 v-for="item in jobs"
                                                  :key="item.id"
                                     >
                                         <a-list-item-meta>
@@ -125,6 +125,8 @@ export default {
     },
     data () {
         return {
+            loading: true,
+            jobs: null,
             visible: false,
             ref: null
         }
@@ -149,48 +151,58 @@ export default {
             }
         },
         hasFinishedJobs() {
-            return this.$page.props.jobs.filter((job) => {
+            return this.jobs.filter((job) => {
                 return job.status === 'finished'
             }).length > 0
         },
         finishedJobsCount() {
-            return this.$page.props.jobs.filter((job) => {
+            return this.jobs.filter((job) => {
                 return job.status === 'finished'
             }).length
         },
         executingJobsCount() {
-            return this.$page.props.jobs.filter((job) => {
+            return this.jobs.filter((job) => {
                 return job.status === 'executing'
             }).length
         },
         failedJobsCount() {
-            return this.$page.props.jobs.filter((job) => {
+            return this.jobs.filter((job) => {
                 return job.status === 'failed'
             }).length
         },
         queuedJobsCount() {
-            return this.$page.props.jobs.filter((job) => {
+            return this.jobs.filter((job) => {
                 return job.status === 'queued'
             }).length
+        },
+        jobsCount() {
+            if (this.jobs != null) {
+                return this.jobs.length - this.finishedJobsCount
+            }
+            return this.$page.props.jobsCount
         }
     },
     watch: {
         visible: function (val) {
             if (val) {
+                if (this.jobs == null) {
+                    this.loading = true
+                    t statthis.jobs = []
+                }
                 this.updateStatuses()
                 this.ref = setInterval(this.updateStatuses, 5000)
             } else {
                 clearInterval(this.ref)
             }
         },
-        '$page.props.jobs.length': function (val) {
+        'jobs.length': function (val) {
             this.$refs['scroll']?.ps.update()
             console.log(this.$refs['scroll'])
         }
     },
     methods: {
         async dismissAllFinishedJobs() {
-            this.$page.props.jobs.forEach(job => {
+            this.jobs.forEach(job => {
                 if (job.status === 'finished') {
                     this.dismissFinishedJob(job, false)
                 }
@@ -199,8 +211,8 @@ export default {
         },
         async dismissFinishedJob (job, sendRequest=true) {
             this.$nextTick(() => {
-                const index = this.$page.props.jobs.findIndex(j => j.id === job.id)
-                this.$page.props.jobs.splice(index, 1)
+                const index = this.jobs.findIndex(j => j.id === job.id)
+                this.jobs.splice(index, 1)
             })
 
             if (sendRequest) {
@@ -210,17 +222,19 @@ export default {
         updateStatuses() {
             window.axios.get(route('admin.jobs.statuses')).then(({data}) => {
                 data.jobs.forEach((newJob) => {
-                    if (this.$page.props.jobs.findIndex(j => j.id === newJob.id) === -1) {
-                        this.$page.props.jobs.push(newJob)
+                    if (this.jobs.findIndex(j => j.id === newJob.id) === -1) {
+                        this.jobs.push(newJob)
                     } else {
-                        const oldJob = this.$page.props.jobs.findIndex(j => j.id === newJob.id)
+                        const oldJob = this.jobs.findIndex(j => j.id === newJob.id)
                         if (newJob.status === 'finished') {
-                            this.$page.props.jobs.splice(oldJob, 1)
-                            this.$page.props.jobs.push(newJob)
+                            this.jobs.splice(oldJob, 1)
+                            this.jobs.push(newJob)
                         } else {
-                            this.$page.props.jobs[oldJob] = newJob
+                            this.jobs[oldJob] = newJob
                         }
                     }
+
+                    this.loading = false
                 })
             })
         }
