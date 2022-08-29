@@ -9,6 +9,10 @@
             <a-card title="Jobs">
                 <a-button @click="dispatchJob">Test Dispatch Job</a-button>
             </a-card>
+
+            <a-card title="Notifications">
+                <a-button @click="sendNotification">Test Send Notification</a-button>
+            </a-card>
         </div>
     </admin-layout>
 </template>
@@ -31,6 +35,9 @@ export default {
     methods: {
         dispatchJob () {
             this.$inertia.visit(route('admin.developer.misc.dispatch-job'));
+        },
+        sendNotification () {
+            this.$inertia.visit(route('admin.developer.misc.send-notification'));
         }
     }
 }

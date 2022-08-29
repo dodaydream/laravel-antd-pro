@@ -36,6 +36,7 @@
                     <menu-fold-outlined v-else class="trigger" @click="() => (collapsed = !collapsed)" />
 
                     <div class="float-right mr-4 h-full items-center flex gap-3">
+                        <notifications />
                         <jobs />
 
                         <locale-switcher />
@@ -94,6 +95,7 @@ import { ref } from 'vue';
 import HeaderAvatar from './Headers/HeaderAvatar.vue'
 import LocaleSwitcher from './Headers/LocaleSwitcher.vue'
 import Jobs from './Headers/Jobs.vue'
+import Notifications from './Headers/Notifications.vue'
 import SideMenu from './Menu/Menu.vue'
 import { useLocale } from '::admin/Store/locale';
 
@@ -109,7 +111,8 @@ export default {
         FullscreenOutlined,
         FullscreenExitOutlined,
         LocaleSwitcher,
-        Jobs
+        Jobs,
+        Notifications,
     },
     setup() {
         const isFullscreen = ref(document.fullscreenElement !== null);

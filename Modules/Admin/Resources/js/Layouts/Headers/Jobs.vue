@@ -187,7 +187,7 @@ export default {
             if (val) {
                 if (this.jobs == null) {
                     this.loading = true
-                    t statthis.jobs = []
+                    this.jobs = []
                 }
                 this.updateStatuses()
                 this.ref = setInterval(this.updateStatuses, 5000)

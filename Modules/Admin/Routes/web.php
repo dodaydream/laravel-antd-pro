@@ -38,6 +38,12 @@ Route::name('admin.')->prefix('admin')->group(function () {
             Route::delete('/{jobStatus}', 'Api\JobController@remove')->name('remove');
         });
 
+        Route::prefix('/notifications')->name('notifications.')->group(function () {
+            Route::get('/unread', 'Api\NotificationController@unreadNotifications')->name('unread');
+            Route::post('/{notification}/read', 'Api\NotificationController@markAsRead')->name('read');
+            Route::post('/read-all', 'Api\NotificationController@markAllAsRead')->name('read-all');
+        });
+
         Route::name('profile.')->prefix('profile')->group(function () {
             Route::get('/', 'ProfileController@index')->name('index');
             Route::get('two-factor-authentication', 'ProfileController@twoFactorAuthentication')->name('two-factor-authentication');
@@ -61,6 +67,7 @@ Route::name('admin.')->prefix('admin')->group(function () {
             Route::get('/routes', 'Developer\RouteController@index')->name('routes');
             Route::get('/misc', 'Developer\MiscController@index')->name('misc');
             Route::get('/misc/dispatch-job', 'Developer\MiscController@dispatchJob')->name('misc.dispatch-job');
+            Route::get('/misc/send-notification', 'Developer\MiscController@sendNotification')->name('misc.send-notification');
         });
     });
 });
