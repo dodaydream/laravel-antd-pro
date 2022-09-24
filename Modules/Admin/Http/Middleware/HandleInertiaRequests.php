@@ -38,7 +38,7 @@ class HandleInertiaRequests extends Middleware
     public function share(Request $request): array
     {
         return array_merge(parent::share($request), [
-            'currentUser' => $request->user()->makeHidden(['roles', 'permissions', 'unreadNotifications']),
+            'currentUser' => $request->user()?->makeHidden(['roles', 'permissions', 'unreadNotifications']),
             'message' => $request->session()->get('message'),
             'currentUserPermissions' => $request->user()?->getAllPermissions()->pluck('name'),
             'challenge' => $request->session()->get('challenge'),
