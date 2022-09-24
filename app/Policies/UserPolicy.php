@@ -40,11 +40,4 @@ class UserPolicy
         return $user->can('admin.system.users.bulk-delete');
     }
 
-    public function restore(User $user, User $model): bool
-    {
-    }
-
-    public function forceDelete(User $user, User $model): bool
-    {
-    }
 }

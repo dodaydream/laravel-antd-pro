@@ -29,4 +29,9 @@ class Controller extends BaseController
             'bulkDestroy' => 'bulkDelete',
         ];
     }
+
+    protected function resourceMethodsWithoutModels()
+    {
+        return ['index', 'create', 'store', 'bulkDestroy'];
+    }
 }
