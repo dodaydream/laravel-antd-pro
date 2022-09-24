@@ -30,7 +30,7 @@ createInertiaApp({
                     return await langs[`../lang/${lang}.json`]();
                 }
             })
-            .directive('can', permission)
+            .use(permission)
             .component('InertiaLink', InertiaLink)
             .component('InertiaHead', InertiaHead)
             .use(PerfectScrollbar)

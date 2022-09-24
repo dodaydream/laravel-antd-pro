@@ -23,11 +23,25 @@
                 </a-card>
             </div>
         </div>
+
+        <div>
+            <a-button @click="changeOpts">change</a-button>
+            <a-select :options="opts" v-model:value="form.select" />
+            <span>{{ form.select }}</span>
+        </div>
+
+        <div>
+            <a-date-picker v-model:value="date"/>
+            {{ date?.fromNow() }}
+        </div>
     </AdminLayout>
 </template>
 
 <script>
 import AdminLayout from "::admin/Layouts/AdminLayout.vue";
+import dayjs from 'dayjs'
+import relativeTime from 'dayjs/plugin/relativeTime.js'
+dayjs.extend(relativeTime)
 
 export default {
     name: "Welcome",
@@ -37,6 +51,32 @@ export default {
             type: Array,
             default: () => [],
         },
+    },
+    setup () {
+        const opts = [
+            {label: 'Option 1', value: 'val1'},
+            {label: 'Option 2', value: 'val2'},
+            {label: 'Option 3', value: 'val3'},
+            {label: 'Option 4', value: 'val4'},
+        ]
+        return {
+            opts, dayjs
+        }
+    },
+    data () {
+        return {
+            date: null,
+            form: {
+                select: ''
+            }
+        }
+    },
+    methods: {
+        changeOpts () {
+            // this.$nextTick(() => {
+                this.form.select = 'val2'
+            // })
+        }
     }
 }
 </script>

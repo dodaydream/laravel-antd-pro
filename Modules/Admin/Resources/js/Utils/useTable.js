@@ -234,6 +234,7 @@ export default function (binding, options) {
     }
 
     return reactive({
+        ...options,
         rowSelection: options.selectable ? selection : null,
         rowKey: options.rowKey ?? 'id',
         scroll: {x: true},

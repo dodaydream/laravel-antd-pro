@@ -1,10 +1,9 @@
 <template>
     <a-card>
         <template #extra>
-            <slot name="rightAction" />
+            <slot name="rightAction"/>
         </template>
 
-        // BULK ACTIONS
         <a-alert
             v-if="table.rowSelection.selected"
             class="!mb-4"
@@ -19,24 +18,50 @@
                     </div>
                     <span class="gap-3 flex">
                         <a-button
+                            v-if="bulkDestroyHandler && hasPermission('bulk-delete')"
                             type="link"
                             danger
-                            @click="bulkDestroy"
+                            @click="confirmBulkDestroy"
                         >
-                            {{ $t('remove') }}
+                            {{ $t('action.bulk-remove') }}
                         </a-button>
+
+                        <slot name="bulkActions">
+                        </slot>
                     </span>
                 </div>
             </template>
         </a-alert>
 
         <a-table
-            v-bind="$props"
+            :columns="columns"
+            v-bind="table"
+            sticky
         >
             <template #bodyCell="{ column, record}">
                 <slot name="bodyCell" :column="column" :record="record"></slot>
                 <template v-if="column.dataIndex === 'action' || column.key === 'action'">
-                    // TODO: handle action
+                    <slot name="rowActions"></slot>
+                    <a-button
+                        type="link"
+                        v-if="editHandler && hasPermission('edit')"
+                        @click="handleEdit(record)"
+                    >
+                        {{ $t('action.edit') }}
+                    </a-button>
+                    <a-popconfirm
+                        v-if="deleteHandler && hasPermission('delete')"
+                        title="Are you sure to delete this record?"
+                        ok-text="Yes"
+                        cancel-text="No"
+                        @confirm="handleDelete(record)"
+                    >
+                        <a-button type="link" danger
+                                  v-if="hasPermission('delete')"
+                        >
+                            {{ $t('action.remove') }}
+                        </a-button>
+                    </a-popconfirm>
                 </template>
             </template>
         </a-table>
@@ -44,23 +69,123 @@
 </template>
 
 <script>
+import {ExclamationCircleOutlined} from "@ant-design/icons-vue"
+import {Modal} from 'ant-design-vue'
+import {createVNode} from 'vue'
+
 export default {
     name: "CRUDTable",
+    components: {
+        ExclamationCircleOutlined,
+    },
     props: {
+        permissions: {
+            type: Object,
+            required: false,
+        },
         table: {
             type: Object,
             required: true,
         },
-        data: {
-            type: Object,
+        columns: {
+            type: Array,
             required: true,
-        }
+        },
+        resource: {
+            type: String,
+            required: true,
+        },
+        checkPermission: {
+            type: Boolean,
+            default: true,
+        },
+        editHandler: {
+            type: [Function, Boolean],
+            required: false,
+            default: true,
+        },
+        deleteHandler: {
+            type: [Function, Boolean],
+            required: false,
+            default: true,
+        },
+        bulkDestroyHandler: {
+            type: [Function, Boolean],
+            required: false,
+            default: true,
+        },
     },
     // bind table and data
-    setup (props) {
-        const {
-            columns,
-        } = useTable()
+    computed: {
+        hasPermission() {
+            // view, delete, update, bulk-delete
+            return (permission) => {
+                if (!this.checkPermission) {
+                    return true;
+                }
+
+                return this.$can(`${this.resource}.${permission}`)
+            }
+        },
+    },
+    methods: {
+        confirmBulkDestroy() {
+            Modal.confirm({
+                title: 'Are you sure to delete these records?',
+                icon: createVNode(ExclamationCircleOutlined),
+                content: 'You will not be able to recover these records!',
+                okText: 'Yes',
+                cancelText: 'No',
+                onOk: this.handleBulkDestroy,
+            });
+        },
+        handleBulkDestroy () {
+            if ('function' === typeof this.bulkDestroyHandler) {
+                this.bulkDestroyHandler(record)
+                return;
+            }
+
+            this.$inertia.delete(this.route(`${this.resource}.bulk-destroy`), {
+                data: {
+                    ids: this.table.rowSelection.selectedRowKeys
+                },
+                preserveState: false,
+                onSuccess: (page) => {
+                    this.table.rowSelection.clear();
+                    if (page.props.message) {
+                        this.$message.warning(page.props.message);
+                        return
+                    }
+                    this.$message.success('Bulk delete success');
+                }
+            })
+        },
+        handleDelete(record) {
+            if ('function' === typeof this.deleteHandler) {
+                this.deleteHandler(record)
+                return;
+            }
+
+            this.$inertia.delete(this.route(`${this.resource}.destroy`, {
+                user: record.id
+            }), {
+                preserveState: false,
+                onSuccess: (page) => {
+                    if (page.props.message) {
+                        this.$message.warning(page.props.message);
+                        return
+                    }
+                    this.$message.success('Operation success.');
+                }
+            })
+        },
+        handleEdit(record) {
+            if ('function' === typeof this.editHandler) {
+                this.editHandler(record)
+                return;
+            }
+            this.$inertia.visit(route(`${this.resource}.edit`, record.id));
+        }
     }
 }
 </script>

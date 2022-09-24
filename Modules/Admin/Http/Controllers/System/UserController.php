@@ -21,7 +21,7 @@ class UserController extends Controller
 {
     public function __construct()
     {
-        $this->authorizeResource(User::class, 'user');
+         $this->authorizeResource(User::class, 'user');
     }
 
     public function index()
@@ -39,9 +39,7 @@ class UserController extends Controller
 
     public function destroy(User $user)
     {
-        if ($user->id === auth()->user()->id) {
-            return redirect()->back()->with('message', 'You cannot delete yourself.');
-        }
+        $this->rejectDeleteCurrentUser();
 
         $user->delete();
 
@@ -83,13 +81,23 @@ class UserController extends Controller
     }
 
     /**
+     * Cannot delete user itself.
+     *
+     * @return void
+     */
+    private function rejectDeleteCurrentUser()
+    {
+        if (in_array(auth()->user()->id, request('ids'))) {
+            redirect()->back()->with('message', 'You cannot delete yourself.');
+        }
+    }
+
+    /**
      * @return RedirectResponse
      */
     public function bulkDestroy()
     {
-        if (in_array(auth()->user()->id, request('ids'))) {
-            return redirect()->back()->with('message', 'You cannot delete yourself.');
-        }
+        $this->rejectDeleteCurrentUser();
 
         User::destroy(request('ids'));
 
