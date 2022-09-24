@@ -6,7 +6,7 @@
         </a-page-header>
 
         <div class="p-4">
-            <a-card :title="$t('logs')">
+            <a-card>
 <!--                <a-alert v-if="table.rowSelection.selected" class="!mb-4">-->
 <!--                    <template #message>-->
 <!--                        <div class="flex justify-between items-center">-->
@@ -48,7 +48,7 @@
 
                     <template #bodyCell="{ record, column, text }">
                         <template v-if="['created_at', 'updated_at'].includes(column.dataIndex)">
-                            {{ dayjs(column.created_at).format('YYYY-MM-DD HH:mm:ss.SSS') }}
+                            {{ dayjs(record.created_at).format('YYYY-MM-DD HH:mm:ss.SSS') }}
                         </template>
 
                         <template v-if="column.dataIndex === 'subject'">

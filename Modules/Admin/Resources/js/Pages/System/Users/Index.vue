@@ -18,7 +18,37 @@
             </template>
         </a-page-header>
 
-        <div class="p-4">
+        <div class="p-4 flex flex-col gap-4">
+<!--            <a-input-search placeholder="Search..." class="max-w-lg"-->
+<!--                            @search="table.search.apply"-->
+<!--                            v-model:value="table.search.keyword"-->
+<!--            />-->
+
+            <a-card>
+                <a-form layout="vertical">
+                    <div class="grid md:grid-cols-3 gap-3">
+                        <div>
+                            <a-form-item label="Email">
+                                <a-input v-model:value="table.filtered.email"/>
+                            </a-form-item>
+
+                            <a-form-item label="Email Verified">
+                                <a-switch v-model:value="table.filtered.is_email_verified" />
+                            </a-form-item>
+
+                            <a-form-item label="Date creation">
+                                <a-range-picker />
+                            </a-form-item>
+                        </div>
+                    </div>
+                </a-form>
+
+                <div class="flex gap-3">
+                    <a-button type="primary" @click="table.applyFilter">Apply</a-button>
+                    <a-button type="link">Reset</a-button>
+                </div>
+            </a-card>
+
             <crud-table
                 :table="table"
                 class="whitespace-nowrap"

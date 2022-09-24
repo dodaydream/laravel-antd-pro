@@ -3,12 +3,8 @@
         <a-page-header
             :title="$t('roles')"
         >
-        </a-page-header>
-
-        <div class="p-4">
-            <a-card :title="$t('roles')">
-                <template #extra>
-                    <inertia-link :href="route('admin.system.roles.create')">
+            <template #extra>
+                <inertia-link :href="route('admin.system.roles.create')">
                     <a-button
                         type="primary"
                         v-can="'admin.system.roles.create'"
@@ -18,8 +14,12 @@
                         </template>
                         {{ $t('add') }}
                     </a-button>
-                    </inertia-link>
-                </template>
+                </inertia-link>
+            </template>
+        </a-page-header>
+
+        <div class="p-4">
+            <a-card>
 
                 <a-alert v-if="table.rowSelection.selected" class="!mb-4">
                     <template #message>
