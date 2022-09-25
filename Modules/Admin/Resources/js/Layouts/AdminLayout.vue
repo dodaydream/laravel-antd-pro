@@ -27,7 +27,9 @@
                 !collapsed ? 'margin-left: 256px' : 'margin-left: 80px'"
                       class="transition-all duration-300 ease-in-out"
             >
-                <a-layout-header style="background: #fff; padding: 0; position: sticky; top: 0; z-index: 99">
+                <a-layout-header style="padding: 0; position: sticky; top: 0; z-index: 99"
+                                 class="!bg-white dark:!bg-neutral-900"
+                >
                     <menu-unfold-outlined
                         v-if="collapsed"
                         class="trigger"
@@ -58,6 +60,14 @@
                             </a-button>
                             </a-tooltip>
                         </div>
+
+                        <a-button @click="toggleDark()" type="text" size="large">
+                            <template #icon>
+                                <span class="material-icons-outlined anticon">
+                                    {{ isDark ? 'light_mode' : 'dark_mode'}}
+                                </span>
+                            </template>
+                        </a-button>
 
                         <header-avatar />
                     </div>
@@ -99,6 +109,10 @@ import Notifications from './Headers/Notifications.vue'
 import SideMenu from './Menu/Menu.vue'
 import { useLocale } from '::admin/Store/locale';
 
+import darkTheme from 'ant-design-vue/dist/antd.dark.css?raw'
+
+import { useDark, useToggle } from '@vueuse/core'
+
 export default {
     components: {
         UserOutlined,
@@ -117,10 +131,18 @@ export default {
     setup() {
         const isFullscreen = ref(document.fullscreenElement !== null);
         const locale = useLocale();
+        const isDark = useDark({
+            selector: 'html',
+            attribute: 'data-theme',
+        });
+
+        const toggleDark = useToggle(isDark);
 
         return {
             collapsed: ref(false),
             isFullscreen,
+            isDark,
+            toggleDark,
             locale,
         };
     },
@@ -129,6 +151,20 @@ export default {
             type: Boolean,
             default: false,
         },
+    },
+    watch: {
+        async isDark (val) {
+            if (val) {
+                if (!document.getElementById('dark-theme')) {
+                    const style = document.createElement('style');
+                    style.id = 'dark-theme';
+                    style.innerHTML = darkTheme;
+                    document.head.appendChild(style);
+                }
+            } else {
+                document.head.removeChild(document.getElementById('dark-theme'))
+            }
+        }
     },
     methods: {
         toggleFullscreen() {

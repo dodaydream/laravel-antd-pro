@@ -28,6 +28,20 @@ export default [
         ]
     },
     {
+        key: 'admin.admin',
+        icon: 'BuildOutlined',
+        title: 'layout.menu.admin',
+        children: [
+            {
+                icon: 'UserOutlined',
+                route: 'admin.admin.bulletins.index',
+                key: 'admin.admin.bulletins',
+                title: 'layout.menu.bulletins',
+                permission: 'admin.system.users.view',
+            }
+        ]
+    },
+    {
         key: 'admin.developer',
         icon: 'CodeOutlined',
         title: 'layout.menu.developer',

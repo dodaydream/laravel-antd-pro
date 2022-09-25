@@ -30,7 +30,7 @@ export default defineConfig({
             input: [
                 'resources/css/app.css',
                 'resources/js/app.js',
-                'Modules/Admin/Resources/js/app.js',
+                'Modules/Admin/Resources/js/app.js'
             ],
             refresh: true,
         }),

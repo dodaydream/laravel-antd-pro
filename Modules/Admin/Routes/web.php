@@ -63,6 +63,10 @@ Route::name('admin.')->prefix('admin')->group(function () {
             Route::delete('logs', 'System\LogController@bulkDestroy')->name('logs.bulk-destroy');
         });
 
+        Route::name('admin.')->prefix('/admin')->group(function () {
+            Route::resource('bulletin', 'Admin\BulletinController')->names('bulletins');
+        });
+
         Route::name('developer.')->prefix('/developer')->group(function () {
             Route::get('/routes', 'Developer\RouteController@index')->name('routes');
             Route::get('/misc', 'Developer\MiscController@index')->name('misc');
