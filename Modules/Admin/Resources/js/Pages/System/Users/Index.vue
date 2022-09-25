@@ -26,14 +26,9 @@
 
             <a-card>
                 <a-form layout="vertical">
-                    <div class="grid md:grid-cols-3 gap-3">
-                        <div>
+                    <div class="grid md:grid-cols-1 gap-3">
                             <a-form-item label="Email">
                                 <a-input v-model:value="table.filtered.email"/>
-                            </a-form-item>
-
-                            <a-form-item label="Email Verified">
-                                <a-switch v-model:checked="table.filtered.is_email_verified" />
                             </a-form-item>
 
                             <a-form-item label="Date creation">
@@ -41,7 +36,10 @@
                                                  valueFormat="YYYY-MM-DD"
                                 />
                             </a-form-item>
-                        </div>
+
+                            <a-form-item label="Email Verified">
+                                <a-switch v-model:checked="table.filtered.is_email_verified" />
+                            </a-form-item>
                     </div>
                 </a-form>
 
@@ -74,11 +72,14 @@
                     </template>
 
                     <template v-if="column.dataIndex === 'email_verified_at'">
-                        <a-tag color="success"
-                               v-if="record.email_verified_at !== null"
-                        >
-                            Verified
-                        </a-tag>
+                        <a-badge status="success"
+                                 v-if="record.email_verified_at !== null"
+                                 text="Verified"
+                        />
+                        <a-badge status="processing"
+                                 text="Pending"
+                                 v-else
+                        />
                     </template>
                 </template>
             </crud-table>
@@ -114,7 +115,7 @@ export default {
     },
     setup(props) {
         const columns = reactive([
-            {title: trans('id'), dataIndex: 'id', sorter: true},
+            {title: 'ID', dataIndex: 'id', sorter: true},
             {title: trans('user'), dataIndex: 'user', width: '100%'},
             {title: trans('roles'), dataIndex: 'roles', align: 'left'},
             {title: trans('email_verified'), dataIndex: 'email_verified_at', align: 'right'},

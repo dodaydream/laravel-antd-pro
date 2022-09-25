@@ -38,6 +38,9 @@
             @change="table.change"
             sticky
         >
+            <template #header>
+                table header
+            </template>
             <template #bodyCell="{ column, record}">
                 <slot name="bodyCell" :column="column" :record="record"></slot>
                 <template v-if="column.dataIndex === 'action' || column.key === 'action'">
@@ -63,6 +66,10 @@
                         </a-button>
                     </a-popconfirm>
                 </template>
+            </template>
+
+            <template #footer>
+                Showing {{ (table.pagination.current - 1) * table.pagination.pageSize + 1 }} to {{ (table.pagination.current - 1) * table.pagination.pageSize + table.pagination.pageSize }} of {{ table.pagination.total }} entries
             </template>
         </a-table>
     </a-card>

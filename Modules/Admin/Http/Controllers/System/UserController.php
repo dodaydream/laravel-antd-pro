@@ -50,7 +50,7 @@ class UserController extends Controller
 
     public function destroy(User $user)
     {
-        $this->rejectDeleteCurrentUser();
+        $this->rejectDeleteCurrentUser([$user->id]);
 
         $user->delete();
 
@@ -96,10 +96,10 @@ class UserController extends Controller
      *
      * @return void
      */
-    private function rejectDeleteCurrentUser()
+    private function rejectDeleteCurrentUser($ids): void
     {
-        if (in_array(auth()->user()->id, request('ids'))) {
-            redirect()->back()->with('message', 'You cannot delete yourself.');
+        if (in_array(auth()->user()->id, $ids)) {
+            abort(redirect()->back()->with('message', 'You cannot delete yourself.'));
         }
     }
 
@@ -108,7 +108,7 @@ class UserController extends Controller
      */
     public function bulkDestroy()
     {
-        $this->rejectDeleteCurrentUser();
+        $this->rejectDeleteCurrentUser(request('ids'));
 
         User::destroy(request('ids'));
 
