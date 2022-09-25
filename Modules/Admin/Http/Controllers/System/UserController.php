@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Role;
 use App\Models\User;
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
@@ -15,6 +16,7 @@ use Inertia\Inertia;
 use Jenssegers\Agent\Agent;
 use Spatie\MediaLibrary\MediaCollections\Exceptions\FileDoesNotExist;
 use Spatie\MediaLibrary\MediaCollections\Exceptions\FileIsTooBig;
+use Spatie\QueryBuilder\AllowedFilter;
 use Spatie\QueryBuilder\QueryBuilder;
 
 class UserController extends Controller
@@ -29,8 +31,17 @@ class UserController extends Controller
         return Inertia::render('System/Users/Index', [
             'users' => QueryBuilder::for(User::class)
                 ->with('roles')
-                ->allowedFilters(['name', 'email'])
-                ->allowedSorts(['name', 'email'])
+                ->allowedFilters([
+                    'name',
+                    'email',
+                    AllowedFilter::callback('is_email_verified', function (Builder $query, $value) {
+                        return $query->where('email_verified_at', $value ? '!=' : '=', null);
+                    }),
+                    AllowedFilter::callback('created_at', function (Builder $query, $value) {
+                        return $query->whereBetween('created_at', $value);
+                    }),
+                ])
+                ->allowedSorts(['created_at', 'updated_at', 'id'])
                 ->paginate(
                     request('per_page', 10)
                 )->appends(request()->query()),

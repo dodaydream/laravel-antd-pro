@@ -34,8 +34,8 @@
         </a-alert>
 
         <a-table
-            :columns="columns"
             v-bind="table"
+            @change="table.change"
             sticky
         >
             <template #bodyCell="{ column, record}">
@@ -85,10 +85,6 @@ export default {
         },
         table: {
             type: Object,
-            required: true,
-        },
-        columns: {
-            type: Array,
             required: true,
         },
         resource: {

@@ -33,21 +33,28 @@ export default function (binding, options) {
 
     let url = new URL(window.location.href)
 
+    // reconstruct filters from url
     const syncColumnFilters = () => {
         const filters = {}
         for (const [param, value] of url.searchParams) {
-            if (!reserved.includes(param)) {
-                filters[param] = value.split(',')
+            if (param.startsWith('filter')) {
+                const key = param.replace('filter[', '').replace(']', '')
+                filters[key] = value.split(',')
             }
         }
+
         filtered.value = filters
     }
 
+    // reconstruct sort from url
     const syncColumnSorter = () => {
-        if (url.searchParams.has('sort') && url.searchParams.has('order')) {
+        if (url.searchParams.has('sort')) {
+            const sort = url.searchParams.get('sort')
+            const isDesc = sort.charAt(0) === '-'
+
             sorted.value = {
-                columnKey: url.searchParams.get('sort'),
-                order: url.searchParams.get('order') === 'asc' ? 'ascend' : 'descend'
+                columnKey: isDesc ? sort.substring(0, 1) : sort,
+                order: isDesc ? 'descend' : 'ascend'
             }
         }
     }
@@ -70,18 +77,23 @@ export default function (binding, options) {
     }
 
 
-    const onPaginationChange = (page, pageSize) => {
+    const updateData = (url, payload) => {
         loading.value = true
-        Inertia.get(url.href, {
-            ...(page && {page: page}),
-            ...(pageSize && {per_page: pageSize})
-        }, {
+        Inertia.get(url, payload, {
             preserveState: true,
             onSuccess: (page) => {
                 loading.value = false
                 setPagination(page.props[options.fieldName])
                 items.value = page.props[options.fieldName].data
             }
+        })
+    }
+
+    const onPaginationChange = (page, pageSize) => {
+        loading.value = true
+        updateData(url.href, {
+            ...(page && {page: page}),
+            ...(pageSize && {per_page: pageSize})
         })
     }
 
@@ -94,60 +106,65 @@ export default function (binding, options) {
             loading.value = true
             url = new URL(window.location.href)
             url.search = ''
-            Inertia.get(url.href, {
+            updateData(url.href, {
                 ...( keyword && { keyword: keyword} )
-            },  {
-                onSuccess: () => {
-                    loading.value = false
-                }
             })
         },
     })
 
-    const filter = (filters) => {
-        const filtersClone = Object.assign({}, filters)
-        Object.keys(filtersClone).forEach(function (key) {
-            if (typeof filtersClone[key] == 'object') {
-                filtersClone[key] = filtersClone[key].join()
-            } if (filtersClone[key] === "") {
-                delete filtersClone[key]
+
+    const compileFilter = (filters) => {
+        const queryParams = {}
+        Object.keys(filters).forEach(key => {
+            const newKey = 'filter[' + key + ']';
+
+            switch (typeof filters[key]) {
+                case 'boolean':
+                    queryParams[newKey] = filters[key] ? 'true' : 'false'
+                    break
+                case 'object':
+                    queryParams[newKey] = filters[key].join(',')
+                    break
+                default:
+                    queryParams[newKey] = filters[key]
+            }
+
+            if (queryParams[newKey] === '') {
+                delete queryParams[newKey]
             }
         })
-        return filtersClone
+        console.log(queryParams)
+
+        return queryParams
     }
 
-    const sort = (sorter) => {
-        if (!sorter.order) {
+    const compileSorter = (sorter) => {
+        console.debug('compileSorter', sorter)
+        if (!sorter.order || !sorter.field) {
             return {}
         }
 
-        return {
-            ...( sorter.order && { order: sorter.order === 'ascend' ? 'asc' : 'desc' }),
-            ...( sorter.columnKey && { sort: sorter.columnKey })
-        }
+        const order = sorter.order === 'ascend' ? '' : '-';
+
+        return { sort: `${order}${sorter.field}` }
     }
 
     const navigateToPage = (payload={}) => {
+        url.search = ''
         loading.value = true
-        Inertia.get(url.href, {
-            ...filter(filtered.value),
-            ...sort(sorted.value),
+
+        updateData(url.href, {
+            ...compileFilter(filtered.value),
+            ...compileSorter(sorted.value),
             ...payload,
             // omit default page size and first page
             ...( (pagination.current && pagination.pageSize !== 1) && { page: pagination.current }),
             ...( (pagination.pageSize && pagination.pageSize !== 10) && { per_page: pagination.pageSize }),
             ...( search.keyword && { keyword: search.keyword } )
-        },  {
-            preserveState: true,
-            onSuccess: (page) => {
-                loading.value = false
-                setPagination(page.props[fieldName])
-            }
         })
     }
 
     const change = (pag, criteria, sorter) => {
-        // TODO: update pagination from
         url.search = ''
 
         filtered.value = criteria
@@ -156,8 +173,8 @@ export default function (binding, options) {
         loading.value = true
 
         Inertia.get(url.href, {
-            ...filter(criteria),
-            ...sort(sorter),
+            ...compileFilter(criteria),
+            ...compileSorter(sorter),
             ...( pag.current && { page: pag.current }),
             ...( pag.pageSize !== 10 && { per_page: pag.pageSize }),
             ...( search.keyword && { keyword: search.keyword } )
@@ -165,17 +182,20 @@ export default function (binding, options) {
             preserveState: true,
             onSuccess: (page) => {
                 loading.value = false
-                setPagination(page.props[fieldName])
+                setPagination(page.props[options.fieldName])
+                items.value = page.props[options.fieldName].data
             }
         })
     }
 
-    const applyFilter = (filters) => {
-        // reset to first page
+    const applyFilter = () => {
         pagination.value.current = 1
-        sorted.value = {}
-        filtered.value = filters
-        // navigate to url
+        navigateToPage()
+    }
+
+    const resetFilter = () => {
+        pagination.value.current = 1
+        filtered.value = {}
         navigateToPage()
     }
 
@@ -239,7 +259,6 @@ export default function (binding, options) {
         rowKey: options.rowKey ?? 'id',
         scroll: {x: true},
         pagination,
-        // onPaginationChange,
         search,
         filtered,
         sorted,
@@ -247,6 +266,7 @@ export default function (binding, options) {
         action,
         loading,
         applyFilter,
+        resetFilter,
         applyRangeFilter,
         dataSource: items
     })

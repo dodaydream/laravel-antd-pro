@@ -33,11 +33,13 @@
                             </a-form-item>
 
                             <a-form-item label="Email Verified">
-                                <a-switch v-model:value="table.filtered.is_email_verified" />
+                                <a-switch v-model:checked="table.filtered.is_email_verified" />
                             </a-form-item>
 
                             <a-form-item label="Date creation">
-                                <a-range-picker />
+                                <a-range-picker  v-model:value="table.filtered.created_at"
+                                                 valueFormat="YYYY-MM-DD"
+                                />
                             </a-form-item>
                         </div>
                     </div>
@@ -45,7 +47,7 @@
 
                 <div class="flex gap-3">
                     <a-button type="primary" @click="table.applyFilter">Apply</a-button>
-                    <a-button type="link">Reset</a-button>
+                    <a-button type="link" @click="table.resetFilter">Reset</a-button>
                 </div>
             </a-card>
 
@@ -112,12 +114,12 @@ export default {
     },
     setup(props) {
         const columns = reactive([
-            {title: trans('id'), dataIndex: 'id'},
+            {title: trans('id'), dataIndex: 'id', sorter: true},
             {title: trans('user'), dataIndex: 'user', width: '100%'},
             {title: trans('roles'), dataIndex: 'roles', align: 'left'},
             {title: trans('email_verified'), dataIndex: 'email_verified_at', align: 'right'},
-            {title: trans('created_at'), dataIndex: 'created_at'},
-            {title: trans('updated_at'), dataIndex: 'updated_at'},
+            {title: trans('created_at'), dataIndex: 'created_at', sorter: true},
+            {title: trans('updated_at'), dataIndex: 'updated_at', sorter: true},
             {title: trans('action'), dataIndex: 'action', fixed: 'right', align: 'center'}
         ]);
 
@@ -128,7 +130,7 @@ export default {
             columns: columns
         });
 
-        return {columns, table, dayjs}
+        return { table, dayjs }
     },
     methods: {}
 }
