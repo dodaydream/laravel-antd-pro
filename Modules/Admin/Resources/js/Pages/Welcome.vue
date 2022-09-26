@@ -6,8 +6,8 @@
         >
         </a-page-header>
 
-        <div class="p-4">
-            <div class="grid gap-4 md:grid-cols-4">
+        <div class="p-4 flex flex-col gap-4">
+            <div class="grid gap-4 grid-cols-1 md:grid-cols-4">
                 <a-card
                     class="borderless"
                     v-for="(chart, index) in top4Charts"
@@ -21,22 +21,27 @@
                     ></apexchart>
                 </a-card>
             </div>
+
+            <div>
+                <bulletin-card />
+            </div>
         </div>
     </AdminLayout>
 </template>
 
 <script>
 import AdminLayout from "::admin/Layouts/AdminLayout.vue";
+import BulletinCard from "::admin/Components/BulletinCard.vue";
 
 export default {
     name: "Welcome",
-    components: {AdminLayout},
+    components: {BulletinCard, AdminLayout},
     props: {
         top4Charts: {
             type: Array,
             default: () => [],
         },
-    }
+    },
 }
 </script>
 
@@ -52,11 +57,13 @@ export default {
         @apply text-2xl;
         @apply font-semibold;
         @apply translate-y-1;
+        @apply dark:!text-white;
     }
 
     :deep(.apexcharts-subtitle-text) {
         @apply text-sm;
         @apply font-medium;
+        @apply dark:!text-white;
     }
 }
 </style>

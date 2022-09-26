@@ -122,7 +122,7 @@ class UserController extends Controller
      */
     public function updateAvatar(Request $request, User $user)
     {
-        request()->validate([
+        $request->validate([
             'avatar' => ['required', 'image', 'mimes:png'],
         ]);
 

@@ -38,13 +38,17 @@
             @change="table.change"
             sticky
         >
-            <template #header>
-                table header
-            </template>
             <template #bodyCell="{ column, record}">
                 <slot name="bodyCell" :column="column" :record="record"></slot>
                 <template v-if="column.dataIndex === 'action' || column.key === 'action'">
                     <slot name="rowActions"></slot>
+                    <a-button
+                        type="link"
+                        v-if="viewHandler && hasPermission('view')"
+                        @click="handleView(record)"
+                    >
+                        {{ $t('action.view') }}
+                    </a-button>
                     <a-button
                         type="link"
                         v-if="editHandler && hasPermission('edit')"
@@ -100,6 +104,11 @@ export default {
         },
         checkPermission: {
             type: Boolean,
+            default: true,
+        },
+        viewHandler: {
+            type: [Function, Boolean],
+            required: false,
             default: true,
         },
         editHandler: {
@@ -169,9 +178,9 @@ export default {
                 return;
             }
 
-            this.$inertia.delete(this.route(`${this.resource}.destroy`, {
-                user: record.id
-            }), {
+            this.$inertia.delete(this.route(`${this.resource}.destroy`, [
+                record.id
+            ]), {
                 preserveState: false,
                 onSuccess: (page) => {
                     if (page.props.message) {
@@ -188,6 +197,13 @@ export default {
                 return;
             }
             this.$inertia.visit(route(`${this.resource}.edit`, record.id));
+        },
+        handleView(record) {
+            if ('function' === typeof this.viewHandler) {
+                this.viewHandler(record)
+                return;
+            }
+            this.$inertia.visit(route(`${this.resource}.show`, record.id));
         }
     }
 }

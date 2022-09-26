@@ -9,19 +9,20 @@
                 collapsible
             >
                 <inertia-link :href="route('admin.welcome')">
-                <div class="whitespace-nowrap text-white w-full font-medium text-lg flex items-center justify-center"
-                     style="height: 64px"
-                >
+                    <div
+                        class="whitespace-nowrap text-white w-full font-medium text-lg flex items-center justify-center"
+                        style="height: 64px"
+                    >
                     <span v-if="!collapsed">
                         Laravel Antd Pro
                     </span>
-                    <span v-else>
+                        <span v-else>
                         LAP
                     </span>
-                </div>
+                    </div>
                 </inertia-link>
 
-                <side-menu :collapsed="collapsed" />
+                <side-menu :collapsed="collapsed"/>
             </a-layout-sider>
             <a-layout :style="
                 !collapsed ? 'margin-left: 256px' : 'margin-left: 80px'"
@@ -35,41 +36,41 @@
                         class="trigger"
                         @click="() => (collapsed = !collapsed)"
                     />
-                    <menu-fold-outlined v-else class="trigger" @click="() => (collapsed = !collapsed)" />
+                    <menu-fold-outlined v-else class="trigger" @click="() => (collapsed = !collapsed)"/>
 
                     <div class="float-right mr-4 h-full items-center flex gap-3">
-                        <notifications />
-                        <jobs />
+                        <notifications/>
+                        <jobs/>
 
-                        <locale-switcher />
+                        <locale-switcher/>
 
                         <div>
                             <a-tooltip placement="bottom">
                                 <template #title>
-                                    <span>{{ $t(isFullscreen ? 'layout.exit_fullscreen' : 'layout.enter_fullscreen')}}</span>
+                                    <span>{{ $t(isFullscreen ? 'layout.exit_fullscreen' : 'layout.enter_fullscreen') }}</span>
                                 </template>
-                            <a-button
-                                type="text"
-                                size="large"
-                                @click="toggleFullscreen"
-                            >
-                                <template #icon>
-                                    <FullscreenExitOutlined v-if="isFullscreen"/>
-                                    <FullscreenOutlined v-else/>
-                                </template>
-                            </a-button>
+                                <a-button
+                                    type="text"
+                                    size="large"
+                                    @click="toggleFullscreen"
+                                >
+                                    <template #icon>
+                                        <FullscreenExitOutlined v-if="isFullscreen"/>
+                                        <FullscreenOutlined v-else/>
+                                    </template>
+                                </a-button>
                             </a-tooltip>
                         </div>
 
                         <a-button @click="toggleDark()" type="text" size="large">
                             <template #icon>
                                 <span class="material-icons-outlined anticon">
-                                    {{ isDark ? 'light_mode' : 'dark_mode'}}
+                                    {{ isDark ? 'light_mode' : 'dark_mode' }}
                                 </span>
                             </template>
                         </a-button>
 
-                        <header-avatar />
+                        <header-avatar/>
                     </div>
                 </a-layout-header>
 
@@ -78,11 +79,11 @@
                         <template v-if="noTransition">
                             <slot></slot>
                         </template>
-                    <transition name="fade" mode="out-in" appear v-else>
-                        <div :key="route().current()">
-                            <slot></slot>
-                        </div>
-                    </transition>
+                        <transition name="fade" mode="out-in" appear v-else>
+                            <div :key="route().current()">
+                                <slot></slot>
+                            </div>
+                        </transition>
                     </perfect-scrollbar>
                 </a-layout-content>
             </a-layout>
@@ -101,15 +102,15 @@ import {
     FullscreenExitOutlined,
 } from '@ant-design/icons-vue';
 
-import { ref } from 'vue';
+import {ref} from 'vue';
 import HeaderAvatar from './Headers/HeaderAvatar.vue'
 import LocaleSwitcher from './Headers/LocaleSwitcher.vue'
 import Jobs from './Headers/Jobs.vue'
 import Notifications from './Headers/Notifications.vue'
 import SideMenu from './Menu/Menu.vue'
-import { useLocale } from '::admin/Store/locale';
+import {useLocale} from '::admin/Store/locale';
 
-import { useThemeStore } from "::admin/Store/theme";
+import {useThemeStore} from "::admin/Store/theme";
 
 export default {
     components: {
@@ -129,7 +130,7 @@ export default {
     setup() {
         const isFullscreen = ref(document.fullscreenElement !== null);
         const locale = useLocale();
-        const { toggleDark, isDark } = useThemeStore();
+        const {toggleDark, isDark} = useThemeStore();
 
         return {
             collapsed: ref(false),
@@ -181,6 +182,7 @@ export default {
 .fade-leave-active {
     transition: opacity 0.5s ease;
 }
+
 .fade-enter-from,
 .fade-leave-to {
     opacity: 0;

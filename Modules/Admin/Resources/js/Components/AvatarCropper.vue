@@ -122,12 +122,12 @@ export default {
             const { canvas } = this.$refs.cropper.getResult()
 
             const avatar = await this.dataUrlToBlob(canvas.toDataURL('image/png'))
-            console.debug('avatar', avatar)
 
-            this.$inertia.put(
+            this.$inertia.post(
                 route('admin.system.users.avatar', {
                     user: this.user.id
                 }), {
+                    _method: 'put',
                     avatar: avatar
                 }, {
                     onSuccess: () => {

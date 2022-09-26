@@ -27,6 +27,12 @@ class AdminPermissionSeeder extends Seeder
             'admin.system.roles.view',
             'admin.system.roles.bulk-delete',
 
+            'admin.admin.bulletins.create',
+            'admin.admin.bulletins.edit',
+            'admin.admin.bulletins.delete',
+            'admin.admin.bulletins.view',
+            'admin.admin.bulletins.bulk-delete',
+
             'admin.system.logs',
             'admin.developer.route',
             'admin.developer.misc'

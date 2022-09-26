@@ -52,17 +52,23 @@
             <crud-table
                 :table="table"
                 class="whitespace-nowrap"
-                resource="admin.system.users"
+                resource="admin.admin.bulletins"
                 :editHandler="(record) => {
-                    this.$inertia.visit(route(`admin.system.users.show`, record.id));
+                    this.$inertia.visit(route(`admin.admin.bulletins.edit`, record.id));
                 }"
                 @delete="(record) => destroy(record.id)"
             >
                 <template #bodyCell="{ record, column }">
                     <template v-if="column.dataIndex === 'user'">
-                        <div class="font-medium">{{ record.name }}</div>
-                        <div class="text-slate-500">{{ record.email }}</div>
+                        <div class="flex gap-2 items-center">
+                        <a-avatar :src="record.user.avatar_thumb_url" />
+                        <div>
+                            <div class="font-medium text-xs">{{ record.user.name }}</div>
+                            <div class="text-slate-500 text-xs">{{ record.user.email }}</div>
+                        </div>
+                        </div>
                     </template>
+
                     <template v-if="['created_at', 'updated_at'].includes(column.dataIndex)">
                         {{ dayjs(record.created_at).format('YYYY-MM-DD HH:mm') }}
                     </template>
@@ -94,6 +100,7 @@ import {PlusOutlined} from "@ant-design/icons-vue";
 import useTable from '::admin/Utils/useTable';
 import CrudTable from '::admin/Components/CrudTable.vue';
 import { reactive } from "vue";
+import dayjs from "dayjs";
 
 export default {
     name: "Index",
@@ -111,8 +118,8 @@ export default {
     setup(props) {
         const columns = reactive([
             {title: 'ID', dataIndex: 'id', sorter: true},
-            {title: trans('user'), dataIndex: 'user'},
             {title: trans('title'), dataIndex: 'title', align: 'left'},
+            {title: trans('user'), dataIndex: 'user'},
             {title: trans('created_at'), dataIndex: 'created_at', sorter: true},
             {title: trans('updated_at'), dataIndex: 'updated_at', sorter: true},
             {title: trans('action'), dataIndex: 'action', fixed: 'right', align: 'center'}
@@ -125,7 +132,7 @@ export default {
             columns: columns
         });
 
-        return { table }
+        return { table, dayjs }
     },
     methods: {}
 }

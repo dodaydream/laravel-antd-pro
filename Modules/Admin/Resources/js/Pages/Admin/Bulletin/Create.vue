@@ -1,91 +1,194 @@
 <template>
-    <div class="w-screen h-screen dark:bg-[#2e3440] flex flex-col">
-        <a-page-header title="創建公告" @back="back">
+    <div class="w-screen h-screen dark:bg-[#2e3440] flex flex-col fixed top-0 bottom-0 z-50 left-0 right-0">
+        <a-page-header @back="back">
+            <template #title>
+                <a-tooltip placement="bottom" v-if="!isEditingTitle">
+                    <template #title>
+                        Edit
+                    </template>
+                    <div @click="isEditingTitle = true">{{ form.title }}</div>
+                </a-tooltip>
+
+                <a-input v-model:value="form.title"
+                         @blur="save"
+                         @focusout="save"
+                         @keydown.enter="save"
+                         v-else/>
+            </template>
             <template #extra>
                 <a-button type="primary" @click="submit">發表</a-button>
             </template>
         </a-page-header>
 
-        <div class="">
-            <milkdown-editor class="flex-1" />
-        </div>
+        <milkdown-editor class="md-editor" v-model:value="form.markdown" :uploader="uploader"/>
     </div>
 </template>
 
 <script>
-import { defineComponent, h} from 'vue';
-import { Editor, rootCtx, themeFactory } from '@milkdown/core';
-import { VueEditor, useEditor } from '@milkdown/vue';
-import { commonmark } from '@milkdown/preset-commonmark';
-import { tooltip } from '@milkdown/plugin-tooltip';
-import { upload,uploadPlugin } from '@milkdown/plugin-upload';
-import { getNord } from '@milkdown/theme-nord';
-import { menu } from '@milkdown/plugin-menu';
-import { useDark } from '@vueuse/core';
+import {defineComponent, h, defineProps, defineEmits} from 'vue';
+import {Editor, rootCtx, themeFactory, defaultValueCtx, createCmdKey, CommandsReady} from '@milkdown/core';
+import {VueEditor, useEditor} from '@milkdown/vue';
+import {commonmark, image} from '@milkdown/preset-commonmark';
+import {tooltip} from '@milkdown/plugin-tooltip';
+import {upload, uploadPlugin} from '@milkdown/plugin-upload';
+import {listener, listenerCtx} from '@milkdown/plugin-listener';
+import {getNord} from '@milkdown/theme-nord';
+import {menu, defaultConfig, menuPlugin} from '@milkdown/plugin-menu';
+import {prism} from '@milkdown/plugin-prism';
+import {indent} from '@milkdown/plugin-indent';
+import {useDark} from '@vueuse/core';
+import useForm from '::admin/Utils/useForm';
+import {debounce} from 'lodash';
+import 'prism-themes/themes/prism-nord.css';
+import {
+    imagePickerPreset,
+    imagePickerView
+} from 'milkdown-plugin-image-picker'
 
-export const MilkdownEditor = defineComponent(() => {
-    const isDark = useDark({
-        selector: 'html',
-        attribute: 'data-theme',
-    });
-
-    const uploader = async (files, schema) => {
-        const images = [];
-
-        for (let i = 0; i < files.length; i++) {
-            const file = files.item(i);
-            if (!file) {
-                continue;
-            }
-
-            // You can handle whatever the file type you want, we handle image here.
-            if (!file.type.includes('image')) {
-                continue;
-            }
-
-            images.push(file);
+export const MilkdownEditor = defineComponent({
+    props: {
+        value: {
+            type: String,
+            default: '',
+        },
+        uploader: {
+            type: Function,
+            default: () => {
+            },
         }
+    },
+    setup(props, context) {
+        const isDark = useDark({
+            selector: 'html',
+            attribute: 'data-theme',
+        });
 
-        const nodes = await Promise.all(
-            images.map(async (image) => {
-                const src = '123'
-                const alt = image.name;
-                return schema.nodes.image.createAndFill({
-                    src,
-                    alt,
-                });
-            }),
+        const editor = useEditor((root) =>
+            Editor.make()
+                .config((ctx) => {
+                    ctx.set(rootCtx, root);
+                    if (props.value) {
+                        ctx.set(defaultValueCtx, props.value);
+                    }
+
+                    ctx.get(listenerCtx).markdownUpdated((ctx, markdown, prevMarkdown) => {
+                        context.emit('update:value', markdown);
+                    });
+                })
+                .use(menu)
+                .use(getNord(isDark.value).override(imagePickerView))
+                .use(commonmark.replace(image, imagePickerPreset()({
+                    uploader: props.uploader,
+                })))
+                .use(listener)
+                .use(prism)
+                .use(indent)
+                .use(tooltip)
+                .use(
+                    upload.configure(uploadPlugin, {
+                        uploader: props.uploader,
+                        enableHtmlFileUploader: true,
+                    })
+                )
         );
 
-        return nodes;
-    };
-
-    const editor = useEditor((root) =>
-        Editor.make()
-            .config((ctx) => {
-                ctx.set(rootCtx, root);
-            })
-            .use(menu)
-            .use(getNord(isDark.value))
-            .use(tooltip)
-            .use(
-                upload.configure(uploadPlugin, {
-                    uploader,
-                    enableHtmlFileUploader: true,
-                })
-            )
-            .use(commonmark),
-    );
-
-    return () => h(VueEditor, { editor: editor });
-
+        return () => h(VueEditor, {editor: editor});
+    }
 });
+
 export default {
     name: "Create",
     components: {
         MilkdownEditor
     },
+    props: {
+        bulletin: {
+            type: Object,
+            default: () => ({})
+        }
+    },
+    setup(props) {
+        const form = useForm({
+            id: props.bulletin?.id,
+            title: props.bulletin?.title ?? '(untitled)',
+            markdown: props.bulletin?.markdown ?? '',
+        })
+
+        const uploader = async (files, schema) => {
+            console.log(files)
+            const images = new FormData()
+
+            for (let i = 0; i < files.length; i++) {
+                const file = files.item(i);
+                if (!file) {
+                    continue;
+                }
+
+                // You can handle whatever the file type you want, we handle image here.
+                if (!file.type.includes('image')) {
+                    continue;
+                }
+
+                images.append('images[]', file, file.name);
+            }
+
+            console.log(images)
+
+            // TODO: upload image
+            const {data} = await window.axios.post(route('admin.admin.bulletins.upload-image', [
+                form.id,
+            ]), images, {
+                headers: {
+                    'Content-Type': 'multipart/form-data'
+                }
+            })
+
+            if (schema) {
+                return data.map((media) => schema.nodes.image.createAndFill({
+                    src: media.original_url,
+                    alt: media.file_name,
+                }));
+            }
+
+            return data.map((media) => ({
+                src: media.original_url,
+                alt: media.file_name,
+            }));
+        };
+
+        return {form, uploader}
+    },
+    data() {
+        return {
+            isEditingTitle: false,
+        }
+    },
+    watch: {
+        'form.markdown': debounce(function (val, oldVal) {
+            if (val === oldVal) {
+                return
+            }
+            this.save()
+        }, 5000)
+    },
     methods: {
+        save () {
+            this.isEditingTitle = false
+            this.$message.loading({
+                class: 'fixed right-1 bottom-0',
+                content: 'Saving...',
+                duration: 29999,
+            })
+            this.form.submit('post', route('admin.admin.bulletins.store'), {
+                onSuccess: () => {
+                    this.$message.destroy()
+                    this.$message.success({
+                        class: 'fixed right-1 bottom-0',
+                        content: 'Saved!',
+                    })
+                }
+            })
+        },
         back: function () {
             this.$inertia.visit(route('admin.admin.bulletins.index'))
         }
@@ -93,6 +196,25 @@ export default {
 }
 </script>
 
-<style scoped>
+<style scoped lang="less">
+:deep(.milkdown-menu-wrapper),
+.md-editor {
+@apply flex;
+@apply flex-col;
+@apply flex-1;
+@apply h-full;
+@apply overflow-hidden;
+}
 
+:deep(.milkdown) {
+@apply flex-1;
+@apply w-full;
+@apply h-full;
+@apply overflow-scroll;
+}
+
+:deep(.ProseMirror.editor) {
+@apply max-w-4xl;
+@apply mx-auto;
+}
 </style>

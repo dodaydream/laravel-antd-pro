@@ -27,7 +27,7 @@
         </template>
     </a-dropdown>
 
-    <div v-show="locale.isLoading.value" class="bg-white fixed top-0 left-0 w-full h-full z-50 flex justify-center items-center">
+    <div v-show="locale.isLoading.value" class="bg-white dark:bg-neutral-900 fixed top-0 left-0 w-full h-full z-50 flex justify-center items-center">
         <a-spin :tip="$t('layout.switch_lang_tip')" />
     </div>
 </template>

@@ -65,6 +65,8 @@ Route::name('admin.')->prefix('admin')->group(function () {
 
         Route::name('admin.')->prefix('/admin')->group(function () {
             Route::resource('bulletin', 'Admin\BulletinController')->names('bulletins');
+            Route::post('bulletin/{bulletin}/images', 'Admin\BulletinController@uploadImage')->name('bulletins.upload-image');
+            Route::delete('bulletins', 'Admin\BulletinController@bulkDestroy')->name('bulletins.bulk-destroy');
         });
 
         Route::name('developer.')->prefix('/developer')->group(function () {
