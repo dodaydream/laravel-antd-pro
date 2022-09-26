@@ -18,8 +18,8 @@ return new class extends Migration
             $table->foreignId('user_id');
             $table->string('title');
             $table->string('excerpt');
-            $table->text('markdown');
-            $table->text('html');
+            $table->mediumText('markdown');
+            $table->mediumText('html');
             $table->dateTime('published_at')->nullable();
             $table->timestamps();
         });

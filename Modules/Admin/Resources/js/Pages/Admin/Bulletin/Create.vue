@@ -186,6 +186,13 @@ export default {
                         class: 'fixed right-1 bottom-0',
                         content: 'Saved!',
                     })
+                },
+                onError: () => {
+                    this.$message.destroy()
+                    this.$message.error({
+                        class: 'fixed right-1 bottom-0',
+                        content: 'Failed to save!',
+                    })
                 }
             })
         },
@@ -211,6 +218,10 @@ export default {
 @apply w-full;
 @apply h-full;
 @apply overflow-scroll;
+}
+
+:deep(.milkdown-menu) {
+    @apply border-transparent;
 }
 
 :deep(.ProseMirror.editor) {

@@ -65,21 +65,23 @@ class BulletinController extends Controller
             'allow_unsafe_links' => false,
         ]);
 
-        $html = $converter->convert($validated['markdown']);
+        $html = $converter->convert($validated['markdown'])->getContent();
 
         if ($request->input('id')) {
             $bulletin = Bulletin::find($validated['id']);
+
             $bulletin->update([
                 'title' => $request->input('title', 'untitled'),
-                'excerpt' => $request->input('excerpt', substr(strip_tags($html), 0, 255)),
+                'excerpt' => $request->input('excerpt', mb_substr(strip_tags($html), 0, 255)),
                 'markdown' => $validated['markdown'],
                 'html' => $html,
             ]);
+
         } else {
             $bulletin = Bulletin::create([
                 'user_id' => auth()->id(),
                 'title' => $request->input('title', 'untitled'),
-                'excerpt' => $request->input('excerpt', substr(strip_tags($html), 0, 255)),
+                'excerpt' => $request->input('excerpt', mb_substr(strip_tags($html), 0, 255)),
                 'markdown' => $validated['markdown'],
                 'html' => $html,
                 'published_at' => null,
