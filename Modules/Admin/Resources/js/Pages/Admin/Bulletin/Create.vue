@@ -38,6 +38,7 @@ import {prism} from '@milkdown/plugin-prism';
 import {indent} from '@milkdown/plugin-indent';
 import {useDark} from '@vueuse/core';
 import useForm from '::admin/Utils/useForm';
+import { gfm } from '@milkdown/preset-gfm';
 import {debounce} from 'lodash';
 import 'prism-themes/themes/prism-nord.css';
 import {
@@ -77,7 +78,7 @@ export const MilkdownEditor = defineComponent({
                 })
                 .use(menu)
                 .use(getNord(isDark.value).override(imagePickerView))
-                .use(commonmark.replace(image, imagePickerPreset()({
+                .use(gfm.replace(image, imagePickerPreset()({
                     uploader: props.uploader,
                 })))
                 .use(listener)
@@ -221,7 +222,8 @@ export default {
 }
 
 :deep(.milkdown-menu) {
-    @apply border-transparent;
+    @apply border-t-transparent;
+    @apply border-x-transparent;
 }
 
 :deep(.ProseMirror.editor) {

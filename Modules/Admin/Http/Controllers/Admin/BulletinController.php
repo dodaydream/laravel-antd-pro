@@ -7,6 +7,7 @@ use App\Models\Bulletin;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 use League\CommonMark\CommonMarkConverter;
+use League\CommonMark\GithubFlavoredMarkdownConverter;
 use Spatie\QueryBuilder\QueryBuilder;
 
 class BulletinController extends Controller
@@ -60,7 +61,7 @@ class BulletinController extends Controller
             'markdown' => ['required', 'string'],
         ]);
 
-        $converter = new CommonMarkConverter([
+        $converter = new GithubFlavoredMarkdownConverter([
             'html_input' => 'strip',
             'allow_unsafe_links' => false,
         ]);
