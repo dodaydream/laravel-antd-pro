@@ -74,4 +74,6 @@ Route::name('admin.')->prefix('admin')->group(function () {
             Route::get('/misc/send-notification', 'Developer\MiscController@sendNotification')->name('misc.send-notification');
         });
     });
+
+    // Route::mediaLibrary('media');
 });

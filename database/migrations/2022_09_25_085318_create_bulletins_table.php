@@ -20,6 +20,7 @@ return new class extends Migration
             $table->string('excerpt');
             $table->text('markdown');
             $table->text('html');
+            $table->dateTime('published_at')->nullable();
             $table->timestamps();
         });
     }

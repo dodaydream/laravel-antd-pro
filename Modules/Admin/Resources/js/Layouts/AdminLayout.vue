@@ -109,9 +109,7 @@ import Notifications from './Headers/Notifications.vue'
 import SideMenu from './Menu/Menu.vue'
 import { useLocale } from '::admin/Store/locale';
 
-import darkTheme from 'ant-design-vue/dist/antd.dark.css?raw'
-
-import { useDark, useToggle } from '@vueuse/core'
+import { useThemeStore } from "::admin/Store/theme";
 
 export default {
     components: {
@@ -131,12 +129,7 @@ export default {
     setup() {
         const isFullscreen = ref(document.fullscreenElement !== null);
         const locale = useLocale();
-        const isDark = useDark({
-            selector: 'html',
-            attribute: 'data-theme',
-        });
-
-        const toggleDark = useToggle(isDark);
+        const { toggleDark, isDark } = useThemeStore();
 
         return {
             collapsed: ref(false),
@@ -151,20 +144,6 @@ export default {
             type: Boolean,
             default: false,
         },
-    },
-    watch: {
-        async isDark (val) {
-            if (val) {
-                if (!document.getElementById('dark-theme')) {
-                    const style = document.createElement('style');
-                    style.id = 'dark-theme';
-                    style.innerHTML = darkTheme;
-                    document.head.appendChild(style);
-                }
-            } else {
-                document.head.removeChild(document.getElementById('dark-theme'))
-            }
-        }
     },
     methods: {
         toggleFullscreen() {
