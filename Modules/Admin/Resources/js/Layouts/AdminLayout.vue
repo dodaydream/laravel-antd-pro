@@ -29,7 +29,7 @@
                       class="transition-all duration-300 ease-in-out"
             >
                 <a-layout-header style="padding: 0; position: sticky; top: 0; z-index: 99"
-                                 class="!bg-white dark:!bg-neutral-900"
+                                 class="!bg-white dark:!bg-[#141414]"
                 >
                     <menu-unfold-outlined
                         v-if="collapsed"

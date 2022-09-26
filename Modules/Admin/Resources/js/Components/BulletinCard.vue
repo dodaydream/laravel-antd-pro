@@ -2,14 +2,17 @@
     <a-card title="bulletins">
         <a-list :data-source="bulletins.data">
             <template #renderItem="{ item }">
-                <inertia-link :href="route('admin.admin.bulletins.show', [item.id])">
                     <a-list-item class="hover:bg-slate-100 dark:hover:bg-neutral-800">
-                        <a-list-item-meta
-                            :title="item.title"
-                            :description="item.excerpt"
-                        />
+                        <a-skeleton :loading="loading" active :rows="2">
+                            <inertia-link :href="route('admin.admin.bulletins.show', [item.id])" v-if="!loading" class="block w-full">
+                                <a-list-item-meta
+                                    :title="item.title"
+                                    :description="item.excerpt"
+                                    v-if="!loading"
+                                />
+                            </inertia-link>
+                        </a-skeleton>
                     </a-list-item>
-                </inertia-link>
             </template>
         </a-list>
     </a-card>
@@ -20,16 +23,23 @@ export default {
     name: "BulletinCard",
     data () {
         return {
-            bulletins: {}
+            loading: true,
+            bulletins: {
+                data: [
+                    { title: '', excerpt: '' },
+                ]
+            }
         }
     },
     mounted () {
+        this.loading = true
         window.axios.get(route('admin.admin.bulletins.index'), {
             query: {
                 limit: 3
             }
         })
             .then(({data}) => {
+                this.loading = false
                 this.bulletins = data.bulletins
             })
     }

@@ -22,7 +22,7 @@
                 </a-card>
             </div>
 
-            <div>
+            <div class="grid md:grid-cols-2 gap-4">
                 <bulletin-card />
             </div>
         </div>
