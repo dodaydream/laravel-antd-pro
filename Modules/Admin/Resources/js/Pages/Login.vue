@@ -1,7 +1,8 @@
 <template>
     <div class="h-screen w-screen bg-slate-100 dark:bg-neutral-900 flex items-center justify-center">
-        <div class="fixed top-0 right-0 p-4">
+        <div class="fixed top-0 right-0 p-4 flex">
             <LocaleSwitcher/>
+            <ThemeSwitcher />
         </div>
         <div class="max-w-sm w-full p-4">
             <h1 class="text-lg font-bold text-center">Laravel Antd Pro</h1>
@@ -48,10 +49,12 @@ import useForm from '../Utils/useForm.js'
 import {UserOutlined, LockOutlined} from '@ant-design/icons-vue';
 import LocaleSwitcher from "../Layouts/Headers/LocaleSwitcher.vue";
 import TwoFactorChallengeModal from "../Utils/TwoFactorChallengeModal";
+import ThemeSwitcher from "../Layouts/Headers/ThemeSwitcher.vue";
 
 export default {
     name: "Login",
     components: {
+        ThemeSwitcher,
         LocaleSwitcher,
         UserOutlined,
         LockOutlined

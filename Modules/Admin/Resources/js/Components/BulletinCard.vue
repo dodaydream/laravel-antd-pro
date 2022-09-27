@@ -2,7 +2,7 @@
     <a-card title="bulletins">
         <a-list :data-source="bulletins.data">
             <template #renderItem="{ item }">
-                    <a-list-item class="hover:bg-slate-100 dark:hover:bg-neutral-800">
+                    <a-list-item class="hover:bg-slate-50 dark:hover:bg-neutral-800">
                         <a-skeleton :loading="loading" active :rows="2">
                             <inertia-link :href="route('admin.admin.bulletins.show', [item.id])" v-if="!loading" class="block w-full">
                                 <a-list-item-meta

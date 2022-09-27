@@ -62,14 +62,7 @@
                             </a-tooltip>
                         </div>
 
-                        <a-button @click="toggleDark()" type="text" size="large">
-                            <template #icon>
-                                <span class="material-icons-outlined anticon">
-                                    {{ isDark ? 'light_mode' : 'dark_mode' }}
-                                </span>
-                            </template>
-                        </a-button>
-
+                        <theme-switcher />
                         <header-avatar/>
                     </div>
                 </a-layout-header>
@@ -110,10 +103,11 @@ import Notifications from './Headers/Notifications.vue'
 import SideMenu from './Menu/Menu.vue'
 import {useLocale} from '::admin/Store/locale';
 
-import {useThemeStore} from "::admin/Store/theme";
+import ThemeSwitcher from "./Headers/ThemeSwitcher.vue";
 
 export default {
     components: {
+        ThemeSwitcher,
         UserOutlined,
         VideoCameraOutlined,
         UploadOutlined,
@@ -130,13 +124,10 @@ export default {
     setup() {
         const isFullscreen = ref(document.fullscreenElement !== null);
         const locale = useLocale();
-        const {toggleDark, isDark} = useThemeStore();
 
         return {
             collapsed: ref(false),
             isFullscreen,
-            isDark,
-            toggleDark,
             locale,
         };
     },
