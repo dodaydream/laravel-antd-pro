@@ -28,7 +28,7 @@
                 <a-form layout="vertical">
                     <div class="flex gap-3">
                         <a-select v-model:value="table.filtered.status" @change="table.applyFilter"
-                                  class="shadow-md"
+                                  class="filter-select"
                         >
                             <a-select-option value="all">{{ $t('bulletins.all') }}</a-select-option>
                             <a-select-option value="draft">{{ $t('bulletins.draft') }}</a-select-option>

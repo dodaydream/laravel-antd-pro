@@ -34,8 +34,7 @@ export default {
     mounted () {
         this.loading = true
         window.axios.get(route('admin.admin.bulletins.index'), {
-            query: {
-                limit: 3,
+            params: {
                 "filter[status]": 'published',
             }
         })

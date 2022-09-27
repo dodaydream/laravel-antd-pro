@@ -20,3 +20,7 @@
 .anticon svg {
     display: block !important;
 }
+
+.filter-select .ant-select-selector {
+    @apply shadow-md;
+}
