@@ -18,6 +18,7 @@ class BulletinPolicy
      */
     public function viewAny(User $user)
     {
+        return $user->can('admin.admin.bulletins.view');
     }
 
     /**
@@ -29,7 +30,7 @@ class BulletinPolicy
      */
     public function view(User $user, Bulletin $bulletin)
     {
-        //
+        return $user->can('admin.admin.bulletins.view');
     }
 
     /**
@@ -40,7 +41,7 @@ class BulletinPolicy
      */
     public function create(User $user)
     {
-        //
+        return $user->can('admin.admin.bulletins.create');
     }
 
     /**
@@ -52,7 +53,7 @@ class BulletinPolicy
      */
     public function update(User $user, Bulletin $bulletin)
     {
-        //
+        return $user->can('admin.admin.bulletins.edit');
     }
 
     /**
@@ -64,7 +65,7 @@ class BulletinPolicy
      */
     public function delete(User $user, Bulletin $bulletin)
     {
-        //
+        return $user->can('admin.admin.bulletins.destroy');
     }
 
     /**
@@ -89,5 +90,10 @@ class BulletinPolicy
     public function forceDelete(User $user, Bulletin $bulletin)
     {
         //
+    }
+
+    public function bulkDelete(User $user)
+    {
+        return $user->can('admin.admin.bulletins.bulk-delete');
     }
 }

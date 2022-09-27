@@ -537,6 +537,16 @@
     refractor "^4.0.0"
     tslib "^2.4.0"
 
+"@milkdown/plugin-slash@^6.4.3":
+  version "6.4.3"
+  resolved "https://registry.yarnpkg.com/@milkdown/plugin-slash/-/plugin-slash-6.4.3.tgz#e9954da78088b3294ab155c4e72614529aefe70b"
+  integrity sha512-Hb2cFAxzY+GNA9OLXmJ04wtivW1E0RBqhOpO44Z0Hb9sLqIDKjc4aWaebrRIK+vdPh7qst7fQW6WdUQnj0PC9Q==
+  dependencies:
+    "@milkdown/exception" "6.4.1"
+    "@milkdown/utils" "6.4.1"
+    smooth-scroll-into-view-if-needed "^1.1.32"
+    tslib "^2.4.0"
+
 "@milkdown/plugin-tooltip@^6.4.1":
   version "6.4.1"
   resolved "https://registry.yarnpkg.com/@milkdown/plugin-tooltip/-/plugin-tooltip-6.4.1.tgz#7f02ff3986dec03f0c09c10726eaad96c9b8afb7"
@@ -3653,7 +3663,7 @@ sax@^1.2.4, sax@~1.2.4:
   resolved "https://registry.yarnpkg.com/sax/-/sax-1.2.4.tgz#2816234e2378bddc4e5354fab5caa895df7100d9"
   integrity sha512-NqVDv9TpANUjFm0N8uM5GxL36UgKi9/atZw+x7YFnQ8ckwFGKrl4xX4yWtrey3UJm5nP1kUbnYgLopqWNSRhWw==
 
-scroll-into-view-if-needed@^2.2.25:
+scroll-into-view-if-needed@^2.2.25, scroll-into-view-if-needed@^2.2.28:
   version "2.2.29"
   resolved "https://registry.yarnpkg.com/scroll-into-view-if-needed/-/scroll-into-view-if-needed-2.2.29.tgz#551791a84b7e2287706511f8c68161e4990ab885"
   integrity sha512-hxpAR6AN+Gh53AdAimHM6C8oTN1ppwVZITihix+WqalywBeFcQ6LdQP5ABNl26nX8GTEL7VT+b8lKpdqq65wXg==
@@ -3690,6 +3700,13 @@ simple-swizzle@^0.2.2:
   integrity sha512-JA//kQgZtbuY83m+xT+tXJkmJncGMTFT+C+g2h2R9uxkYIrE2yy9sgmcLhCnw57/WSD+Eh3J97FPEDFnbXnDUg==
   dependencies:
     is-arrayish "^0.3.1"
+
+smooth-scroll-into-view-if-needed@^1.1.32:
+  version "1.1.33"
+  resolved "https://registry.yarnpkg.com/smooth-scroll-into-view-if-needed/-/smooth-scroll-into-view-if-needed-1.1.33.tgz#2c7b88c82784c69030cb0489b9df584e94e01533"
+  integrity sha512-crS8NfAaoPrtVYOCMSAnO2vHRgUp22NiiDgEQ7YiaAy5xe2jmR19Jm+QdL8+97gO8ENd7PUyQIAQojJyIiyRHw==
+  dependencies:
+    scroll-into-view-if-needed "^2.2.28"
 
 source-map-js@^1.0.2:
   version "1.0.2"

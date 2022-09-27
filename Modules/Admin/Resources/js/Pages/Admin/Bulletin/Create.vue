@@ -16,7 +16,12 @@
                          v-else/>
             </template>
             <template #extra>
-                <a-button type="primary" @click="submit">發表</a-button>
+                <a-popconfirm
+                    title="Are you sure to publish this bulletin?"
+                    @confirm="publish"
+                >
+                    <a-button type="primary">發表</a-button>
+                </a-popconfirm>
             </template>
         </a-page-header>
 
@@ -38,6 +43,7 @@ import {prism} from '@milkdown/plugin-prism';
 import {indent} from '@milkdown/plugin-indent';
 import {useDark} from '@vueuse/core';
 import useForm from '::admin/Utils/useForm';
+import { slash } from '@milkdown/plugin-slash';
 import { gfm } from '@milkdown/preset-gfm';
 import {debounce} from 'lodash';
 import 'prism-themes/themes/prism-nord.css';
@@ -84,6 +90,7 @@ export const MilkdownEditor = defineComponent({
                 .use(listener)
                 .use(prism)
                 .use(indent)
+                .use(slash)
                 .use(tooltip)
                 .use(
                     upload.configure(uploadPlugin, {
@@ -169,11 +176,13 @@ export default {
             if (val === oldVal) {
                 return
             }
-            this.save()
+
+            this.save();
+
         }, 5000)
     },
     methods: {
-        save () {
+        save (callback=null) {
             this.isEditingTitle = false
             this.$message.loading({
                 class: 'fixed right-1 bottom-0',
@@ -181,12 +190,20 @@ export default {
                 duration: 29999,
             })
             this.form.submit('post', route('admin.admin.bulletins.store'), {
-                onSuccess: () => {
+                preserveScroll: true,
+                preserveState: true,
+                onSuccess: (page) => {
                     this.$message.destroy()
                     this.$message.success({
                         class: 'fixed right-1 bottom-0',
                         content: 'Saved!',
                     })
+
+                    this.form.id = page.props.bulletin.id
+
+                    if (callback) {
+                        callback()
+                    }
                 },
                 onError: () => {
                     this.$message.destroy()
@@ -197,8 +214,22 @@ export default {
                 }
             })
         },
-        back: function () {
+        back () {
             this.$inertia.visit(route('admin.admin.bulletins.index'))
+        },
+        publish () {
+            this.$inertia.post(route('admin.admin.bulletins.publish', [
+                this.form.id,
+            ]), {
+
+            }, {
+                onSuccess: () => {
+                    this.$notification.success({
+                        title: 'Success',
+                        message: 'Bulletin published!',
+                    })
+                }
+            })
         }
     }
 }

@@ -100,5 +100,9 @@
     "queued": "已在排隊等待",
     "executing": "正在處理",
     "background_jobs": "背景工作",
-    "clear_all_finished": "清除已完成"
+    "clear_all_finished": "清除已完成",
+
+    "bulletins.all": "全部狀態",
+    "bulletins.published": "已發佈",
+    "bulletins.draft": "草稿"
 }

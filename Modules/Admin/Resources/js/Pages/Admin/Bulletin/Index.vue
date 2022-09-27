@@ -19,35 +19,24 @@
         </a-page-header>
 
         <div class="p-4 flex flex-col gap-4">
-            <!--            <a-input-search placeholder="Search..." class="max-w-lg"-->
-            <!--                            @search="table.search.apply"-->
-            <!--                            v-model:value="table.search.keyword"-->
-            <!--            />-->
+<!--                        <a-input-search placeholder="Search..." class="max-w-lg"-->
+<!--                                        @search="table.search.apply"-->
+<!--                                        v-model:value="table.search.keyword"-->
+<!--                        />-->
 
-<!--            <a-card>-->
-<!--                <a-form layout="vertical">-->
-<!--                    <div class="grid md:grid-cols-1 gap-3">-->
-<!--                        <a-form-item label="Email">-->
-<!--                            <a-input v-model:value="table.filtered.email"/>-->
-<!--                        </a-form-item>-->
-
-<!--                        <a-form-item label="Date creation">-->
-<!--                            <a-range-picker  v-model:value="table.filtered.created_at"-->
-<!--                                             valueFormat="YYYY-MM-DD"-->
-<!--                            />-->
-<!--                        </a-form-item>-->
-
-<!--                        <a-form-item label="Email Verified">-->
-<!--                            <a-switch v-model:checked="table.filtered.is_email_verified" />-->
-<!--                        </a-form-item>-->
-<!--                    </div>-->
-<!--                </a-form>-->
-
-<!--                <div class="flex gap-3">-->
-<!--                    <a-button type="primary" @click="table.applyFilter">Apply</a-button>-->
-<!--                    <a-button type="link" @click="table.resetFilter">Reset</a-button>-->
-<!--                </div>-->
-<!--            </a-card>-->
+            <div>
+                <a-form layout="vertical">
+                    <div class="flex gap-3">
+                        <a-select v-model:value="table.filtered.status" @change="table.applyFilter"
+                                  class="shadow-md"
+                        >
+                            <a-select-option value="all">{{ $t('bulletins.all') }}</a-select-option>
+                            <a-select-option value="draft">{{ $t('bulletins.draft') }}</a-select-option>
+                            <a-select-option value="published">{{ $t('bulletins.published') }}</a-select-option>
+                        </a-select>
+                    </div>
+                </a-form>
+            </div>
 
             <crud-table
                 :table="table"
@@ -73,8 +62,16 @@
                         {{ dayjs(record.created_at).format('YYYY-MM-DD HH:mm') }}
                     </template>
 
-                    <template v-if="column.dataIndex === 'roles'">
-                        <a-tag v-for="role in record.roles">{{ role.name }}</a-tag>
+                    <template v-if="column.dataIndex === 'status'">
+                        <a-tag v-if="record.published_at === null"
+                               color="purple"
+                               class="!w-20 text-center"
+                        >{{ $t('bulletins.draft') }}</a-tag>
+
+                        <a-tag v-else
+                               color="green"
+                               class="!w-20 text-center"
+                        >{{ $t('bulletins.published') }}</a-tag>
                     </template>
 
                     <template v-if="column.dataIndex === 'email_verified_at'">
@@ -118,6 +115,7 @@ export default {
     setup(props) {
         const columns = reactive([
             {title: 'ID', dataIndex: 'id', sorter: true},
+            {title: trans('status'), dataIndex: 'status'},
             {title: trans('title'), dataIndex: 'title', align: 'left'},
             {title: trans('user'), dataIndex: 'user'},
             {title: trans('created_at'), dataIndex: 'created_at', sorter: true},
@@ -131,6 +129,8 @@ export default {
             selectable: true,
             columns: columns
         });
+
+        table.filtered.status = table.filtered.status ?? 'all';
 
         return { table, dayjs }
     },

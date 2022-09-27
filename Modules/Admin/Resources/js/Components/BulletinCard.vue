@@ -35,7 +35,8 @@ export default {
         this.loading = true
         window.axios.get(route('admin.admin.bulletins.index'), {
             query: {
-                limit: 3
+                limit: 3,
+                "filter[status]": 'published',
             }
         })
             .then(({data}) => {

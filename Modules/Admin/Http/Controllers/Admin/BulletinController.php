@@ -4,21 +4,45 @@ namespace Modules\Admin\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Bulletin;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 use League\CommonMark\CommonMarkConverter;
 use League\CommonMark\GithubFlavoredMarkdownConverter;
+use Spatie\QueryBuilder\AllowedFilter;
 use Spatie\QueryBuilder\QueryBuilder;
 
 class BulletinController extends Controller
 {
+    public function __construct()
+    {
+        $this->authorizeResource(Bulletin::class, 'bulletin');
+    }
+
     public function index(Request $request)
     {
         $payload = [
             'bulletins' => QueryBuilder::for(Bulletin::class)
                 ->with('user')
                 ->latest()
-                ->allowedFilters(['title', 'excerpt', 'markdown', 'html'])
+                ->allowedFilters(['title', 'excerpt', 'markdown', AllowedFilter::callback('status', function (Builder $query, $value) {
+                    switch ($value) {
+                        case 'published':
+                            $query->whereNotNull('published_at');
+                            return;
+                        case 'draft':
+                            if (auth()->user()->can('admin.admin.bulletins.edit')) {
+                                $query->whereNull('published_at');
+                            }
+                            return;
+                        case 'all':
+                            if (!auth()->user()->can('admin.admin.bulletins.edit')) {
+                                $query->whereNotNull('published_at');
+                            }
+                            return;
+                    }
+                })->default('all')
+                ])
                 ->allowedSorts(['created_at', 'updated_at', 'id'])
                 ->paginate()
                 ->appends(request()->query())
@@ -125,5 +149,16 @@ class BulletinController extends Controller
         Bulletin::destroy($request->input('ids'));
 
         return redirect()->route('admin.admin.bulletins.index');
+    }
+
+    public function publish(Request $request, Bulletin $bulletin)
+    {
+        $bulletin->update([
+            'published_at' => now(),
+        ]);
+
+        return redirect()->route('admin.admin.bulletins.edit', [
+            'bulletin' => $bulletin->id,
+        ]);
     }
 }
