@@ -1,5 +1,5 @@
 <template>
-    <admin-layout no-transition>
+    <admin-layout no-transition :title="$t('my_profile')">
         <a-page-header :title="$t('my_profile')"></a-page-header>
 
         <div class="p-4">
@@ -15,8 +15,9 @@
 </template>
 
 <script>
-import AdminLayout from "../../Layouts/AdminLayout.vue";
-import AvatarCropper from "../../Components/AvatarCropper.vue";
+import AdminLayout from "../../Layouts/AdminLayout.vue"
+import AvatarCropper from "../../Components/AvatarCropper.vue"
+import { reactive } from 'vue'
 
 export default {
     name: "ProfileLayout",
@@ -28,7 +29,7 @@ export default {
         },
     },
     setup(props) {
-        const tabList = [
+        const tabList = reactive([
             {
                 key: 'admin.profile.index',
                 tab: trans('profile'),
@@ -41,7 +42,7 @@ export default {
                 key: 'admin.profile.active-sessions',
                 tab: trans('profile.active_sessions'),
             }
-        ];
+        ]);
 
         return { tabList }
     },

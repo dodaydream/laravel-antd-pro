@@ -10,7 +10,7 @@ import Antd from 'ant-design-vue';
 import PerfectScrollbar from 'vue3-perfect-scrollbar'
 import 'vue3-perfect-scrollbar/dist/vue3-perfect-scrollbar.css'
 import 'ant-design-vue/dist/antd.css';
-import {i18nVue, trans} from 'laravel-vue-i18n'
+import {i18nVue, wTrans} from 'laravel-vue-i18n'
 import permission from './Directives/permission.js';
 import VueApexCharts from "vue3-apexcharts";
 import { useDark } from '@vueuse/core'
@@ -19,7 +19,7 @@ import { useThemeStore } from './Store/theme.js'
 import { createPinia } from 'pinia'
 import { watch } from 'vue'
 
-const appName = window.document.getElementsByTagName('title')[0]?.innerText || 'Laravel';
+const appName = 'Laravel Antd Vue';
 
 createInertiaApp({
     title: (title) => `${title} - ${appName}`,
@@ -71,6 +71,6 @@ createInertiaApp({
     },
 });
 
-window.trans = trans
+window.trans = wTrans
 
 InertiaProgress.init({color: '#1890ff'});

@@ -67,12 +67,14 @@
 <script>
 import {LoadingOutlined, PlusOutlined} from "@ant-design/icons-vue";
 import {Cropper, CircleStencil, Preview} from 'vue-advanced-cropper';
+import { Modal as AModal } from 'ant-design-vue';
 
 import 'vue-advanced-cropper/dist/style.css';
 
 export default {
     name: "AvatarCropper",
     components: {
+        AModal,
         LoadingOutlined,
         PlusOutlined,
         Cropper,

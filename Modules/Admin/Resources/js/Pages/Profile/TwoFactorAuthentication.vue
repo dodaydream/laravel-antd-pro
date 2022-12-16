@@ -1,6 +1,6 @@
 <template>
     <ProfileLayout>
-        <h3 class="text-lg font-medium text-gray-900">
+        <h3 class="text-lg font-medium">
             <template v-if="twoFactorEnabled">
                 {{ $t('two_factor_authentication_is_enabled') }}
             </template>
@@ -10,7 +10,7 @@
             </template>
         </h3>
 
-        <div class="mt-3 max-w-xl text-sm text-gray-600">
+        <div class="mt-3 max-w-xl text-sm text-neutral-500">
             <p>
                 {{ $t('two_factor_authentication_description') }}
             </p>

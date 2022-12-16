@@ -1,4 +1,7 @@
 <template>
+    <inertia-head>
+        <title>{{ title }}</title>
+    </inertia-head>
     <a-config-provider :locale="locale.antdLocale.value">
         <a-layout>
             <a-layout-sider
@@ -135,6 +138,9 @@ export default {
         noTransition: {
             type: Boolean,
             default: false,
+        },
+        title: {
+            type: String
         },
     },
     methods: {

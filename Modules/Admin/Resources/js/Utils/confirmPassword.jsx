@@ -1,14 +1,17 @@
-import { defineComponent, createVNode, reactive, computed, ref, nextTick } from 'vue';
+import { defineComponent, h, reactive, computed, ref, nextTick } from 'vue';
 import { LockOutlined } from '@ant-design/icons-vue';
 import useForm from './useForm';
 import { trans } from 'laravel-vue-i18n'
 
 import {
-    Modal,
     Form as AForm,
     FormItem as AFormItem,
     InputPassword as AInputPassword,
 } from 'ant-design-vue';
+
+// NOTE: this is a workaround
+// see: https://github.com/vueComponent/ant-design-vue/issues/5763
+import Modal from 'ant-design-vue/lib/modal';
 
 const form = useForm({
     password: '',
@@ -16,33 +19,33 @@ const form = useForm({
 
 const modal = ref(null);
 
-const confirmPassword = defineComponent({
+export const confirmPassword = defineComponent({
     components: {
         LockOutlined,
         AForm,
         AFormItem,
         AInputPassword,
     },
-    template: `
-        <div>
-            <p>{{ trans('please_confirm_your_password_before_continuing') }}</p>
+    setup() {
+        return { form, trans }
+    },
+    render () {
+        return <div>
+            <p> {trans('please_confirm_your_password_before_continuing') }</p>
             <a-form>
-                <a-form-item name="password" v-bind="form.validation.password">
+                <a-form-item name="password" {...form.validation.password}>
                     <a-input-password
-                        :placeholder="trans('password')"
                         autocomplete="new-password"
-                        v-model:value="form.password"
+                        placeholder={trans('password')}
+                        v-model:value={form.password}
                     >
-                        <template #prefix>
+                        <template slot="prefix">
                             <lock-outlined />
                         </template>
                     </a-input-password>
                 </a-form-item>
             </a-form>
         </div>
-    `,
-    setup() {
-        return { form, trans }
     },
     watch: {
         'form.password': (val) => {
@@ -59,7 +62,7 @@ const confirmPassword = defineComponent({
     }
 })
 
-export default async (forceReconfirm=false) =>  {
+export default async function (forceReconfirm=false) {
     let dialogPromiseResolve, dialogPromiseReject;
 
     const dialogPromise = new Promise(function (resolve, reject) {
@@ -80,12 +83,10 @@ export default async (forceReconfirm=false) =>  {
         }
     }
 
-    const vnode = createVNode(confirmPassword)
-
     modal.value = Modal.confirm({
         title: trans('confirm_password'),
         centered: true,
-        content:  vnode,
+        content: h(confirmPassword),
         okButtonProps: {
             disabled: true
         },

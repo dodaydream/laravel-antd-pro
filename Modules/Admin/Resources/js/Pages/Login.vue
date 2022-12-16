@@ -1,4 +1,7 @@
 <template>
+    <inertia-head>
+        <title>{{ $t('login') }}</title>
+    </inertia-head>
     <div class="h-screen w-screen bg-slate-100 dark:bg-neutral-900 flex items-center justify-center">
         <div class="fixed top-0 right-0 p-4 flex">
             <LocaleSwitcher/>
