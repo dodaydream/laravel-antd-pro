@@ -40,26 +40,5 @@ export default [
                 permission: 'admin.system.users.view',
             }
         ]
-    },
-    {
-        key: 'admin.developer',
-        icon: 'CodeOutlined',
-        title: 'layout.menu.developer',
-        children: [
-            {
-                icon: 'NodeIndexOutlined',
-                key: 'admin.developer.routes',
-                route: 'admin.developer.routes',
-                title: 'layout.menu.route',
-                permission: 'admin.developer.route',
-            },
-            {
-                icon: 'ThunderboltOutlined',
-                key: 'admin.developer.misc',
-                route: 'admin.developer.misc',
-                title: 'layout.menu.misc',
-                permission: 'admin.developer.misc',
-            }
-        ]
     }
 ]

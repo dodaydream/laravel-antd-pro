@@ -70,12 +70,15 @@ Route::name('admin.')->prefix('admin')->group(function () {
             Route::post('bulletins/{bulletin}/publish', 'Admin\BulletinController@publish')->name('bulletins.publish');
         });
 
-        Route::name('developer.')->prefix('/developer')->group(function () {
-            Route::get('/routes', 'Developer\RouteController@index')->name('routes');
-            Route::get('/misc', 'Developer\MiscController@index')->name('misc');
-            Route::get('/misc/dispatch-job', 'Developer\MiscController@dispatchJob')->name('misc.dispatch-job');
-            Route::get('/misc/send-notification', 'Developer\MiscController@sendNotification')->name('misc.send-notification');
-        });
+        if (config('app.debug')) {
+            Route::name('developer.')->prefix('/developer')->group(function () {
+                Route::get('/', 'Developer\DeveloperController@index')->name('index');
+                Route::get('/routes', 'Developer\RouteController@index')->name('routes');
+                Route::get('/misc', 'Developer\MiscController@index')->name('misc');
+                Route::get('/misc/dispatch-job', 'Developer\MiscController@dispatchJob')->name('misc.dispatch-job');
+                Route::get('/misc/send-notification', 'Developer\MiscController@sendNotification')->name('misc.send-notification');
+            });
+        }
     });
 
     // Route::mediaLibrary('media');
