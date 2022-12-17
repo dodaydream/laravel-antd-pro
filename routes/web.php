@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\RefreshCsrfTokenController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
@@ -17,3 +18,5 @@ use Inertia\Inertia;
 Route::get('/', function () {
     return Inertia::render('Welcome');
 })->name('app.welcome');
+
+Route::get('/csrf-token', RefreshCsrfTokenController::class)->name('csrf-token.refresh');

@@ -6,7 +6,6 @@ import { useForm as InertiaUseForm } from '@inertiajs/inertia-vue3'
 
 import { reactive } from 'vue'
 
-
 export default function (props, rules={}, useInertia=true) {
     const inertiaForm = InertiaUseForm(props)
 
@@ -66,17 +65,21 @@ export default function (props, rules={}, useInertia=true) {
         }).then(({data}) => {
             options.onSuccess && options.onSuccess(data)
         }).catch((error) => {
-            const errorHandler = onError(options.onError, options.errorTransformer)
+            if (error.response?.status === 422) {
+                const errorHandler = onError(options.onError, options.errorTransformer)
 
-            // form validation errors
-            const errors = error.response.data.errors
+                // form validation errors
+                const errors = error.response.data.errors
 
-            for (let key in errors) {
-                errors[key] = errors[key][0]
+                for (let key in errors) {
+                    errors[key] = errors[key][0]
+                }
+
+                inertiaForm.errors = errors
+                errorHandler(errors)
+            } else {
+                return Promise.reject(error)
             }
-
-            inertiaForm.errors = errors
-            errorHandler(errors)
         })
     }
 

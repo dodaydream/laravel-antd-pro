@@ -81,23 +81,16 @@ export default {
 
                 let ref = permissionTree;
 
-                console.log('handling permission', permission.name);
-
                 let key = [];
                 for (let i = 0; i < permissionLevel; ++i) {
                     key.push(permission.name.split('.')[i])
 
                     const strKey = key.join('.');
-                    console.debug('permission', strKey)
                     const nextRef = ref.find(
                         item => item.title === strKey
                     );
 
-                    console.debug('currRef', ref)
-                    console.debug('nextref', nextRef);
-
                     if (nextRef === undefined) {
-                        console.debug('permission not found')
                         const perm = {
                             title: strKey,
                             key: permission.name === strKey ? permission.id : null,
@@ -110,18 +103,16 @@ export default {
                         // update reference
                         ref = perm.children
                     } else {
-                        console.debug('permission found')
                         ref = nextRef.children;
                     }
 
-                    console.debug('endRef', ref)
                 }
         })
 
         const form = useForm({
             name: props.role.name,
             permissions: props.rolePermissions
-        })
+        }, {}, false)
 
         return {dayjs, permissionTree, form }
     },

@@ -1,34 +1,39 @@
 <template>
     <ProfileLayout>
         <div class="gap-3 grid grid-cols-1 md:grid-cols-2">
-        <a-card
-            v-for="(session, index) in sessions"
-            :key="index"
-            class="relative overflow-clip"
-        >
-            <div class="flex gap-3 items-center">
-                <div
-                    v-if="session.is_current_device"
-                    class="absolute top-0 -left-6 -rotate-45 bg-green-500 w-12 h-4"
-                ></div>
-                <div>
-                    <DesktopOutlined v-if="session.agent.is_desktop" class="!text-4xl !text-slate-500"/>
-                    <MobileOutlined v-else class="!text-4xl !text-slate-500"/>
-                </div>
+            <a-card v-if="!sessions.length">
+                <a-skeleton></a-skeleton>
+            </a-card>
+            <template v-else>
+                <a-card
+                    v-for="(session, index) in sessions"
+                    :key="index"
+                    class="relative overflow-clip"
+                >
+                    <div class="flex gap-3 items-center">
+                        <div
+                            v-if="session.is_current_device"
+                            class="absolute top-0 -left-6 -rotate-45 bg-green-500 w-12 h-4"
+                        ></div>
+                        <div>
+                            <DesktopOutlined v-if="session.agent.is_desktop" class="!text-4xl !text-slate-500"/>
+                            <MobileOutlined v-else class="!text-4xl !text-slate-500"/>
+                        </div>
 
-                <div class="flex-1">
-                    <div class="text-base">
-                        {{ session.agent.platform }} {{ session.agent.browser }}
+                        <div class="flex-1">
+                            <div class="text-base">
+                                {{ session.agent.platform }} {{ session.agent.browser }}
+                            </div>
+                            <div class="text-slate-500">
+                                {{ session.ip_address }}
+                            </div>
+                        </div>
+                        <div>
+                            {{ session.last_active }}
+                        </div>
                     </div>
-                    <div class="text-slate-500">
-                        {{ session.ip_address }}
-                    </div>
-                </div>
-                <div>
-                    {{ session.last_active }}
-                </div>
-            </div>
-        </a-card>
+                </a-card>
+            </template>
         </div>
     </ProfileLayout>
 </template>

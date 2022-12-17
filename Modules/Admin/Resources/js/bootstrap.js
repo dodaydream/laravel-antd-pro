@@ -8,9 +8,36 @@ window._ = _;
  */
 
 import axios from 'axios';
+import login from '::admin/Utils/Login.jsx';
+import { Inertia } from '@inertiajs/inertia'
+
+axios.defaults.withCredentials = true
+const refreshCsrfOnExpired = async (err) => {
+    const status = err.response.status
+
+    console.debug('hit interceptor', status)
+
+    if (status === 401) {
+        console.debug('prompt user login')
+
+        login().then(() => {
+            return axios(err.config)
+        }).catch(() => {
+            Inertia.visit(route('admin.login'))
+        })
+    } else if (status === 419) {
+        console.debug('auto refresh csrf token')
+        await axios.get('/csrf-token')
+        return axios(err.config)
+    }
+    return Promise.reject(err)
+}
+
+axios.interceptors.response.use(response => response, refreshCsrfOnExpired)
 window.axios = axios;
 
 window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
+
 
 /**
  * Echo exposes an expressive API for subscribing to channels and listening
