@@ -112,7 +112,7 @@ export default {
         const form = useForm({
             name: props.role.name,
             permissions: props.rolePermissions
-        }, {}, false)
+        })
 
         return {dayjs, permissionTree, form }
     },
