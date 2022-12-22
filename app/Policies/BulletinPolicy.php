@@ -65,7 +65,7 @@ class BulletinPolicy
      */
     public function delete(User $user, Bulletin $bulletin)
     {
-        return $user->can('admin.admin.bulletins.destroy');
+        return $user->can('admin.admin.bulletins.delete');
     }
 
     /**
