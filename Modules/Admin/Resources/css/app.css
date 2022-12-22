@@ -21,6 +21,11 @@
     display: block !important;
 }
 
+.mdi {
+    font-size: 18px;
+    vertical-align: inherit;
+}
+
 .filter-select .ant-select-selector {
     @apply shadow-md;
 }

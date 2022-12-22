@@ -1,9 +1,9 @@
 <template>
     <a-button @click="toggleDark()" type="text" size="large">
         <template #icon>
-                                <span class="material-icons-outlined anticon" :style="isDark ? 'font-size: 20px':'font-size: 24px'">
-                                    {{ isDark ? 'light_mode' : 'dark_mode' }}
-                                </span>
+            <i class="material-icons-outlined mdi" style="font-size: 20px">
+                {{ isDark ? 'light_mode' : 'dark_mode' }}
+            </i>
         </template>
     </a-button>
 </template>
