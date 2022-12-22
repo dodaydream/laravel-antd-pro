@@ -35,8 +35,8 @@ class TotalUsersChart
         return $this->chart->areaChart()
             ->setTitle($counts->sum())
             ->setToolbar(false)
-            ->setSubTitle('New Users')
-            ->addData('Users', $counts->toArray())
+            ->setSubTitle(trans('new_users'))
+            ->addData(trans('users'), $counts->toArray())
             ->setXAxis($period->map(function ($date) {
                 return $date->format('M d');
             })->toArray())

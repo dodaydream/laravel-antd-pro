@@ -54,8 +54,7 @@ createInertiaApp({
             .use(ZiggyVue, Ziggy)
             .use(VueApexCharts)
             .use(i18nVue, {
-                lang: 'en',
-                fallbackLang: 'zh_TW',
+                fallbackLang: 'en',
                 resolve: async (lang) => {
                     const langs = import.meta.glob('../lang/*.json');
                     return await langs[`../lang/${lang}.json`]();

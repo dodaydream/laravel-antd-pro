@@ -20,6 +20,7 @@
     "created_at": "創建時間",
     "created_at_from": "創建時間從",
     "created_at_to": "創建時間至",
+    "crud_table_entry_indicator": "顯示 :from 至 :to 的 :total 項結果",
     "description": "描述",
     "disable": "停用",
     "email_address": "電子郵箱地址",
@@ -59,6 +60,7 @@
     "logs": "日誌",
     "my_profile": "我的資料",
     "name": "名稱",
+    "new_users": "新用戶",
     "password": "密碼",
     "password2": "密碼",
     "password_confirmation": "確認密碼",
@@ -113,6 +115,5 @@
     "users": "用戶",
     "users.create": "創建用戶",
     "users.edit": "編輯 :name",
-    "welcome_back": "歡迎回來",
-    "crud_table_entry_indicator": "顯示 :from 至 :to 的 :total 項結果"
+    "welcome_back": "歡迎回來"
 }
