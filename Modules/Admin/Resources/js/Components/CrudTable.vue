@@ -1,22 +1,17 @@
 <template>
-    <a-card>
-        <template #extra>
-            <slot name="rightAction"/>
-        </template>
-
-        <a-alert
-            v-if="table.rowSelection.selected"
-            class="!mb-4"
-        >
-            <template #message>
-                <div class="flex justify-between items-center">
-                    <div>
-                        <span>{{ $t('items_selected', {count: table.rowSelection.count}) }}</span>&nbsp;
-                        <a @click="table.rowSelection.clear">
-                            {{ $t('clear_selection') }}
-                        </a>
-                    </div>
-                    <span class="gap-3 flex">
+    <a-alert
+        v-if="table.rowSelection?.selected"
+        class="!mb-4"
+    >
+        <template #message>
+            <div class="flex justify-between items-center">
+                <div>
+                    <span>{{ $t('items_selected', {count: table.rowSelection?.count}) }}</span>&nbsp;
+                    <a @click="table.rowSelection?.clear">
+                        {{ $t('clear_selection') }}
+                    </a>
+                </div>
+                <span class="gap-3 flex">
                         <a-button
                             v-if="bulkDestroyHandler && hasPermission('bulk-delete')"
                             type="link"
@@ -29,54 +24,53 @@
                         <slot name="bulkActions">
                         </slot>
                     </span>
-                </div>
-            </template>
-        </a-alert>
+            </div>
+        </template>
+    </a-alert>
 
-        <a-table
-            v-bind="table"
-            @change="table.change"
-            sticky
-        >
-            <template #bodyCell="{ column, record}">
-                <slot name="bodyCell" :column="column" :record="record"></slot>
-                <template v-if="column.dataIndex === 'action' || column.key === 'action'">
-                    <slot name="rowActions"></slot>
-                    <a-button
-                        type="link"
-                        v-if="viewHandler && hasPermission('view')"
-                        @click="handleView(record)"
+    <a-table
+        v-bind="table"
+        @change="table.change"
+        sticky
+    >
+        <template #bodyCell="{ column, record}">
+            <slot name="bodyCell" :column="column" :record="record"></slot>
+            <template v-if="column.dataIndex === 'action' || column.key === 'action'">
+                <slot name="rowActions"></slot>
+                <a-button
+                    type="link"
+                    v-if="viewHandler && hasPermission('view')"
+                    @click="handleView(record)"
+                >
+                    {{ $t('action.view') }}
+                </a-button>
+                <a-button
+                    type="link"
+                    v-if="editHandler && hasPermission('edit')"
+                    @click="handleEdit(record)"
+                >
+                    {{ $t('action.edit') }}
+                </a-button>
+                <a-popconfirm
+                    v-if="deleteHandler && hasPermission('delete')"
+                    title="Are you sure to delete this record?"
+                    ok-text="Yes"
+                    cancel-text="No"
+                    @confirm="handleDelete(record)"
+                >
+                    <a-button type="link" danger
+                              v-if="hasPermission('delete')"
                     >
-                        {{ $t('action.view') }}
+                        {{ $t('action.remove') }}
                     </a-button>
-                    <a-button
-                        type="link"
-                        v-if="editHandler && hasPermission('edit')"
-                        @click="handleEdit(record)"
-                    >
-                        {{ $t('action.edit') }}
-                    </a-button>
-                    <a-popconfirm
-                        v-if="deleteHandler && hasPermission('delete')"
-                        title="Are you sure to delete this record?"
-                        ok-text="Yes"
-                        cancel-text="No"
-                        @confirm="handleDelete(record)"
-                    >
-                        <a-button type="link" danger
-                                  v-if="hasPermission('delete')"
-                        >
-                            {{ $t('action.remove') }}
-                        </a-button>
-                    </a-popconfirm>
-                </template>
+                </a-popconfirm>
             </template>
+        </template>
 
-            <template #footer>
-                Showing {{ (table.pagination.current - 1) * table.pagination.pageSize + 1 }} to {{ (table.pagination.current - 1) * table.pagination.pageSize + table.pagination.pageSize }} of {{ table.pagination.total }} entries
-            </template>
-        </a-table>
-    </a-card>
+        <template #footer>
+            Showing {{ (table.pagination.current - 1) * table.pagination.pageSize + 1 }} to {{ entryCountUpper }} of {{ table.pagination.total }} entries
+        </template>
+    </a-table>
 </template>
 
 <script>
@@ -101,6 +95,12 @@ export default {
         resource: {
             type: String,
             required: true,
+        },
+        // currently only accepts array params
+        resourceParams: {
+            type: Object,
+            required: false,
+            default: () => [],
         },
         checkPermission: {
             type: Boolean,
@@ -139,6 +139,9 @@ export default {
                 return this.$can(`${this.resource}.${permission}`)
             }
         },
+        entryCountUpper() {
+            return Math.min(this.table.pagination.current * this.table.pagination.pageSize, this.table.pagination.total)
+        }
     },
     methods: {
         confirmBulkDestroy() {
@@ -157,7 +160,7 @@ export default {
                 return;
             }
 
-            this.$inertia.delete(this.route(`${this.resource}.bulk-destroy`), {
+            this.$inertia.delete(this.route(`${this.resource}.bulk-destroy`, this.resourceParams), {
                 data: {
                     ids: this.table.rowSelection.selectedRowKeys
                 },
@@ -179,6 +182,7 @@ export default {
             }
 
             this.$inertia.delete(this.route(`${this.resource}.destroy`, [
+                ...this.resourceParams,
                 record.id
             ]), {
                 preserveState: false,
@@ -196,14 +200,20 @@ export default {
                 this.editHandler(record)
                 return;
             }
-            this.$inertia.visit(route(`${this.resource}.edit`, record.id));
+            this.$inertia.visit(route(`${this.resource}.edit`, [
+                ...this.resourceParams,
+                record.id
+            ]));
         },
         handleView(record) {
             if ('function' === typeof this.viewHandler) {
                 this.viewHandler(record)
                 return;
             }
-            this.$inertia.visit(route(`${this.resource}.show`, record.id));
+            this.$inertia.visit(route(`${this.resource}.show`, [
+                ...this.resourceParams,
+                record.id
+            ]));
         }
     }
 }
