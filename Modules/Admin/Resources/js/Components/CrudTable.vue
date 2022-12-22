@@ -33,6 +33,11 @@
         @change="table.change"
         sticky
     >
+        <template #expandedRowRender="data" v-if="$slots.expandedRowRender">
+            <slot name="expandedRowRender" :data="data">
+            </slot>
+        </template>
+
         <template #bodyCell="{ column, record}">
             <slot name="bodyCell" :column="column" :record="record"></slot>
             <template v-if="column.dataIndex === 'action' || column.key === 'action'">
