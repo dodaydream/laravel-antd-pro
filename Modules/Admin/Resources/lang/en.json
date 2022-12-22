@@ -30,6 +30,7 @@
     "created_at_to": "Created At To",
     "from": "From",
     "to": "To",
+    "bulletins": "Bulletins",
     "layout.background_jobs": "Background Jobs",
     "layout.enter_fullscreen": "Enter Fullscreen",
     "layout.exit_fullscreen": "Leave Fullscreen",

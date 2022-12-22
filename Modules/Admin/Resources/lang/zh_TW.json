@@ -10,7 +10,7 @@
     "background_jobs": "背景工作",
     "bulletins.all": "全部狀態",
     "bulletins.draft": "草稿",
-    "bulletins.published": "已發佈",
+    "bulletins.published": "已發表",
     "causer": "觸發者",
     "clear_all_finished": "清除已完成",
     "clear_selection": "清除選擇",
@@ -108,6 +108,7 @@
     "from": "從",
     "to": "至",
     "users": "用戶",
+    "bulletins": "佈告",
     "users.create": "創建用戶",
     "users.edit": "編輯 :name",
     "welcome_back": "歡迎回來"

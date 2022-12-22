@@ -28,7 +28,7 @@
                 <a-form layout="vertical">
                     <div class="flex gap-3">
                         <a-select v-model:value="table.filtered.status" @change="table.applyFilter"
-                                  class="filter-select"
+                                  class="filter-select w-56"
                         >
                             <a-select-option value="all">{{ $t('bulletins.all') }}</a-select-option>
                             <a-select-option value="draft">{{ $t('bulletins.draft') }}</a-select-option>
@@ -115,12 +115,12 @@ export default {
     setup(props) {
         const columns = reactive([
             {title: 'ID', dataIndex: 'id', sorter: true},
-            {title: trans('status'), dataIndex: 'status'},
-            {title: trans('title'), dataIndex: 'title', align: 'left'},
-            {title: trans('user'), dataIndex: 'user'},
-            {title: trans('created_at'), dataIndex: 'created_at', sorter: true},
-            {title: trans('updated_at'), dataIndex: 'updated_at', sorter: true},
-            {title: trans('action'), dataIndex: 'action', fixed: 'right', align: 'center'}
+            {title: wTrans('status'), dataIndex: 'status'},
+            {title: wTrans('title'), dataIndex: 'title', align: 'left'},
+            {title: wTrans('user'), dataIndex: 'user'},
+            {title: wTrans('created_at'), dataIndex: 'created_at', sorter: true},
+            {title: wTrans('updated_at'), dataIndex: 'updated_at', sorter: true},
+            {title: wTrans('action'), dataIndex: 'action', fixed: 'right', align: 'center'}
         ]);
 
         const table = useTable(props.bulletins, {

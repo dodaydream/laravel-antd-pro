@@ -164,6 +164,7 @@ export default {
             }));
         };
 
+
         return {form, uploader}
     },
     data() {
@@ -172,16 +173,41 @@ export default {
         }
     },
     watch: {
-        'form.markdown': debounce(function (val, oldVal) {
+        'form.markdown': function (val, oldVal) {
             if (val === oldVal) {
                 return
             }
 
-            this.save();
-
-        }, 5000)
+            if (!this.form.id) {
+                this.save()
+            } else {
+                this.debouncedSave()
+            }
+        }
+    },
+    mounted () {
+        document.addEventListener('keydown', this.handleKeyDown)
+        this.timer = setInterval(() => {
+            this.save()
+        }, 1000 * 30)
+    },
+    beforeUnmount() {
+        document.removeEventListener('keydown', this.handleKeyDown)
+        clearInterval(this.timer)
     },
     methods: {
+        handleKeyDown(e) {
+            if (!(e.keycode === 83 && (navigator.platform.match('Mac') ? e.metaKey : e.ctrlKey))) {
+                return;
+            }
+
+            e.preventDefault();
+            this.save();
+        },
+        // without input for 10 seconds, save the bulletin
+        debouncedSave: debounce(function () {
+            this.save()
+        }, 10000),
         save (callback=null) {
             this.isEditingTitle = false
             this.$message.loading({
