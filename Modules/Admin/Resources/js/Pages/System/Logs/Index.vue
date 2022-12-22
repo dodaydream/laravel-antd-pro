@@ -7,24 +7,6 @@
 
         <div class="p-4">
             <a-card>
-<!--                <a-alert v-if="table.rowSelection.selected" class="!mb-4">-->
-<!--                    <template #message>-->
-<!--                        <div class="flex justify-between items-center">-->
-<!--                            <div>-->
-<!--                                <span>{{ table.rowSelection.count }} items selected</span>&nbsp;-->
-<!--                                <a @click="table.rowSelection.clear">-->
-<!--                                    Clear Selection-->
-<!--                                </a>-->
-<!--                            </div>-->
-<!--                            <span class="gap-3 flex">-->
-<!--                                <a-button type="link" danger @click="table.rowSelection.destroy(bulkDestroyHandler)">-->
-<!--                                    Remove-->
-<!--                                </a-button>-->
-<!--                            </span>-->
-<!--                        </div>-->
-<!--                    </template>-->
-<!--                </a-alert>-->
-
                 <a-table
                     :columns="columns"
                     v-bind="table"
@@ -62,21 +44,6 @@
                         <template v-if="column.dataIndex === 'description'">
                             <a-tag :color="colorMap[record.description]">{{ record.description }}</a-tag>
                         </template>
-
-                        <template v-if="column.dataIndex === 'action'">
-                            <div class="flex justify-center w-full">
-                                <a-popconfirm
-                                    title="Are you sure to delete this record?"
-                                    ok-text="Yes"
-                                    cancel-text="No"
-                                    @confirm="destory(record.id)"
-                                >
-                                    <a-button type="link" danger>
-                                        {{ $t('action.remove')}}
-                                    </a-button>
-                                </a-popconfirm>
-                            </div>
-                        </template>
                     </template>
                 </a-table>
             </a-card>
@@ -89,6 +56,8 @@ import AdminLayout from "../../../Layouts/AdminLayout.vue";
 import dayjs from "dayjs";
 
 import {PlusOutlined, DeleteOutlined, ExclamationCircleOutlined} from "@ant-design/icons-vue";
+
+import { reactive } from 'vue'
 
 import useTable from '::admin/Utils/useTable';
 
@@ -106,15 +75,14 @@ export default {
         }
     },
     setup(props) {
-        const columns = [
+        const columns = reactive([
             {title: trans('id'), dataIndex: 'id'},
             {title: trans('log_name'), dataIndex: 'log_name'},
             {title: trans('description'), dataIndex: 'description'},
             {title: trans('subject'), dataIndex: 'subject'},
             {title: trans('causer'), dataIndex: 'causer'},
             {title: trans('triggered_at'), dataIndex: 'created_at'},
-            // {title: 'action', dataIndex: 'action', fixed: 'right', align: 'center'}
-        ];
+        ]);
 
         const colorMap = {
             updated: 'blue',
@@ -133,32 +101,6 @@ export default {
         return {columns, table, dayjs, colorMap}
     },
     methods: {
-        bulkDestroyHandler () {
-            this.$inertia.delete(this.route('admin.system.logs.bulk-destroy'), {
-                data: {
-                    logs: this.table.rowSelection.selectedRowKeys
-                },
-                preserveState: false,
-                onSuccess: (page) => {
-                    this.table.rowSelection.clear();
-                    if (page.props.message) {
-                        this.$message.warning(page.props.message);
-                        return
-                    }
-                    this.$message.success('Logs deleted successfully.');
-                }
-            })
-        },
-        destory(id) {
-            this.$inertia.delete(this.route('admin.system.logs.destroy', {
-                log: id
-            }), {
-                preserveState: false,
-                onSuccess: () => {
-                    this.$message.success('Logs deleted successfully.');
-                }
-            })
-        },
     }
 }
 </script>

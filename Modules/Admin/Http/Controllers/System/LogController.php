@@ -22,25 +22,4 @@ class LogController extends Controller
                 )->appends(request()->query()),
         ]);
     }
-
-//    /**
-//     * @param Activity $activity
-//     * @return RedirectResponse
-//     */
-//    public function destroy(Activity $activity)
-//    {
-//        $activity->delete();
-//
-//        return redirect()->back();
-//    }
-//
-//    /**
-//     * @return RedirectResponse
-//     */
-//    public function bulkDestroy()
-//    {
-//        Activity::destroy(request('ids'));
-//
-//        return redirect()->back();
-//    }
 }

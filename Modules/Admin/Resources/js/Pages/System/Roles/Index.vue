@@ -97,8 +97,7 @@ import dayjs from "dayjs";
 import {PlusOutlined, DeleteOutlined, ExclamationCircleOutlined} from "@ant-design/icons-vue";
 
 import useTable from '::admin/Utils/useTable';
-
-import { trans } from 'laravel-vue-i18n'
+import { reactive } from 'vue';
 
 export default {
     name: "Index",
@@ -114,13 +113,13 @@ export default {
         }
     },
     setup(props) {
-        const columns = [
+        const columns = reactive([
             {title: trans('id'), dataIndex: 'id'},
             {title: trans('name'), dataIndex: 'name'},
             {title: trans('created_at'), dataIndex: 'created_at'},
             {title: trans('permissions'), dataIndex: 'permissions_count', align: 'right' },
             {title: trans('action'), dataIndex: 'action', fixed: 'right', align: 'center'}
-        ];
+        ]);
 
         const table = useTable(props.roles, {
             fieldName: 'roles',
