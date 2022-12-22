@@ -6,7 +6,7 @@
         >
         </a-page-header>
 
-        <div class="p-4 flex flex-col gap-4">
+        <div class="container-fluid">
             <div class="grid gap-4 grid-cols-1 md:grid-cols-4">
                 <a-card
                     class="borderless"

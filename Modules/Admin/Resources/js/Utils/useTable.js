@@ -119,6 +119,10 @@ export default function (binding, options) {
         Object.keys(filters).forEach(key => {
             const newKey = 'filter[' + key + ']';
 
+            if (filters[key] === null || filters[key].length === 0) {
+                return;
+            }
+
             switch (typeof filters[key]) {
                 case 'boolean':
                     queryParams[newKey] = filters[key] ? 'true' : 'false'
@@ -128,10 +132,6 @@ export default function (binding, options) {
                     break
                 default:
                     queryParams[newKey] = filters[key]
-            }
-
-            if (queryParams[newKey] === '') {
-                delete queryParams[newKey]
             }
         })
         console.log(queryParams)

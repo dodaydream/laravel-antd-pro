@@ -67,8 +67,12 @@
             </template>
         </template>
 
-        <template #footer>
-            Showing {{ (table.pagination.current - 1) * table.pagination.pageSize + 1 }} to {{ entryCountUpper }} of {{ table.pagination.total }} entries
+        <template #footer v-if="table.pagination.total > 0">
+            {{ $t('crud_table_entry_indicator', {
+                from: (table.pagination?.current - 1) * table.pagination?.pageSize + 1,
+                to: entryCountUpper,
+                total: table.pagination?.total
+            }) }}
         </template>
     </a-table>
 </template>

@@ -2,7 +2,7 @@
     <admin-layout no-transition :title="$t('my_profile')">
         <a-page-header :title="$t('my_profile')"></a-page-header>
 
-        <div class="p-4">
+        <div class="container-fluid">
             <a-card
                 :tab-list="tabList"
                 :active-tab-key="route().current()"

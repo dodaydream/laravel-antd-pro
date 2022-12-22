@@ -20,10 +20,10 @@
 
         <div class="container-fluid">
             <div class="grid md:grid-cols-3 gap-3 grid-cols-1 max-w-4xl md:gap-6">
-                <a-input v-model:value="table.filtered.email"
+                <a-input-search v-model:value="table.filtered.email"
                          :placeholder="$t('email_address')"
                          class="!shadow-md"
-                         @keyup.enter="table.applyFilter"
+                         @search="table.applyFilter"
                          allowClear
                 />
 

@@ -1,5 +1,5 @@
 <template>
-    <a-card title="bulletins">
+    <a-card :title="$t('bulletins')">
         <a-list :data-source="bulletins.data">
             <template #renderItem="{ item }">
                     <a-list-item class="hover:bg-slate-50 dark:hover:bg-neutral-800">
