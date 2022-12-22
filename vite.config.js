@@ -3,6 +3,7 @@ import laravel from 'laravel-vite-plugin';
 import vue from '@vitejs/plugin-vue'
 import vueJsx from '@vitejs/plugin-vue-jsx'
 const path = require('path');
+import i18n from 'laravel-vue-i18n/vite';
 
 export default defineConfig(({ mode}) => {
     process.env = {...process.env, ...loadEnv(mode, process.cwd())};
@@ -11,7 +12,7 @@ export default defineConfig(({ mode}) => {
         server: {
             host: '0.0.0.0',
             hmr: {
-                host: 'localhost',
+                host: process.env.VITE_HOST ?? '127.0.0.1',
             },
         },
         resolve: {
@@ -37,6 +38,7 @@ export default defineConfig(({ mode}) => {
                 ],
                 refresh: true,
             }),
+            i18n(),
             vue(),
             vueJsx(),
         ],
