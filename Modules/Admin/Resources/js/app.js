@@ -10,7 +10,7 @@ import Antd from 'ant-design-vue';
 import PerfectScrollbar from 'vue3-perfect-scrollbar'
 import 'vue3-perfect-scrollbar/dist/vue3-perfect-scrollbar.css'
 import 'ant-design-vue/dist/antd.css';
-import {i18nVue, wTrans} from 'laravel-vue-i18n'
+import {i18nVue, wTrans, trans} from 'laravel-vue-i18n'
 import permission from './Directives/permission.js';
 import VueApexCharts from "vue3-apexcharts";
 import { useDark } from '@vueuse/core'
@@ -54,6 +54,8 @@ createInertiaApp({
             .use(ZiggyVue, Ziggy)
             .use(VueApexCharts)
             .use(i18nVue, {
+                lang: 'en',
+                fallbackLang: 'zh_TW',
                 resolve: async (lang) => {
                     const langs = import.meta.glob('../lang/*.json');
                     return await langs[`../lang/${lang}.json`]();
@@ -71,6 +73,7 @@ createInertiaApp({
     },
 });
 
-window.trans = wTrans
+window.trans = trans
+window.wTrans = wTrans
 
 InertiaProgress.init({color: '#1890ff'});

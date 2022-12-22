@@ -18,9 +18,7 @@
             </template>
         </a-page-header>
 
-        <div class="p-4">
-            <a-card>
-
+        <div class="container-fluid">
                 <a-alert v-if="table.rowSelection.selected" class="!mb-4">
                     <template #message>
                         <div class="flex justify-between items-center">
@@ -85,7 +83,6 @@
                         </template>
                     </template>
                 </a-table>
-            </a-card>
         </div>
     </admin-layout>
 </template>
@@ -114,11 +111,11 @@ export default {
     },
     setup(props) {
         const columns = reactive([
-            {title: trans('id'), dataIndex: 'id'},
-            {title: trans('name'), dataIndex: 'name'},
-            {title: trans('created_at'), dataIndex: 'created_at'},
-            {title: trans('permissions'), dataIndex: 'permissions_count', align: 'right' },
-            {title: trans('action'), dataIndex: 'action', fixed: 'right', align: 'center'}
+            {title: 'ID', dataIndex: 'id'},
+            {title: wTrans('name'), dataIndex: 'name'},
+            {title: wTrans('created_at'), dataIndex: 'created_at'},
+            {title: wTrans('permissions'), dataIndex: 'permissions_count', align: 'right' },
+            {title: wTrans('action'), dataIndex: 'action', fixed: 'right', align: 'center'}
         ]);
 
         const table = useTable(props.roles, {

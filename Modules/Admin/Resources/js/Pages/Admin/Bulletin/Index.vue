@@ -18,7 +18,7 @@
             </template>
         </a-page-header>
 
-        <div class="p-4 flex flex-col gap-4">
+        <div class="container-fluid">
 <!--                        <a-input-search placeholder="Search..." class="max-w-lg"-->
 <!--                                        @search="table.search.apply"-->
 <!--                                        v-model:value="table.search.keyword"-->

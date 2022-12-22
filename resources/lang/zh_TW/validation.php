@@ -125,6 +125,7 @@ return [
         'name' => '名稱',
         'email' => '電子郵件',
         'password' => '密碼',
-        'roles' => '用戶組'
+        'roles' => '用戶組',
+        'permissions' => '權限',
     ]
 ];

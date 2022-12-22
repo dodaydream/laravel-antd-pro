@@ -18,37 +18,31 @@
             </template>
         </a-page-header>
 
-        <div class="p-4 flex flex-col gap-4">
-<!--            <a-input-search placeholder="Search..." class="max-w-lg"-->
-<!--                            @search="table.search.apply"-->
-<!--                            v-model:value="table.search.keyword"-->
-<!--            />-->
+        <div class="container-fluid">
+            <div class="grid md:grid-cols-3 gap-3 grid-cols-1 max-w-4xl md:gap-6">
+                <a-input v-model:value="table.filtered.email"
+                         :placeholder="$t('email_address')"
+                         class="!shadow-md"
+                         @keyup.enter="table.applyFilter"
+                         allowClear
+                />
 
-            <a-card>
-                <a-form layout="vertical">
-                    <div class="grid md:grid-cols-1 gap-3">
-                            <a-form-item label="Email">
-                                <a-input v-model:value="table.filtered.email"/>
-                            </a-form-item>
+                <a-range-picker v-model:value="table.filtered.created_at"
+                                valueFormat="YYYY-MM-DD"
+                                allowClear
+                                class="!shadow-md"
+                                @change="table.applyFilter"
+                                :placeholder="[$t('from'), $t('to')]"
+                />
 
-                            <a-form-item label="Date creation">
-                                <a-range-picker  v-model:value="table.filtered.created_at"
-                                                 valueFormat="YYYY-MM-DD"
-                                />
-                            </a-form-item>
-
-                            <a-form-item label="Email Verified">
-                                <a-switch v-model:checked="table.filtered.is_email_verified" />
-                            </a-form-item>
-                    </div>
-                </a-form>
-
-                <div class="flex gap-3">
-                    <a-button type="primary" @click="table.applyFilter">Apply</a-button>
-                    <a-button type="link" @click="table.resetFilter">Reset</a-button>
+                <div class="flex items-center gap-3">
+                    <label>{{ $t('email_verified') }}</label>
+                    <a-switch v-model:checked="table.filtered.is_email_verified"
+                              @change="table.applyFilter"
+                              class="!shadow-md"
+                    />
                 </div>
-            </a-card>
-
+            </div>
             <crud-table
                 :table="table"
                 class="whitespace-nowrap"
@@ -91,7 +85,7 @@
 import AdminLayout from "../../../Layouts/AdminLayout.vue";
 import dayjs from "dayjs";
 
-import {PlusOutlined, DeleteOutlined, ExclamationCircleOutlined} from "@ant-design/icons-vue";
+import {PlusOutlined, DeleteOutlined, ExclamationCircleOutlined, FilterOutlined} from "@ant-design/icons-vue";
 
 import {createVNode, reactive} from "vue";
 import useTable from '::admin/Utils/useTable';
@@ -103,6 +97,7 @@ export default {
     components: {
         AdminLayout,
         PlusOutlined,
+        FilterOutlined,
         DeleteOutlined,
         ExclamationCircleOutlined,
         CrudTable
@@ -115,13 +110,13 @@ export default {
     },
     setup(props) {
         const columns = reactive([
-            {title: 'ID', dataIndex: 'id', sorter: true},
-            {title: trans('user'), dataIndex: 'user', width: '100%'},
-            {title: trans('roles'), dataIndex: 'roles', align: 'left'},
-            {title: trans('email_verified'), dataIndex: 'email_verified_at', align: 'right'},
-            {title: trans('created_at'), dataIndex: 'created_at', sorter: true},
-            {title: trans('updated_at'), dataIndex: 'updated_at', sorter: true},
-            {title: trans('action'), dataIndex: 'action', fixed: 'right', align: 'center'}
+            {title: 'ID', dataIndex: 'id', sorter: true, width: '80px'},
+            {title: wTrans('user'), dataIndex: 'user'},
+            {title: wTrans('roles'), dataIndex: 'roles', align: 'left'},
+            {title: wTrans('email_verified'), dataIndex: 'email_verified_at', align: 'right', width: '180px'},
+            {title: wTrans('created_at'), dataIndex: 'created_at', sorter: true, width: '240px'},
+            {title: wTrans('updated_at'), dataIndex: 'updated_at', sorter: true, width: '240px'},
+            {title: wTrans('action'), dataIndex: 'action', fixed: 'right', align: 'center', width: '240px'}
         ]);
 
         const table = useTable(props.users, {
@@ -131,7 +126,7 @@ export default {
             columns: columns
         });
 
-        return { table, dayjs }
+        return {table, dayjs}
     },
     methods: {}
 }

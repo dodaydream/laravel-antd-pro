@@ -24,3 +24,17 @@
 .filter-select .ant-select-selector {
     @apply shadow-md;
 }
+
+.ant-page-header {
+    @apply !px-4;
+    @apply md:!px-6;
+}
+
+.container-fluid {
+    @apply !p-4;
+    @apply md:!px-6;
+    @apply flex;
+    @apply flex-col;
+    @apply gap-4;
+    @apply md:gap-6;
+}

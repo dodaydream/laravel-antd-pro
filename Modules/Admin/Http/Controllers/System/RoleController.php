@@ -64,6 +64,7 @@ class RoleController extends Controller
         $role->update(request()->validate([
             'name' => 'required|unique:roles,name,' . $role->id,
             'description' => 'nullable',
+            'permissions' => 'array|min:1',
         ]));
 
         $role->syncPermissions(request('permissions'));
@@ -86,16 +87,18 @@ class RoleController extends Controller
      */
     public function store()
     {
-        $role = Role::create(
-            array_merge(
-            request()->validate([
+        $validated = request()->validate([
             'name' => 'required|unique:roles,name',
             'description' => 'nullable',
-        ]), [
-            'guard_name' => 'web',
-        ]));
+            'permissions' => 'array|min:1',
+        ]);
 
-        $role->syncPermissions(request('permissions'));
+        $role = Role::create([
+            'name' => $validated['name'],
+            'guard_name' => 'web',
+        ]);
+
+        $role->syncPermissions($validated['permissions']);
 
         app(PermissionRegistrar::class)->forgetCachedPermissions();
 

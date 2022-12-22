@@ -121,4 +121,7 @@ return [
     'url' => 'The :attribute must be a valid URL.',
     'user' => 'We can\'t find a user with that email address.',
     'uuid' => 'The :attribute must be a valid UUID.',
+    'attributes' => [
+        'name' => 'name',
+    ]
 ];

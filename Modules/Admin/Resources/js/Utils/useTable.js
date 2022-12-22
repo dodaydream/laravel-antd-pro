@@ -81,6 +81,7 @@ export default function (binding, options) {
         loading.value = true
         Inertia.get(url, payload, {
             preserveState: true,
+            replace: options.replace ?? true,
             onSuccess: (page) => {
                 loading.value = false
                 setPagination(page.props[options.fieldName])
@@ -179,6 +180,7 @@ export default function (binding, options) {
             ...( pag.pageSize !== 10 && { per_page: pag.pageSize }),
             ...( search.keyword && { keyword: search.keyword } )
         },  {
+            replace: options.replace ?? true,
             preserveState: true,
             onSuccess: (page) => {
                 loading.value = false
@@ -227,14 +229,14 @@ export default function (binding, options) {
             return selection.selectedRowKeys.length
         }),
         destroy (handler) {
-                Modal.confirm({
-                    title: 'Are you sure to delete these records?',
-                    icon: createVNode(ExclamationCircleOutlined),
-                    content: 'You will not be able to recover these records!',
-                    okText: 'Yes',
-                    cancelText: 'No',
-                    onOk: handler
-                });
+            Modal.confirm({
+                title: 'Are you sure to delete these records?',
+                icon: createVNode(ExclamationCircleOutlined),
+                content: 'You will not be able to recover these records!',
+                okText: 'Yes',
+                cancelText: 'No',
+                onOk: handler
+            });
         }
     })
 
@@ -265,6 +267,7 @@ export default function (binding, options) {
         change,
         action,
         loading,
+        reload: navigateToPage,
         applyFilter,
         resetFilter,
         applyRangeFilter,
