@@ -45,7 +45,7 @@
             </div>
             <crud-table
                 :table="table"
-                class="whitespace-nowrap"
+                table-class="whitespace-nowrap index-table"
                 resource="admin.system.users"
                 :editHandler="(record) => {
                     this.$inertia.visit(route(`admin.system.users.show`, record.id));

@@ -44,6 +44,7 @@
                 <a-table
                     :columns="columns"
                     v-bind="table"
+                    class="whitespace-nowrap index-table"
                 >
                     <template #bodyCell="{ record, column, text }">
                         <template v-if="['created_at', 'updated_at'].includes(column.dataIndex)">

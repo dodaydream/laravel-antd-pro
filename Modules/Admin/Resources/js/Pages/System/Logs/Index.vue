@@ -9,6 +9,7 @@
             <a-table
                 :columns="columns"
                 v-bind="table"
+                class="whitespace-nowrap index-table"
             >
                 <template #expandedRowRender="{ record }">
                     <div class="grid grid-cols-2" v-if="record.properties.attributes || record.properties.old">

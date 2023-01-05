@@ -31,6 +31,7 @@
     <a-table
         v-bind="table"
         @change="table.change"
+        :class="tableClass"
         sticky
     >
         <template #expandedRowRender="data" v-if="$slots.expandedRowRender">
@@ -135,6 +136,10 @@ export default {
             required: false,
             default: true,
         },
+        tableClass: {
+            type: [String, Function],
+            required: false,
+        }
     },
     // bind table and data
     computed: {

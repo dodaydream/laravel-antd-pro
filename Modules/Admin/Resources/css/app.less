@@ -43,3 +43,23 @@
     @apply gap-4;
     @apply md:gap-6;
 }
+
+.index-table {
+    @apply whitespace-nowrap;
+
+    @apply shadow-md;
+    @apply dark:border-[#434343];
+    @apply border;
+    @apply rounded;
+    @apply overflow-clip;
+}
+
+.ant-card.no-padding {
+    & > .ant-card-body {
+        padding: 0 !important;
+
+        .ant-table-pagination.ant-pagination {
+            margin: 16px 24px;
+        }
+    }
+}
