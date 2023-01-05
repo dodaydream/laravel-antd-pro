@@ -16,7 +16,7 @@
                     <apexchart
                         height="100%"
                         :type="chart.type"
-                        :options="chart.options"
+                        :options="themedOpt(chart.options)"
                         :series="chart.series"
                     ></apexchart>
                 </a-card>
@@ -32,16 +32,42 @@
 <script>
 import AdminLayout from "::admin/Layouts/AdminLayout.vue";
 import BulletinCard from "::admin/Components/BulletinCard.vue";
+import {useThemeStore} from "../Store/theme";
+
 
 export default {
     name: "Welcome",
     components: {BulletinCard, AdminLayout},
+    setup () {
+        const { isDark } = useThemeStore()
+
+        return {
+            isDark
+        }
+    },
     props: {
         top4Charts: {
             type: Array,
             default: () => [],
         },
     },
+    computed: {
+        themedOpt () {
+            return (opt) => ({
+                ...opt,
+                chart: {
+                    ...opt.chart,
+                    height: '100%',
+                    width: '100%',
+                    foreColor: this.isDark ? '#fff' : '#000',
+                    background: 'transparent',
+                },
+                theme: {
+                    mode: this.isDark ? 'dark' : 'light'
+                }
+            })
+        }
+    }
 }
 </script>
 
