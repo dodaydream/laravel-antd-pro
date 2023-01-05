@@ -4,7 +4,7 @@ const AntUseForm = Form.useForm;
 
 import { useForm as InertiaUseForm } from '@inertiajs/inertia-vue3'
 
-import { reactive } from 'vue'
+import { reactive, nextTick } from 'vue'
 
 export default function (props, rules={}, useInertia=true) {
     const inertiaForm = InertiaUseForm(props)
@@ -28,8 +28,11 @@ export default function (props, rules={}, useInertia=true) {
         })
     }
 
+    /**
+     * @param params
+     */
     const resetDisplayError = (...params) => {
-        if (params) {
+        if (params.length) {
             for (let field of params) {
                 validateInfos[field] = {}
             }
@@ -109,9 +112,23 @@ export default function (props, rules={}, useInertia=true) {
         })
     }
 
+    /**
+     * Reset form
+     *
+     * @param params fields to reset
+     */
     const reset = function (...params) {
-        inertiaReset(...params)
-        resetDisplayError(...params)
+        nextTick(() => {
+            if (params.length) {
+                resetDisplayError(...params)
+                clearValidate(...params)
+                inertiaReset(...params)
+            } else {
+                resetDisplayError()
+                clearValidate()
+                inertiaReset()
+            }
+        })
     }
 
     inertiaForm.validation = validateInfos
