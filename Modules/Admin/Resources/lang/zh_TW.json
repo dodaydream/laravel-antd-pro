@@ -1,5 +1,6 @@
 {
     "action": "操作",
+    "action.bulk-remove": "移除全部",
     "action.edit": "編輯",
     "action.remove": "移除",
     "action.view": "查看",
@@ -20,6 +21,9 @@
     "created_at": "創建時間",
     "created_at_from": "創建時間從",
     "created_at_to": "創建時間至",
+    "crud-confirm-bulk-delete": "確定要移除這些記錄嗎？",
+    "crud-confirm-bulk-delete-hint": "此操作無法撤銷",
+    "crud-confirm-delete": "確定要移除此記錄嗎？",
     "crud_table_entry_indicator": "顯示 :from 至 :to 的 :total 項結果",
     "description": "描述",
     "disable": "停用",

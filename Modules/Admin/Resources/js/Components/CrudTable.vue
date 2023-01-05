@@ -1,7 +1,6 @@
 <template>
     <a-alert
         v-if="table.rowSelection?.selected"
-        class="!mb-4"
     >
         <template #message>
             <div class="flex justify-between items-center">
@@ -59,9 +58,7 @@
                 </a-button>
                 <a-popconfirm
                     v-if="deleteHandler && hasPermission('delete')"
-                    title="Are you sure to delete this record?"
-                    ok-text="Yes"
-                    cancel-text="No"
+                    :title="$t('crud-confirm-delete')"
                     @confirm="handleDelete(record)"
                 >
                     <a-button type="link" danger
@@ -160,11 +157,9 @@ export default {
     methods: {
         confirmBulkDestroy() {
             Modal.confirm({
-                title: 'Are you sure to delete these records?',
+                title: trans('crud-confirm-bulk-delete'),
                 icon: createVNode(ExclamationCircleOutlined),
-                content: 'You will not be able to recover these records!',
-                okText: 'Yes',
-                cancelText: 'No',
+                content: trans('crud-confirm-bulk-delete-hint'),
                 onOk: this.handleBulkDestroy,
             });
         },

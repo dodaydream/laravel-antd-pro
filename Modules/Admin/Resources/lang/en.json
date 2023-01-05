@@ -1,5 +1,6 @@
 {
     "action": "Action",
+    "action.bulk-remove": "Bulk Remove",
     "action.edit": "Edit",
     "action.remove": "Remove",
     "action.view": "View",
@@ -20,6 +21,9 @@
     "created_at": "Created At",
     "created_at_from": "Created At From",
     "created_at_to": "Created At To",
+    "crud-confirm-bulk-delete": "Are you confirm to remove these records?",
+    "crud-confirm-bulk-delete-hint": "This action cannot be undone",
+    "crud-confirm-delete": "Are you sure to delete this record?",
     "crud_table_entry_indicator": "Showing :from to :to of :total entries",
     "description": "Description",
     "disable": "Disable",
