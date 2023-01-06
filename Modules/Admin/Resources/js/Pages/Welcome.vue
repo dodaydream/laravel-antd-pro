@@ -9,12 +9,12 @@
         <div class="container-fluid">
             <div class="grid gap-4 grid-cols-1 md:grid-cols-4">
                 <a-card
-                    class="borderless"
                     v-for="(chart, index) in top4Charts"
+                    class="borderless"
                     :key="index"
                 >
                     <apexchart
-                        height="100%"
+                        class="h-full w-full"
                         :type="chart.type"
                         :options="themedOpt(chart.options)"
                         :series="chart.series"
@@ -81,15 +81,17 @@ export default {
 
     :deep(.apexcharts-title-text) {
         @apply text-2xl;
-        @apply font-semibold;
+        @apply font-bold;
         @apply translate-y-1;
         @apply dark:!text-white;
+        @apply !font-sans;
     }
 
     :deep(.apexcharts-subtitle-text) {
         @apply text-sm;
         @apply font-medium;
         @apply dark:!text-white;
+        @apply !font-sans;
     }
 }
 </style>
