@@ -9,13 +9,13 @@
                 <template #title>
                     <span>{{ $t('layout.background_jobs') }}</span>
                 </template>
-            <a-button type="text" size="large">
-                <template #icon>
-                    <a-badge :count="jobsCount">
-                        <inbox-outlined/>
-                    </a-badge>
-                </template>
-            </a-button>
+                <a-button type="text" size="large">
+                    <template #icon>
+                        <a-badge :count="jobsCount">
+                            <inbox-outlined/>
+                        </a-badge>
+                    </template>
+                </a-button>
             </a-tooltip>
         </div>
         <template #overlay>
@@ -25,22 +25,22 @@
                         <template #title>
                             <h3 class="mb-1">{{ $t('layout.background_jobs') }}</h3>
                             <p class="text-sm text-slate-500 m-0 flex gap-3">
-                                <div v-if="finishedJobsCount > 0">
-                                    <CheckCircleOutlined class="!text-green-500 mr-1" />
-                                    <span>{{ finishedJobsCount }}</span>
-                                </div>
-                                <div v-if="failedJobsCount > 0">
-                                    <CloseCircleOutlined class="!text-red-500 mr-1" />
-                                    <span>{{ executingJobsCount }}</span>
-                                </div>
-                                <div v-if="executingJobsCount > 0">
-                                    <LoadingOutlined class="!text-blue-500 mr-1" />
-                                    <span>{{ executingJobsCount }}</span>
-                                </div>
-                                <div v-if="queuedJobsCount > 0">
-                                    <UploadOutlined class="!text-slate-500 mr-1" />
-                                    <span>{{ queuedJobsCount }}</span>
-                                </div>
+                            <div v-if="finishedJobsCount > 0">
+                                <CheckCircleOutlined class="!text-green-500 mr-1"/>
+                                <span>{{ finishedJobsCount }}</span>
+                            </div>
+                            <div v-if="failedJobsCount > 0">
+                                <CloseCircleOutlined class="!text-red-500 mr-1"/>
+                                <span>{{ executingJobsCount }}</span>
+                            </div>
+                            <div v-if="executingJobsCount > 0">
+                                <LoadingOutlined class="!text-blue-500 mr-1"/>
+                                <span>{{ executingJobsCount }}</span>
+                            </div>
+                            <div v-if="queuedJobsCount > 0">
+                                <UploadOutlined class="!text-slate-500 mr-1"/>
+                                <span>{{ queuedJobsCount }}</span>
+                            </div>
                             </p>
                         </template>
                         <template #extra>
@@ -54,47 +54,56 @@
                         </template>
 
                         <perfect-scrollbar class="!h-full" :options="{ suppressScrollX: true }" ref="scroll">
-                            <a-list :data-source="jobs" row-key="id" :loading="loading">
-                                <transition-group name="list" v-if="jobs.length">
-                                    <a-list-item class="!px-6"
-                                                 v-for="item in jobs"
-                                                 :key="item.id"
-                                    >
-                                        <a-list-item-meta>
-                                            <template #title>
-                                                {{ item.type }}
-                                            </template>
-
-                                            <template #description>
-                                                <a-typography-text :type="jobStatusType(item.status)">{{
-                                                        $t(item.status)
-                                                    }}
-                                                </a-typography-text>
-                                                <a-progress
-                                                    :status="jobStatusProgress(item.status)"
-                                                    :percent="item.progress_percentage"/>
-
-<!--                                                <div class="flex gap-3 mt-3" v-if="item.status === 'finished'">-->
-<!--                                                    <a-button block ghost type="primary">Download</a-button>-->
-<!--                                                    <a-button block>Result</a-button>-->
-<!--                                                </div>-->
-                                            </template>
-                                        </a-list-item-meta>
-
-                                        <a-button @click="dismissFinishedJob(item)"
-                                                  type="text"
-                                                  shape="circle"
-                                                  size="small"
-                                                  v-if="item.status === 'finished'"
-                                                  class="!absolute right-6"
+                            <a-config-provider>
+                                <a-list :data-source="jobs" row-key="id" :loading="loading">
+                                    <transition-group name="list" v-if="jobs.length">
+                                        <a-list-item class="!px-6"
+                                                     v-for="item in jobs"
+                                                     :key="item.id"
                                         >
-                                            <template #icon>
-                                                <CloseOutlined/>
-                                            </template>
-                                        </a-button>
-                                    </a-list-item>
-                                </transition-group>
-                            </a-list>
+                                            <a-list-item-meta>
+                                                <template #title>
+                                                    {{ item.type }}
+                                                </template>
+
+                                                <template #description>
+                                                    <a-typography-text :type="jobStatusType(item.status)">{{
+                                                            $t(item.status)
+                                                        }}
+                                                    </a-typography-text>
+                                                    <a-progress
+                                                        :status="jobStatusProgress(item.status)"
+                                                        :percent="item.progress_percentage"/>
+
+                                                    <!--                                                <div class="flex gap-3 mt-3" v-if="item.status === 'finished'">-->
+                                                    <!--                                                    <a-button block ghost type="primary">Download</a-button>-->
+                                                    <!--                                                    <a-button block>Result</a-button>-->
+                                                    <!--                                                </div>-->
+                                                </template>
+                                            </a-list-item-meta>
+
+                                            <a-button @click="dismissFinishedJob(item)"
+                                                      type="text"
+                                                      shape="circle"
+                                                      size="small"
+                                                      v-if="item.status === 'finished'"
+                                                      class="!absolute right-6"
+                                            >
+                                                <template #icon>
+                                                    <CloseOutlined/>
+                                                </template>
+                                            </a-button>
+                                        </a-list-item>
+                                    </transition-group>
+                                </a-list>
+
+                                <template #renderEmpty>
+                                    <h3 class="text-neutral-500">
+                                        {{ $t('no_background_jobs')}}
+                                    </h3>
+                                </template>
+
+                            </a-config-provider>
                         </perfect-scrollbar>
                     </a-card>
                 </keep-alive>
@@ -123,7 +132,7 @@ export default {
         CloseOutlined,
         UploadOutlined
     },
-    data () {
+    data() {
         return {
             loading: true,
             jobs: null,
@@ -186,7 +195,6 @@ export default {
         visible: function (val) {
             if (val) {
                 if (this.jobs == null) {
-                    this.loading = true
                     this.jobs = []
                 }
                 this.updateStatuses()
@@ -209,7 +217,7 @@ export default {
             })
             await window.axios.delete(route('admin.jobs.dismiss-all-finished'))
         },
-        async dismissFinishedJob (job, sendRequest=true) {
+        async dismissFinishedJob(job, sendRequest = true) {
             this.$nextTick(() => {
                 const index = this.jobs.findIndex(j => j.id === job.id)
                 this.jobs.splice(index, 1)
@@ -233,9 +241,9 @@ export default {
                             this.jobs[oldJob] = newJob
                         }
                     }
-
-                    this.loading = false
                 })
+
+                this.loading = false
             })
         }
     }
@@ -254,6 +262,7 @@ export default {
 
 :deep(.ant-list-item) {
     align-items: start;
+    @apply dark:hover:bg-neutral-800;
     @apply hover:bg-gray-50;
 }
 
@@ -265,6 +274,7 @@ export default {
 .list-leave-active {
     transition: all 0.5s ease;
 }
+
 .list-enter-from,
 .list-leave-to {
     opacity: 0;
