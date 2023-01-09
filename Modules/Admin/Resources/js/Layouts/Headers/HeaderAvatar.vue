@@ -2,15 +2,15 @@
     <a-dropdown>
         <div class="action ant-dropdown-link user-dropdown-menu flex items-center h-full">
           <a-avatar
-              class="avatar ring-1 ring-slate-200"
+              class="p-1 rounded-full ring-2 ring-gray-300 dark:ring-gray-500"
               :src="$page.props.currentUser.avatar_thumb_url"
               size="large"
           />
             <div class="ml-2 leading-normal hidden md:block">
-                <div class="font-medium">
+                <div class="font-bold">
                     {{ $page.props.currentUser.name }}
                 </div>
-                <div class="text-slate-500">
+                <div class="text-neutral-500">
                     {{ $page.props.currentUser.email }}
                 </div>
             </div>

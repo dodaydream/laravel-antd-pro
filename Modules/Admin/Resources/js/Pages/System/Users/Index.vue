@@ -54,8 +54,17 @@
             >
                 <template #bodyCell="{ record, column }">
                     <template v-if="column.dataIndex === 'user'">
-                        <div class="font-medium">{{ record.name }}</div>
-                        <div class="text-slate-500">{{ record.email }}</div>
+                        <div class="flex gap-3 items-center">
+                            <a-avatar :src="record.avatar_thumb_url"
+                                      class="p-1 rounded-full ring-2 ring-gray-300 dark:ring-gray-500"
+                            >
+                                <template #icon><UserOutlined /></template>
+                            </a-avatar>
+                            <div class="text-sm">
+                                <div class="font-medium leading-tight">{{ record.name }}</div>
+                                <div class="text-neutral-500 leading-tight">{{ record.email }}</div>
+                            </div>
+                        </div>
                     </template>
                     <template v-if="['created_at', 'updated_at'].includes(column.dataIndex)">
                         {{ dayjs(record.created_at).format('YYYY-MM-DD HH:mm') }}
@@ -85,7 +94,7 @@
 import AdminLayout from "../../../Layouts/AdminLayout.vue";
 import dayjs from "dayjs";
 
-import {PlusOutlined, DeleteOutlined, ExclamationCircleOutlined, FilterOutlined} from "@ant-design/icons-vue";
+import {UserOutlined, PlusOutlined, DeleteOutlined, ExclamationCircleOutlined, FilterOutlined} from "@ant-design/icons-vue";
 
 import {createVNode, reactive} from "vue";
 import useTable from '::admin/Utils/useTable';
@@ -97,6 +106,7 @@ export default {
     components: {
         AdminLayout,
         PlusOutlined,
+        UserOutlined,
         FilterOutlined,
         DeleteOutlined,
         ExclamationCircleOutlined,
