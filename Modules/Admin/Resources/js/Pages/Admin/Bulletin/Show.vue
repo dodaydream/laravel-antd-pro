@@ -1,5 +1,5 @@
 <template>
-    <admin-layout>
+    <admin-layout :title="bulletin.title">
         <a-page-header :title="bulletin.title" @back="back" class="!sticky top-0 z-50" :ghost="false">
 
         </a-page-header>

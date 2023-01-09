@@ -1,5 +1,7 @@
 <template>
-    <admin-layout>
+    <admin-layout
+        :title="$t('roles')"
+    >
         <a-page-header
             :title="$t('roles')"
         >

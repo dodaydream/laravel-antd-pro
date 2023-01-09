@@ -1,5 +1,7 @@
 <template>
-    <admin-layout>
+    <admin-layout
+        :title="$t('logs')"
+    >
         <a-page-header
             :title="$t('logs')"
         >

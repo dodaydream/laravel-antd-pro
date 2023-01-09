@@ -1,5 +1,5 @@
 <template>
-    <admin-layout>
+    <admin-layout :title="$t('users')">
         <a-page-header
             :title="$t('users')"
         >

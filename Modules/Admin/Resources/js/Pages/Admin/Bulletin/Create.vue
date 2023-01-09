@@ -1,4 +1,7 @@
 <template>
+    <Head>
+        <title>{{ form.title }}</title>
+    </Head>
     <div class="w-screen h-screen dark:bg-[#2e3440] flex flex-col fixed top-0 bottom-0 z-50 left-0 right-0">
         <a-page-header @back="back">
             <template #title>

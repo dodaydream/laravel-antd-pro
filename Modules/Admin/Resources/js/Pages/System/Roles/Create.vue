@@ -1,5 +1,7 @@
 <template>
-    <admin-layout>
+    <admin-layout
+        :title="$t('roles.create_role')"
+    >
         <a-page-header
             :title="$t('roles.create_role')"
             @back="() => this.$inertia.visit(route('admin.system.roles.index'))"

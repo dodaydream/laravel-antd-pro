@@ -1,5 +1,7 @@
 <template>
-    <admin-layout>
+    <admin-layout
+                  :title="$t('users.edit', {name: user.name})"
+    >
         <a-page-header
             :title="$t('users.edit', {name: user.name})"
             @back="() => this.$inertia.visit(route('admin.system.users.index'))"

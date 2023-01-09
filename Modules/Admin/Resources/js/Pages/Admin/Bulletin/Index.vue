@@ -1,5 +1,7 @@
 <template>
-    <admin-layout>
+    <admin-layout
+        :title="$t('bulletins')"
+    >
         <a-page-header
             :title="$t('bulletins')"
         >
