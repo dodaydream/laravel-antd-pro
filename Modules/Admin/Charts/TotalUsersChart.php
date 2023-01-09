@@ -37,8 +37,8 @@ class TotalUsersChart
             ->setToolbar(false)
             ->setSubTitle(trans('new_users'))
             ->addData(trans('users'), $counts->toArray())
-            ->setXAxis($period->map(function ($date) {
-                return $date->format('M d');
+            ->setXAxis($period->map(function (Carbon $date) {
+                return $date->translatedFormat('M d');
             })->toArray())
             ->setSparklines()
             ->setStroke(2)

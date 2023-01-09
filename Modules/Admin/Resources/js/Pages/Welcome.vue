@@ -1,5 +1,7 @@
 <template>
-    <AdminLayout>
+    <AdminLayout
+        :title="$t('layout.welcome')"
+    >
         <a-page-header
             :title="$t('layout.welcome')"
             sub-title="Welcome to laravel-antd-pro"
