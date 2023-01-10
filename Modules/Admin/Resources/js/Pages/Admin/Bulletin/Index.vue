@@ -116,13 +116,13 @@ export default {
     },
     setup(props) {
         const columns = reactive([
-            {title: 'ID', dataIndex: 'id', sorter: true},
-            {title: wTrans('status'), dataIndex: 'status'},
+            {title: 'ID', dataIndex: 'id', sorter: true, width: 100},
+            {title: wTrans('status'), dataIndex: 'status', width: 100},
             {title: wTrans('title'), dataIndex: 'title', align: 'left'},
-            {title: wTrans('user'), dataIndex: 'user'},
-            {title: wTrans('created_at'), dataIndex: 'created_at', sorter: true},
-            {title: wTrans('updated_at'), dataIndex: 'updated_at', sorter: true},
-            {title: wTrans('action'), dataIndex: 'action', fixed: 'right', align: 'center'}
+            {title: wTrans('user'), dataIndex: 'user', width: 256},
+            {title: wTrans('created_at'), dataIndex: 'created_at', sorter: true, width: 256},
+            {title: wTrans('updated_at'), dataIndex: 'updated_at', sorter: true, width: 256},
+            {title: wTrans('action'), dataIndex: 'action', fixed: 'right', align: 'center', width: 256}
         ]);
 
         const table = useTable(props.bulletins, {
