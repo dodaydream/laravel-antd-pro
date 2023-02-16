@@ -134,6 +134,7 @@ export default function (props, rules={}, useInertia=true) {
     inertiaForm.validation = validateInfos
     inertiaForm.submit = submit
     inertiaForm.reset = reset
+    inertiaForm.validate = validate
     inertiaForm.layout = {
       colon: false,
       labelCol: { span: 6 },

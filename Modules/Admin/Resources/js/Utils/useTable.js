@@ -119,7 +119,7 @@ export default function (binding, options) {
         Object.keys(filters).forEach(key => {
             const newKey = 'filter[' + key + ']';
 
-            if (filters[key] === null || filters[key].length === 0) {
+            if (filters[key] === null || filters[key].length === 0 || filters[key] === '') {
                 return;
             }
 
