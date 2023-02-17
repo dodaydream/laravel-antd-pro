@@ -32,7 +32,7 @@ export default {
 
             clonedOpt.chart.background = 'transparent'
             clonedOpt.chart.foreColor = this.isDark ? '#fff' : '#000'
-            clonedOpt.chart.height = 350
+            clonedOpt.chart.height = '100%'
             clonedOpt.chart.width = '100%'
             clonedOpt.theme = {}
             clonedOpt.theme.mode = this.isDark ? 'dark' : 'light'
